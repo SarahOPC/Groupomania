@@ -1,24 +1,33 @@
+const app = require("../app");
 const bcrypt = require('bcrypt');
 // permet de créer des tokens d'identification et de les vérifier
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-            const user = new User({
-                email: req.body.email,
-                password: hash
-            });
-            user.save()
-                .then(() => res.status(201).json({message : "Utilisateur créé"}))
-                .catch(error => res.status(400).json({error}));
-        })
-        .catch(error => res.status(500).json({error}));
+    console.log("blabla" + req.body);
+    const hashedPassword = bcrypt.hash(req.body.password, 10);
+    const userMail = req.body.email;
 
+    db.connect(function(err) {
+        if(err) throw err;
+
+        console.log("Connected!");
+
+        const sqlInsertUser = `INSERT INTO users ('email', 'password') VALUES (${userMail}, ${hashedPassword})`;
+        db.query(sqlInsertUser, function (err, result) {
+            if (err) throw err(res.status(400).json({error}));
+            res.status(201).json({message : "Utilisateur créé"})});
+  });
 };
 
-exports.login = (req, res, next) => {
+
+
+
+
+
+
+/* exports.login = (req, res, next) => {
     User.findOne({email: req.body.email})
     .then(user => {
         if(!user) {
@@ -47,3 +56,4 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({error}));
 
 };
+ */
