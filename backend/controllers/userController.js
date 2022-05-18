@@ -1,24 +1,24 @@
-const app = require("../app");
+const dbfile = require('../config/db');
+
 const bcrypt = require('bcrypt');
 // permet de créer des tokens d'identification et de les vérifier
 const jwt = require('jsonwebtoken');
-require("dotenv").config();
 
 exports.signup = (req, res, next) => {
-    console.log("blabla" + req.body);
-    const hashedPassword = bcrypt.hash(req.body.password, 10);
-    const userMail = req.body.email;
-
-    db.connect(function(err) {
+    let requestUserMail = JSON.stringify(req.body.email);
+    let requestUserPassword = JSON.stringify(req.body.password);
+    let hashedPassword = bcrypt.hash(requestUserPassword, 10);
+    
+    dbfile.db.connect(async function(err) {
         if(err) throw err;
-
         console.log("Connected!");
 
-        const sqlInsertUser = `INSERT INTO users ('email', 'password') VALUES (${userMail}, ${hashedPassword})`;
-        db.query(sqlInsertUser, function (err, result) {
-            if (err) throw err(res.status(400).json({error}));
+        const sqlInsertUser = `INSERT INTO users (mail, password) VALUES ('${requestUserMail}', '${await hashedPassword}')`;
+        dbfile.db.query(sqlInsertUser, function (err, result) {
+            if (err) throw err(res.status(400).json({err}));
             res.status(201).json({message : "Utilisateur créé"})});
-  });
+            
+    });
 };
 
 
