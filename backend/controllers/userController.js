@@ -1,4 +1,5 @@
 const dbfile = require('../config/db');
+const sqlRequests = require('../models/userModels');
 
 const bcrypt = require('bcrypt');
 // permet de créer des tokens d'identification et de les vérifier
@@ -13,52 +14,54 @@ exports.signup = (req, res, next) => {
         if(err) {
             console.log("Impossible de se connecter à la base de donnée");
         };
-        console.log("Connected!");
+        console.log("Connecté à la base de donnée");
 
-        const sqlInsertUser = `INSERT INTO users (mail, password) VALUES ('${requestUserMail}', '${await hashedPassword}')`;
-        dbfile.db.query(sqlInsertUser, function (err, result) {
+        let params = [
+            requestUserMail,
+            await hashedPassword];
+
+        dbfile.db.query(sqlRequests.sqlInsertUser, params, function (err, result) {
             if (err) {
-                console.log("Utilisateur déjà existant");
+                return res.status(401).json({ error : "Utilisateur déjà existant"});
             };
-                //{throw err(res.status(400).json({err}))};
             res.status(201).json({message : "Utilisateur créé"})});
             
     });
 };
 
 
+exports.login = (req, res, next) => {
+    let requestUserMail = JSON.stringify(req.body.email);
+    let requestUserPassword = JSON.stringify(req.body.password);
+    let params = [
+        requestUserMail
+    ]
+    let databasePassword = dbfile.db.query(sqlRequests.sqlFindUserPassword, params).toString();
+    console.log(databasePassword);
+    let databaseId = dbfile.db.query(sqlRequests.sqlFindUserId, params).toString();
+    console.log(databaseId);
 
-
-
-
-
-/* exports.login = (req, res, next) => {
-    User.findOne({email: req.body.email})
-    .then(user => {
-        if(!user) {
+    dbfile.db.query(sqlRequests.sqlFindUserMail, params, function (err, result) {
+        if(err) {
             return res.status(401).json({ error : "Utilisateur non trouvé"});
-        }
-        bcrypt.compare(req.body.password, user.password)
-            .then(valid => {
-                if(!valid) {
-                    return res.status(401).json({ error : "Mot de Passe non valide"});
-                }
-                res.status(200).json({
-                    // si comparaison est bonne, on valide la connexion et on renvoit un id et un token
-                    userId: user._id,
-                    token: jwt.sign(
-                        // les données à encoder ie le payload
-                        {userId: user._id}, // pour être sur que la requête corresponde à ce user id
-                        // clé secrète pour l'encodage
-                        `${process.env.TOKEN}`,
-                        // durée de validité du token
-                        {expiresIn: "24h"}
-                    )
-                });
-            })
-            .catch(error => res.status(500).json({error}));
+        };
+        
+        bcrypt.compare(requestUserPassword, databasePassword)
+        .then(valid => {
+            if(!valid) {
+                return res.status(401).json({error : "Mot de passe non valide"});
+            };
+            res.status(200).json({
+                userId : databaseId,
+                token : jwt.sign(
+                    {userId : databaseId},
+                    `${process.env.TOKEN}`,
+                    {expiresIn: "24h"}
+                )
+            });
+        }).catch(err => { 
+            console.log("boom: " + err);
+            return res.status(401).json({error : "requestUserPassword=" + requestUserPassword + " databasePassword=" + databasePassword});
+        })
     })
-    .catch(error => res.status(500).json({error}));
-
 };
- */
