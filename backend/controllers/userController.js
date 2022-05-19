@@ -10,12 +10,17 @@ exports.signup = (req, res, next) => {
     let hashedPassword = bcrypt.hash(requestUserPassword, 10);
     
     dbfile.db.connect(async function(err) {
-        if(err) throw err;
+        if(err) {
+            console.log("Impossible de se connecter à la base de donnée");
+        };
         console.log("Connected!");
 
         const sqlInsertUser = `INSERT INTO users (mail, password) VALUES ('${requestUserMail}', '${await hashedPassword}')`;
         dbfile.db.query(sqlInsertUser, function (err, result) {
-            if (err) throw err(res.status(400).json({err}));
+            if (err) {
+                console.log("Utilisateur déjà existant");
+            };
+                //{throw err(res.status(400).json({err}))};
             res.status(201).json({message : "Utilisateur créé"})});
             
     });
