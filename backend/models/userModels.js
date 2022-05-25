@@ -1,3 +1,4 @@
+// Requêtes SQL préparées
 const sqlRequests = {
     sqlInsertUser : "INSERT INTO users (mail, password) VALUES (?, ?)",
     sqlFindUserMail : "SELECT * FROM users WHERE mail = ?",

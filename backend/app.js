@@ -1,16 +1,13 @@
 const express = require('express');
 const app = express();
+const userRoutes = require("./routes/userRoute");
+const postRoutes = require("./routes/postRoute");
+
+// Sécurité ---------------------------------------------------------------------
 const path = require("path");
 const cors = require("cors");
-const userRoutes = require("./routes/userRoute");
-
 require('dotenv').config();
-
 let helmet = require('helmet');
-const { env } = require('process');
-
-app.use(express.json());
-
 app.use(helmet());
 
 app.use((req, res, next) => {
@@ -23,7 +20,10 @@ app.use((req, res, next) => {
 app.use(cors({
     origin: process.env.HOST
 }));
+// Sécurité ---------------------------------------------------------------------
 
+app.use(express.json());
 app.use('/', userRoutes);
+app.use('/', postRoutes);
 
 module.exports = app;
