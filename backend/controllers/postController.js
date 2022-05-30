@@ -1,7 +1,33 @@
 const dbfile = require('../config/db');
 const sqlRequests = require('../models/postModels');
+const fs = require("fs");
 
 exports.createPost = (req, res, next) => {
+    const postObject = JSON.parse(req.body.post);
+    const postObjectText = postObject.text;
+    const postObjectUserId = postObject.user_id;
+    const imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+    const postObjectImage = postObject.imageUrl;
+    
+    dbfile.db.connect(async function (err) {
+        if (err) {
+            console.log("Impossible de se connecter à la base de données");
+        };
+        console.log("Connecté à la base de données");
+        
+        let params = [
+            postObjectText, postObjectImage, postObjectUserId
+        ];
+
+        dbfile.db.query(sqlRequests.sqlCreatePost, params, function(err, result) {
+            if(err) {
+                return res.status(401).json({ message : "Impossible de créer ce post :(" });
+            };
+            res.status(200).json({ message : "Post créée" })
+        })
+    })
+
+
     /*  Récupérer le contenu de la requête
         Assigner chaque élément à la bonne colonne dans la BDD
         Si image, changer son nom
