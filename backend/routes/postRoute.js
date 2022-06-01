@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/postController");
-const multer = require('multer');
+const auth = require("../middleware/auth");
+const multer = require('../middleware/multer-config');
 
-// ajouter auth quand middleware sera fait
-router.post('/', postController.createPost);
-router.put('/:id', postController.updatePost);
-router.delete('/:id', postController.deletePost);
-router.get('/', postController.getAllPosts);
-router.get('/:id', postController.getOnePost);
-router.post('/:id/like', postController.ratingPost);
+router.post('/', auth, postController.createPost);
+router.put('/:id', auth, postController.updatePost);
+router.delete('/:id', auth, postController.deletePost);
+router.get('/', auth, postController.getAllPosts);
+router.get('/:id', auth, postController.getOnePost);
+router.post('/:id/like', auth, postController.ratingPost);
 
 module.exports = router;
