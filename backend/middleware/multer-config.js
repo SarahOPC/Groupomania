@@ -4,7 +4,8 @@ const MIME_TYPES = {
     "image/jpg": "jpg",
     "image/jpeg": "jpg",
     "image/png": "png",
-    "image/gif": "gif"
+    "image/gif": "gif",
+    "image/mp4": "mp4"
 }
 
 // on crée un objet de configuration pour multer
@@ -18,5 +19,8 @@ const storage = multer.diskStorage({
         callback(null, name + Date.now() + '.' + extension);
     }
 });
+
+//const uuid = require('uuid');
+//const uniqueId = uuid.v4();
 
 module.exports = multer({ storage }).single("image"); // que des fichiers uniques et ce sont des images

@@ -39,33 +39,33 @@ exports.login = (req, res, next) => {
 
 
     dbfile.db.connect(function (err) {
-        if(err) {
+        if (err) {
             console.log("Impossible de se connecter à la base de données");
         } else {
             console.log("Connecté à la base de données");
 
-            dbfile.db.query(sqlRequests.sqlFindUserMail, params, async function(err, result) {
-                if(err) {
-                    return res.status(401).json({ error : "Utilisateur non existant"});
+            dbfile.db.query(sqlRequests.sqlFindUserMail, params, async function (err, result) {
+                if (err) {
+                    return res.status(401).json({ error: "Utilisateur non existant" });
                 } else {
                     await bcrypt.compare(requestUserPassword, result[0].password)
-                    .then(valid => {
-                        if(!valid) {
-                            res.status(401).json({ message: "Utilisateur trouvé mais mot de passe non valide" });
-                        } else {
-                            res.status(200).json({
-                                userId: result[0].id,
-                                token: jwt.sign(
-                                    { userId: result[0].id },
-                                    `${process.env.TOKEN}`,
-                                    { expiresIn: "24h" }
+                        .then(valid => {
+                            if (!valid) {
+                                res.status(401).json({ message: "Utilisateur trouvé mais mot de passe non valide" });
+                            } else {
+                                res.status(200).json({
+                                    userId: result[0].id,
+                                    access_token: jwt.sign(
+                                        { userId: result[0].id },
+                                        `${process.env.ACCESS_TOKEN_SECRET}`,
+                                        { expiresIn: "12h" }
                                     ),
-                                message: "Utilisateur trouvé et mot de passe valide"
-                            })
-                        }
-                    })
+                                    message: "Utilisateur trouvé et mot de passe valide"
+                                })
+                            }
+                        })
                 }
             })
         }
-    });
+    })
 }
