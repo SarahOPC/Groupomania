@@ -21,6 +21,7 @@ app.use(cors({
     origin: process.env.HOST
 }));
 // Sécurité ---------------------------------------------------------------------
+app.use('/images', express.static(path.join(__dirname, 'images'))); // nom du dossier + images
 
 app.use(express.json());
 app.use('/', userRoutes);

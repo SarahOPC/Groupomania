@@ -3,13 +3,14 @@ const sqlRequests = require('../models/postModels');
 const fs = require("fs");
 
 exports.createPost = (req, res, next) => {
+    console.log(req.file);
     const postBodyText = req.body.text;
     const postBodyUserId = req.body.user_id;
-    const postBodyImage = req.body.imageUrl;
+    const postBodyImage = req.body.image;
 
     // variable = condition ? si oui : sinon
     let postImage = postBodyImage != '' 
-        ? `${req.protocol}://${req.get("host")}/images/${postBodyImage}`
+        ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
         : null;
 
     dbfile.db.connect(async function (err) {
