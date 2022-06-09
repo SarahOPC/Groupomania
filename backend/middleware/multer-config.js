@@ -13,16 +13,13 @@ const uuid = require('uuid');
 // on crée un objet de configuration pour multer
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, "images") // pas d'erreur et nom du dossier
+        callback(null, "backend\\images") // pas d'erreur et nom du dossier
     },
     filename: (req, file, callback) => {
         const uniqueId = uuid.v4();
-        console.log(uniqueId);
         const name = file.originalname.split(" ").join("_");
-        console.log(name);
         const extension = MIME_TYPES[file.mimetype];
-        console.log(extension);
-        callback(null, name + '_' + uniqueId + '.' + extension);
+        callback(null, uniqueId + '_' + name);
     }
 });
 

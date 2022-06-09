@@ -3,7 +3,6 @@ const sqlRequests = require('../models/postModels');
 const fs = require("fs");
 
 exports.createPost = (req, res, next) => {
-    console.log(req.file);
     const postBodyText = req.body.text;
     const postBodyUserId = req.body.user_id;
     const postBodyImage = req.body.image;
@@ -25,7 +24,7 @@ exports.createPost = (req, res, next) => {
         
         dbfile.db.query(sqlRequests.sqlCreatePost, params, function (err, result) {
             if (err) {
-                return res.status(401).json({ message: "Impossible de créer ce post :(" });
+                return res.status(401).json({ message: "Impossible de créer ce post :( "  + err});
             };
             res.status(200).json({ message: "Post créée" })
         })
@@ -36,11 +35,11 @@ exports.createPost = (req, res, next) => {
 exports.updatePost = (req, res, next) => {
     const postBodyText = req.body.text;
     const postBodyUserId = req.body.user_id;
-    const postBodyImage = req.body.imageUrl;
+    const postBodyImage = req.body.image;
     const postId = req.params.id;
 
     let postImage = postBodyImage != ''
-        ? `${req.protocol}://${req.get("host")}/images/${postBodyImage}`
+        ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
         : null;
 
     dbfile.db.connect(async function (err) {
@@ -55,7 +54,7 @@ exports.updatePost = (req, res, next) => {
 
         dbfile.db.query(sqlRequests.sqlUpdatePost, params, function (err, result) {
             if (err) {
-                return res.status(401).json({ message: "Impossible de mettre à jour ce post :(" });
+                return res.status(401).json({ message: "Impossible de mettre à jour ce post :( " + err });
             };
             res.status(200).json({ message: "Post mis à jour" })
         })
@@ -63,7 +62,7 @@ exports.updatePost = (req, res, next) => {
 };
 
 exports.deletePost = (req, res, next) => {
-    const postId = req.params.id;
+    let postId = req.params.id;
 
     dbfile.db.connect(async function (err) {
         if (err) {
@@ -75,14 +74,30 @@ exports.deletePost = (req, res, next) => {
             postId
         ];
 
+        let imageToDelete;
+        dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, async function (err, result) {
+            if (err) {
+                return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err});
+            };
+            let imageToDelete = JSON.stringify(result[0].image); 
+            return imageToDelete;            
+        });
+
+        if (imageToDelete) {
+                const filename = imageToDelete.split('/images/')[1];
+                fs.unlink(`images/${filename}`, (err) => {
+                    if (err) throw err;
+                    console.log(`images/${filename} was deleted`);
+                })
+        }
+            
         dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
             if (err) {
-                return res.status(401).json({ message: "Impossible de supprimer ce post :(" });
+                return res.status(401).json({ message: "Impossible de supprimer ce post :( " + err });
             };
             res.status(200).json({ message: "Post supprimé" })
         })
     })
-//-----------------------------------------image-----------------------------------------------------------
 };
 
 exports.getAllPosts = (req, res, next) => {
