@@ -142,10 +142,8 @@ exports.getOnePost = (req, res, next) => {
 exports.ratingPost = (req, res, next) => {
     let likes = req.body.likesdislikes; // 1, 0 ou -1
     let userId = req.body.user_id;
-    let postId = req.params.id;
-    console.log("like de la req = " + req.body.like);
-    console.log("userId de la req = " + req.body.userId);
-    console.log("id de la sauce = " + req.params.id);
+    let post_Id = req.params.id;
+    let postId = parseInt(post_Id);
 
     dbfile.db.connect(async function (err) {
         if (err) {
@@ -156,7 +154,6 @@ exports.ratingPost = (req, res, next) => {
         let parameters = [
             postId, userId, likes
         ];
-
         switch (likes) {
             case 1:
                 dbfile.db.query(sqlRequests.sqlCreatingLike, parameters, function (err, results) {
@@ -175,34 +172,12 @@ exports.ratingPost = (req, res, next) => {
                 })
                 break;
             case 0:
-                dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, function (err, results) {
+                dbfile.db.query(sqlRequests.sqlDeletingLike, parameters, function (err, results) {
                     if (err) {
-                        return res.status(401).json({ message: "Impossible d'afficher le post demandé' :(" });
+                        return res.status(401).json({ message: "Impossible de supprimer le like / dislike du post :(" });
                     };
-                    let resultLikes = JSON.stringify(results[0].value);
-                    return resultLikes;
+                    res.status(200).json({ results });
                 })
-                // si ma valeur = 1 dans BDD
-                let parameter = [
-                        likes
-                ];
-
-                if (resultLikes = 1) {
-                    dbfile.db.query(sqlRequests.sqlUpdateLike, parameter, function (err, resultat) {
-                        if (err) {
-                            return res.status(401).json({ message: "Impossible d'unliker ce post :(" });
-                        };
-                        res.status(200).json({ resultat });
-                    })
-
-                } else if (resultLikes = -1) { // si ma valeur = -1 dans BDD
-                    dbfile.db.query(sqlRequests.sqlUpdateLike, parameter, function (err, resultat) {
-                        if (err) {
-                            return res.status(401).json({ message: "Impossible d'undisliker ce post :(" });
-                        };
-                        res.status(200).json({ resultat });
-                    })
-                }
                 break;
         }
     });
