@@ -174,7 +174,7 @@ exports.updateProfilService = (req, res, next) => {
         })
     })
 };
-
+// modifier chemin pour image dans ../images
 exports.updateProfilAvatar = (req, res, next) => {
     let user_Id = req.params.id;
     let userId = parseInt(user_Id);
@@ -207,10 +207,23 @@ exports.updateProfilPassword = (req, res, next) => {
         } else {
             console.log("Connecté à la base de données");
         }
+
+        let params = [
+            avatar, userId
+        ];
+
+        dbfile.db.query(sqlRequests.sqlUpdateProfilAvatar, params, function (err, result) {
+            if (err) {
+                return res.status(401).json({ message: "Impossible de mettre à jour l'avatar :( " + err });
+            };
+            res.status(200).json({ result })
+        })
     })
 };
 
 exports.deleteProfil = (req, res, next) => {
+    let user_Id = req.params.id;
+    let userId = parseInt(user_Id);
 
     dbfile.db.connect(function (err) {
         if (err) {
@@ -218,5 +231,16 @@ exports.deleteProfil = (req, res, next) => {
         } else {
             console.log("Connecté à la base de données");
         }
+
+        let params = [
+            userId
+        ];
+
+        dbfile.db.query(sqlRequests.sqlDeleteProfil, params, function (err, result) {
+            if (err) {
+                return res.status(401).json({ message: "Impossible de supprimer le profil :( " + err });
+            };
+            res.status(200).json({ result })
+        })
     })
 };
