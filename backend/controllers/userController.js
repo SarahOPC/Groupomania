@@ -9,6 +9,7 @@ exports.signup = (req, res, next) => {
     let requestUserMail = req.body.email;
     let requestUserPassword = req.body.password;
     let hashedPassword = bcrypt.hash(requestUserPassword, 10);
+    let avatar = "../images/AvatarParDefaut.jpg";
 
     dbfile.db.connect(async function (err) {
         if (err) {
@@ -18,7 +19,8 @@ exports.signup = (req, res, next) => {
 
         let params = [
             requestUserMail,
-            await hashedPassword];
+            await hashedPassword,
+            avatar];
 
         dbfile.db.query(sqlRequests.sqlInsertUser, params, function (err, result) {
             if (err) {
@@ -66,4 +68,155 @@ exports.login = (req, res, next) => {
             })
         }
     })
-}
+};
+
+// -------------------------------------- Profil --------------------------------------------------
+
+exports.getProfil = (req, res, next) => {
+    let user_Id = req.params.id;
+    let userId = parseInt(user_Id);
+
+    dbfile.db.connect(function (err) {
+        if (err) {
+            console.log("Impossible de se connecter à la base de données");
+        } else {
+            console.log("Connecté à la base de données");
+        }
+
+        let params = [
+            userId
+        ];
+
+        dbfile.db.query(sqlRequests.sqlGetProfil, params, function (err, result) {
+            if (err) {
+                return res.status(401).json({ message: "Impossible d'afficher le profil :( " + err });
+            };
+            res.status(200).json({ result })
+        })
+    })
+};
+
+exports.updateProfilFirstName = (req, res, next) => {
+    let user_Id = req.params.id;
+    let userId = parseInt(user_Id);
+    let firstName = req.body.firstName;
+    console.log(userId);
+    console.log(firstName);
+
+
+
+    dbfile.db.connect(function (err) {
+        if (err) {
+            console.log("Impossible de se connecter à la base de données");
+        } else {
+            console.log("Connecté à la base de données");
+        }
+
+        let params = [
+            firstName, userId
+        ];
+
+        dbfile.db.query(sqlRequests.sqlUpdateProfilFirstName, params, function (err, result) {
+            if (err) {
+                return res.status(401).json({ message: "Impossible de mettre à jour le prénom :( " + err });
+            };
+            res.status(200).json({ result })
+        })
+    })
+};
+
+exports.updateProfilLastName = (req, res, next) => {
+    let user_Id = req.params.id;
+    let userId = parseInt(user_Id);
+    let lastName = req.body.lastName;
+
+    dbfile.db.connect(function (err) {
+        if (err) {
+            console.log("Impossible de se connecter à la base de données");
+        } else {
+            console.log("Connecté à la base de données");
+        }
+
+        let params = [
+            lastName, userId
+        ];
+
+        dbfile.db.query(sqlRequests.sqlUpdateProfilLastName, params, function (err, result) {
+            if (err) {
+                return res.status(401).json({ message: "Impossible de mettre à jour le nom :( " + err });
+            };
+            res.status(200).json({ result })
+        })
+    })
+};
+
+exports.updateProfilService = (req, res, next) => {
+    let user_Id = req.params.id;
+    let userId = parseInt(user_Id);
+    let service = req.body.service;
+
+    dbfile.db.connect(function (err) {
+        if (err) {
+            console.log("Impossible de se connecter à la base de données");
+        } else {
+            console.log("Connecté à la base de données");
+        }
+
+        let params = [
+            service, userId
+        ];
+
+        dbfile.db.query(sqlRequests.sqlUpdateProfilService, params, function (err, result) {
+            if (err) {
+                return res.status(401).json({ message: "Impossible de mettre à jour le service :( " + err });
+            };
+            res.status(200).json({ result })
+        })
+    })
+};
+
+exports.updateProfilAvatar = (req, res, next) => {
+    let user_Id = req.params.id;
+    let userId = parseInt(user_Id);
+    let avatar = req.body.avatar;
+
+    dbfile.db.connect(function (err) {
+        if (err) {
+            console.log("Impossible de se connecter à la base de données");
+        } else {
+            console.log("Connecté à la base de données");
+        }
+
+        let params = [
+            avatar, userId
+        ];
+
+        dbfile.db.query(sqlRequests.sqlUpdateProfilAvatar, params, function (err, result) {
+            if (err) {
+                return res.status(401).json({ message: "Impossible de mettre à jour l'avatar :( " + err });
+            };
+            res.status(200).json({ result })
+        })
+    })
+};
+
+exports.updateProfilPassword = (req, res, next) => {
+    dbfile.db.connect(function (err) {
+        if (err) {
+            console.log("Impossible de se connecter à la base de données");
+        } else {
+            console.log("Connecté à la base de données");
+        }
+    })
+};
+
+exports.deleteProfil = (req, res, next) => {
+
+    dbfile.db.connect(function (err) {
+        if (err) {
+            console.log("Impossible de se connecter à la base de données");
+        } else {
+            console.log("Connecté à la base de données");
+        }
+    })
+};
