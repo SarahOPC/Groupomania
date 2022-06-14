@@ -1,11 +1,9 @@
 const dbfile = require('../config/db');
-const sqlRequests = require('../models/userModels');
+const sqlRequests = require('../models/userModel');
 
 const bcrypt = require('bcryptjs');
 // permet de créer des tokens d'identification et de les vérifier
 const jwt = require('jsonwebtoken');
-const res = require('express/lib/response');
-const { db } = require('../../../../Projet6/HotTakes_raguin_sarah/backend/Raguin_Sarah_1_CodeApi_032022/models/sauce');
 
 exports.signup = (req, res, next) => {
     let requestUserMail = req.body.email;

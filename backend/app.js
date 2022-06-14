@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const userRoutes = require("./routes/userRoute");
 const postRoutes = require("./routes/postRoute");
+const commentRoutes = require("./routes/commentRoute");
 
 // Sécurité ---------------------------------------------------------------------
 const path = require("path");
@@ -21,10 +22,12 @@ app.use(cors({
     origin: process.env.HOST
 }));
 // Sécurité ---------------------------------------------------------------------
+
 app.use('/images', express.static(path.join(__dirname, 'images'))); // nom du dossier + images
 
 app.use(express.json());
 app.use('/', userRoutes);
 app.use('/', postRoutes);
+app.use('/', commentRoutes);
 
 module.exports = app;

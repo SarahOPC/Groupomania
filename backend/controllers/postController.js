@@ -1,5 +1,5 @@
 const dbfile = require('../config/db');
-const sqlRequests = require('../models/postModels');
+const sqlRequests = require('../models/postModel');
 const fs = require("fs");
 
 exports.createPost = (req, res, next) => {
@@ -26,9 +26,8 @@ exports.createPost = (req, res, next) => {
             if (err) {
                 return res.status(401).json({ message: "Impossible de créer ce post :( " + err });
             };
-            res.status(200).json({ message: "Post créée" })
+            res.status(200).json({ message: "Post créé" })
         })
-
     })
 }
 
@@ -109,7 +108,7 @@ exports.getAllPosts = (req, res, next) => {
 
         dbfile.db.query(sqlRequests.sqlGetAllPosts, function (err, result) {
             if (err) {
-                return res.status(401).json({ message: "Impossible d'afficher tous les posts' :(" });
+                return res.status(401).json({ message: "Impossible d'afficher tous les posts :(" });
             };
             res.status(200).json({ result })
         })
@@ -131,7 +130,7 @@ exports.getOnePost = (req, res, next) => {
 
         dbfile.db.query(sqlRequests.sqlGetOnePost, params, function (err, result) {
             if (err) {
-                return res.status(401).json({ message: "Impossible d'afficher le post demandé' :(" });
+                return res.status(401).json({ message: "Impossible d'afficher le post demandé :(" });
             };
             res.status(200).json({ result });
         })
