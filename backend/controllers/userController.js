@@ -1,5 +1,6 @@
 const dbfile = require('../config/db');
 const sqlRequests = require('../models/userModel');
+const fs = require("fs");
 
 const bcrypt = require('bcryptjs');
 // permet de créer des tokens d'identification et de les vérifier
@@ -174,11 +175,12 @@ exports.updateProfilService = (req, res, next) => {
         })
     })
 };
-// modifier chemin pour image dans ../images
 exports.updateProfilAvatar = (req, res, next) => {
     let user_Id = req.params.id;
     let userId = parseInt(user_Id);
-    let avatar = req.body.avatar;
+    let avatar = req.file.originalname;
+
+    avatar = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
 
     dbfile.db.connect(function (err) {
         if (err) {
