@@ -200,8 +200,14 @@ exports.updateProfilAvatar = (req, res, next) => {
     })
 };
 
+// suppression de l'ancien mdp et hachage du nouveau avant enregistrement dans la BDD
 exports.updateProfilPassword = (req, res, next) => {
-    dbfile.db.connect(function (err) {
+    let user_Id = req.params.id;
+    let userId = parseInt(user_Id);
+    let newUserPassword = req.body.password;
+    let newhashedPassword = bcrypt.hash(newUserPassword, 10);
+
+    dbfile.db.connect(async function (err) {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         } else {
@@ -209,12 +215,12 @@ exports.updateProfilPassword = (req, res, next) => {
         }
 
         let params = [
-            avatar, userId
+            await newhashedPassword, userId
         ];
 
-        dbfile.db.query(sqlRequests.sqlUpdateProfilAvatar, params, function (err, result) {
+        dbfile.db.query(sqlRequests.sqlUpdateProfilPassword, params, function (err, result) {
             if (err) {
-                return res.status(401).json({ message: "Impossible de mettre à jour l'avatar :( " + err });
+                return res.status(401).json({ message: "Impossible de mettre à jour le mot de passe :( " + err });
             };
             res.status(200).json({ result })
         })
