@@ -202,7 +202,6 @@ exports.updateProfilAvatar = (req, res, next) => {
     })
 };
 
-// suppression de l'ancien mdp et hachage du nouveau avant enregistrement dans la BDD
 exports.updateProfilPassword = (req, res, next) => {
     let user_Id = req.params.id;
     let userId = parseInt(user_Id);
