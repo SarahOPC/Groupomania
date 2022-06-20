@@ -15,16 +15,16 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "signup" */ '../views/SignupView.vue')
   },
-  /* {
+  {
     path: '/profil',
     name: 'ProfilView',
-    component: () => import(/* webpackChunkName: "profil" */ //'../views/ProfilView.vue')
-  //},
-  //{
-  //  path: '/news',
-  //  name: 'mainNewsFeedView',
-  //  component: () => import(/* webpackChunkName: "news" */ '../views/MainNewsFeedView.vue')
-  //},
+    component: () => import(/* webpackChunkName: "profil" */ '../views/ProfilView.vue')
+  },
+  {
+    path: '/news',
+    name: 'mainNewsFeedView',
+    component: () => import(/* webpackChunkName: "news" */ '../views/MainNewsFeedView.vue')
+  },
   //{
   //  path: '/logout',
   //  name: 'Logout',
