@@ -1,18 +1,22 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/profil">Profil</router-link>
+    <router-link to="/">Se connecter</router-link> |
+    <router-link to="/signup">S'inscrire</router-link> |
+    <router-link to="/profil">Voir mon profil</router-link> |
+    <router-link to="/news">Voir le fil d'actualité</router-link> | 
+    <!--<router-link to="/logout">Se déconnecter</router-link>-->
   </nav>
   <router-view></router-view>
 </template>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Lato, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #4E5166;
+
 }
 
 nav {
