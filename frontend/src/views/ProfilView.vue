@@ -34,6 +34,7 @@
                 <form>
                     <label for="passwordText">Changer mon Mot de passe</label><br>
                     <input type="text" id="passwordText" name="passwordText"><br>
+                    <!-- Validation ? -->
                     <label for="password">Confirmer mon nouveau Mot de passe</label><br>
                     <input type="password" id="password" name="password"><br>
                     <input type="submit" value="Valider"><br>
@@ -50,31 +51,27 @@
                 <button type="button">Retourner au fil d'actualité</button>
             </div>
             <!--
-                logo
-                p avec Bonjour + nom de la personne si déjà rempli
-                form avec Prénom + input type text, Nom + input type text, Service + input type text
-                Button valider à chaque input = x 3
-                Pour service = Donner une liste prédéterminée de services
-                Changer avatar avec avatar par défaut mis par défaut
-                Button pour lancer l'action de changer la photo
+                Bonjour + nom de la personne si déjà rempli
             -->
-        </div>
-        <div>
             <!--
-                Changer mot de passe
-                Button valider
-                Confirmation du mot de passe
-                Button valider
-                p avec les prérequis à reprendre de la page signup
-            -->
-        </div>
-        <div>
-            <!--
-                Possibilité de supprimer mon compte - Action irréversible à préciser avec demande de confirmation
                 Button => delete user dans BDD + tous les posts et commentaires en BDD
-                Possibilité de retourner sur le fil d'actualité
-                Button
             -->
         </div>
     </div>
 </template>
+
+<script>
+// @ is an alias to /src
+import profil from '@/components/Profil.vue'
+
+export default {
+  name: 'Profil',
+  components: {
+    profil
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

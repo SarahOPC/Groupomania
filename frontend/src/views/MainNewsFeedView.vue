@@ -14,18 +14,32 @@
         </div>
         <div>
             <div class="previousPost"></div><br>
-            <input type="text" id="comment" name="comment" placeholder="Mon commentaire">
-            <input type="submit" value="J'aime"><br>
+            <input type="text" id="comment" name="comment" placeholder="Mon commentaire"><br>
+            <input type="submit" value="J'aime">
             <input type="submit" value="Je n'aime pas"><br>
             <input type="submit" value="Valider"><br>
             <input type="submit" value="Modifer"><br>
             <input type="submit" value="Supprimer"><br>
         </div>
         <!--
-            logo
             Menu avec Profil et deconnexion
-            1ère div = "Quelque chose à partager ?" + Button pour ajouter une image + Button valider
-            Divs suivantes = Précédents posts en ordre antéchronologique
+            Précédents posts en ordre antéchronologique
         -->
     </div>
 </template>
+
+<script>
+// @ is an alias to /src
+import MainNewsFeed from '@/components/MainNewsFeed.vue'
+
+export default {
+    name: 'MainNewsFeed',
+    components: {
+        MainNewsFeed
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

@@ -11,9 +11,10 @@
                 <input type="submit" value="Valider">
             </form>
 
-            <p>Pas encore inscrit, inscrivez-vous <a href="login">ici</a></p>
-            <!-- Gérer le renvoi de page sur la page de login -->
-
+            <p>Mot de passe oublié</p>
+            <!-- Ajouter une bulle : fonctionnalité à venir -->
+            <p>Pas encore de compte, inscrivez-vous <a href="signup">ici</a></p>
+            <!-- Gérer le renvoi de page sur la page de signup -->
         </div>
     </div>
 </template>

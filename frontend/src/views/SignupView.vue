@@ -2,7 +2,7 @@
   <div>
     <img alt="Logo Groupomania Rouge" src="../../../Icones/icon-left-font.webp">
     <div>
-      <h2>Inscrivez-vous dès maintenant 😃</h2>
+      <h2>Inscrivez-vous dès maintenant</h2>
       <form>
         <label for="email">Email</label><br>
         <input type="email" id="email" name="email" placeholder="john@doe.com"><br>
@@ -25,17 +25,15 @@
 </template>
 
 <script>
+// @ is an alias to /src
+import signup from '@/components/Signup.vue'
+
 export default {
   name: 'Signup',
-  props: {
-    msg: String
+  components: {
+    signup
   }
 }
-        // Gestion des formulaires (inputs)
-        // Logique métier pour le bouton
-        // Mise en place des regex
-        // Renvoi à la page login
-
 </script>
 
 <style scoped>
