@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img alt="Logo Groupomania Rouge" src="../../../Icones/icon-left-font.webp">
+        <Logo />
         <div>
             <h3>Quelque chose à partager</h3>
             <form>
@@ -30,12 +30,12 @@
 
 <script>
 // @ is an alias to /src
-import MainNewsFeed from '@/components/MainNewsFeed.vue'
+import Logo from '@/components/Logo.vue'
 
 export default {
     name: 'MainNewsFeed',
     components: {
-        MainNewsFeed
+        Logo
   }
 }
 </script>
