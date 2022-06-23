@@ -62,14 +62,7 @@
 
 <script>
 // @ is an alias to /src
-import profil from '@/components/Profil.vue'
 
-export default {
-  name: 'Profil',
-  components: {
-    profil
-  }
-}
 </script>
 
 <style scoped>

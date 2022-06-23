@@ -21,12 +21,12 @@
 
 <script>
 // @ is an alias to /src
-import login from '@/components/Login.vue'
-
 export default {
-    name: 'Login',
-    components: {
-        login
+  data() {
+    return {
+      count: 0
     }
+  }
 }
+
 </script>

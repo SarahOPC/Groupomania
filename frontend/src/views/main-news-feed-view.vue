@@ -30,14 +30,9 @@
 
 <script>
 // @ is an alias to /src
-import Logo from '@/components/Logo.vue'
+import Logo from '@/components/logo-component.vue'
 
-export default {
-    name: 'MainNewsFeed',
-    components: {
-        Logo
-  }
-}
+
 </script>
 
 <style scoped>

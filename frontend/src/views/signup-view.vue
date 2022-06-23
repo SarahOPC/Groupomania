@@ -26,14 +26,7 @@
 
 <script>
 // @ is an alias to /src
-import signup from '@/components/Signup.vue'
 
-export default {
-  name: 'Signup',
-  components: {
-    signup
-  }
-}
 </script>
 
 <style scoped>
