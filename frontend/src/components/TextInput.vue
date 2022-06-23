@@ -1,6 +1,4 @@
 <template>
-    <!-- input type email -->
-    <!-- input type password -->
     <!-- input type text -->
 </template>
 

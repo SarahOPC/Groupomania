@@ -1,31 +1,34 @@
 <template>
+  <div>
+    <Logo />
     <div>
-        <img alt="Logo Groupomania Rouge" src="../../../Icones/icon-left-font.webp">
-        <div>
-            <h2>Identifiez-vous</h2>
-            <form>
-                <label for="email">Email</label><br>
-                <input type="email" id="email" name="email" placeholder="john@doe.com"><br>
-                <label for="password">Mot de passe</label><br>
-                <input type="password" id="password" name="password">
-                <input type="submit" value="Valider">
-            </form>
+      <h2>Identifiez-vous</h2>
 
-            <p>Mot de passe oublié</p>
-            <!-- Ajouter une bulle : fonctionnalité à venir -->
-            <p>Pas encore de compte, inscrivez-vous <a href="signup">ici</a></p>
-            <!-- Gérer le renvoi de page sur la page de signup -->
-        </div>
+      <form>
+        <EmailInput />
+        <PasswordInput />
+        <InputSubmit />
+      </form>
+      
+      <p>Pas encore de compte, inscrivez-vous <a href="../views/signup-view.vue">ici</a></p>
     </div>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import Logo from '@/components/logo-component.vue'
+import InputSubmit from '@/components/InputSubmit.vue'
+import EmailInput from '@/components/EmailInput.vue'
+import PasswordInput from '@/components/PasswordInput.vue'
+
 export default {
-  data() {
-    return {
-      count: 0
-    }
+  name: 'login-view',
+  components: {
+    Logo,
+    InputSubmit,
+    EmailInput,
+    PasswordInput
   }
 }
 

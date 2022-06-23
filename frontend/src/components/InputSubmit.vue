@@ -1,5 +1,5 @@
 <template>
-    <!-- input type submit -->
+    <input type="submit" value="Valider">
 </template>
 
 <script>

@@ -6,7 +6,7 @@
             <form>
                 <textarea id="newPostFromUser" name="newPostFromUser" rows="7" cols="50"></textarea>
                 <br>
-                <input type="submit" value="Valider"><br>
+                <InputSubmit />
                 <input type="submit" value="Modifer"><br>
                 <input type="submit" value="Supprimer"><br>
             </form>
@@ -17,7 +17,7 @@
             <input type="text" id="comment" name="comment" placeholder="Mon commentaire"><br>
             <input type="submit" value="J'aime">
             <input type="submit" value="Je n'aime pas"><br>
-            <input type="submit" value="Valider"><br>
+            <InputSubmit />
             <input type="submit" value="Modifer"><br>
             <input type="submit" value="Supprimer"><br>
         </div>
@@ -31,6 +31,15 @@
 <script>
 // @ is an alias to /src
 import Logo from '@/components/logo-component.vue'
+import InputSubmit from '@/components/InputSubmit.vue'
+
+export default {
+    name: 'main-news-feed-view',
+    components: {
+        Logo,
+        InputSubmit
+    }
+}
 
 
 </script>

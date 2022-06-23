@@ -1,16 +1,16 @@
 <template>
     <div>
         <div>
-            <img alt="Logo Groupomania Rouge" src="../../../Icones/icon-left-font.webp">
+            <Logo />
             <div>
                 <h2>Bonjour</h2>
                 <form>
                     <label for="firstName">Prénom</label><br>
                     <input type="text" id="firstName" name="firstName" placeholder="John">
-                    <input type="submit" value="Valider"><br>
+                    <InputSubmit />
                     <label for="lastName">Nom</label><br>
                     <input type="text" id="lastName" name="lastName" placeholder="Doe">
-                    <input type="submit" value="Valider"><br>
+                    <InputSubmit />
                     <label for="service">Service</label><br>
                     <input type="radio" id="fruit" name="service" value="Fruit">
                     <label for="fruit">Fruit</label><br>
@@ -26,7 +26,7 @@
                     <label for="feculent">Féculent</label><br>
                     <input type="radio" id="laitage" name="service" value="Laitage">
                     <label for="laitage">Laitage</label><br>
-                    <input type="submit" value="Valider"><br>
+                    <InputSubmit />
                     <img alt="Avatar" src="../../../backend/images/AvatarParDefaut.jpg"><br>
                     <button type="button">Changer ma photo de profil</button>
 
@@ -37,14 +37,9 @@
                     <!-- Validation ? -->
                     <label for="password">Confirmer mon nouveau Mot de passe</label><br>
                     <input type="password" id="password" name="password"><br>
-                    <input type="submit" value="Valider"><br>
+                    <InputSubmit />
                 </form>
-                <ul>Mot de passe demandé :
-                    <li>Une MAJUSCULE - ABC</li>
-                    <li>Une minuscule - abc</li>
-                    <li>Un chiffre - 123</li>
-                    <li>Un caractère spécial hors &lt;, >, / ou $</li>
-                </ul>
+                <FalseRegex />
                 <button type="button"
                     onclick="alert('Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est irréversible')">Supprimer
                     mon compte</button>
@@ -62,7 +57,18 @@
 
 <script>
 // @ is an alias to /src
+import Logo from '@/components/logo-component.vue'
+import InputSubmit from '@/components/InputSubmit.vue'
+import FalseRegex from '@/components/FalseRegex.vue'
 
+export default {
+    name: 'profil-view',
+    components: {
+    Logo,
+    InputSubmit,
+    FalseRegex
+}
+}
 </script>
 
 <style scoped>
