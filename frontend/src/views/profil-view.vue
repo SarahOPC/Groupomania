@@ -5,8 +5,7 @@
             <div>
                 <h2>Bonjour</h2>
                 <form>
-                    <label for="firstName">Prénom</label><br>
-                    <input type="text" id="firstName" name="firstName" placeholder="John">
+                    
                     <InputSubmit />
                     <label for="lastName">Nom</label><br>
                     <input type="text" id="lastName" name="lastName" placeholder="Doe">
@@ -67,7 +66,16 @@ export default {
     Logo,
     InputSubmit,
     FalseRegex
-}
+    },
+    data () => {
+        return {
+            // label for,
+            // title,
+            // id,
+            // name,
+            // placeholder
+        }
+    }
 }
 </script>
 

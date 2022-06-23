@@ -4,8 +4,7 @@
         <div>
             <h3>Quelque chose à partager</h3>
             <form>
-                <textarea id="newPostFromUser" name="newPostFromUser" rows="7" cols="50"></textarea>
-                <br>
+                <Textarea />
                 <InputSubmit />
                 <input type="submit" value="Modifer"><br>
                 <input type="submit" value="Supprimer"><br>
@@ -32,12 +31,14 @@
 // @ is an alias to /src
 import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
+import Textarea from '@/components/Textarea.vue'
 
 export default {
     name: 'main-news-feed-view',
     components: {
         Logo,
-        InputSubmit
+        InputSubmit,
+        Textarea
     }
 }
 
