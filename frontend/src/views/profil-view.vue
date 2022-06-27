@@ -5,10 +5,10 @@
             <div>
                 <h2>Bonjour</h2>
                 <form>
-                    
+
                     <InputSubmit />
-                    <label for="lastName">Nom</label><br>
-                    <input type="text" id="lastName" name="lastName" placeholder="Doe">
+                    <TextInput v-model="event.title" label="FirstName" />
+                    <TextInput v-model="event.title" label="LastName" />
                     <InputSubmit />
                     <label for="service">Service</label><br>
                     <input type="radio" id="fruit" name="service" value="Fruit">
@@ -59,22 +59,15 @@
 import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
 import FalseRegex from '@/components/FalseRegex.vue'
+import TextInput from '@/components/TextInput.vue'
 
 export default {
     name: 'profil-view',
     components: {
     Logo,
     InputSubmit,
-    FalseRegex
-    },
-    data () => {
-        return {
-            // label for,
-            // title,
-            // id,
-            // name,
-            // placeholder
-        }
+    FalseRegex,
+    TextInput
     }
 }
 </script>

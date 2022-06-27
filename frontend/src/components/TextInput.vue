@@ -1,15 +1,21 @@
 <template>
-    <label :for="modelTitle">{{ title }}</label><br>
-    <input type="text" :id="modelId" :value="modelValue" :placeholder="modelPlaceholder">
+    <label>{{ title }}</label><br>
+    <input type="text" :value="modelValue" :placeholder="label" @input="$emit('update: modelValue', $event.target.value)">
+
 </template>
 
 <script>
+
 export default {
     props: {
-        modelTitle: String,
-        modelValue: String,
-        modelId: String,
-        modelPlaceholder: String
+        label: {
+            type: String,
+            default: ''
+        },
+        modelValue: {
+            type: String,
+            default: ''
+        }
     }
 }
 </script>

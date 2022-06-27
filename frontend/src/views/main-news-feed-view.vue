@@ -4,10 +4,10 @@
         <div>
             <h3>Quelque chose à partager</h3>
             <form>
-                <Textarea />
-                <InputSubmit />
-                <input type="submit" value="Modifer"><br>
-                <input type="submit" value="Supprimer"><br>
+                <AreaForText />
+                <InputSubmit /><br>
+                <InputSubmit /><br>
+                <InputSubmit /><br>
             </form>
             <button type="button">Ajouter une image (.jpg ou .png)</button>
         </div>
@@ -31,14 +31,14 @@
 // @ is an alias to /src
 import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
-import Textarea from '@/components/Textarea.vue'
+import AreaForText from '@/components/AreaForText.vue'
 
 export default {
     name: 'main-news-feed-view',
     components: {
         Logo,
         InputSubmit,
-        Textarea
+        AreaForText
     }
 }
 
