@@ -5,11 +5,15 @@
 <script>
 export default {
     data() {
-        [
-            { id: 0, content: "valider" },
-            { id: 1, content: "modifier" },
-            { id: 2, content: "supprimer" }
-        ]
+        return {
+            values:
+            [
+                { id: 0, content: "valider" },
+                { id: 1, content: "modifier" },
+                { id: 2, content: "supprimer" }
+            ]
+
+        }
     }
 }
 </script>

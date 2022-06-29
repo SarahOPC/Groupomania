@@ -7,24 +7,9 @@
                 <form>
 
                     <InputSubmit />
-                    <TextInput v-model="event.title" label="FirstName" />
-                    <TextInput v-model="event.title" label="LastName" />
+                    <TextInput />
                     <InputSubmit />
-                    <label for="service">Service</label><br>
-                    <input type="radio" id="fruit" name="service" value="Fruit">
-                    <label for="fruit">Fruit</label><br>
-                    <input type="radio" id="legume" name="service" value="Légume">
-                    <label for="legume">Légume</label><br>
-                    <input type="radio" id="proteine" name="service" value="Proteine">
-                    <label for="proteine">Protéine</label><br>
-                    <input type="radio" id="boisson" name="service" value="Boisson">
-                    <label for="boisson">Boisson</label><br>
-                    <input type="radio" id="sucre" name="service" value="Sucre">
-                    <label for="sucre">Sucre</label><br>
-                    <input type="radio" id="feculent" name="service" value="Feculent">
-                    <label for="feculent">Féculent</label><br>
-                    <input type="radio" id="laitage" name="service" value="Laitage">
-                    <label for="laitage">Laitage</label><br>
+                    <RadioButton />
                     <InputSubmit />
                     <img alt="Avatar" src="../../../backend/images/AvatarParDefaut.jpg"><br>
                     <button type="button">Changer ma photo de profil</button>
@@ -60,14 +45,16 @@ import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
 import FalseRegex from '@/components/FalseRegex.vue'
 import TextInput from '@/components/TextInput.vue'
+import RadioButton from '@/components/RadioButton.vue'
 
 export default {
     name: 'profil-view',
     components: {
-    Logo,
-    InputSubmit,
-    FalseRegex,
-    TextInput
+        Logo,
+        InputSubmit,
+        FalseRegex,
+        TextInput,
+        RadioButton
     }
 }
 </script>

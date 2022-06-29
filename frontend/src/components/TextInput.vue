@@ -1,20 +1,20 @@
 <template>
-    <label>{{ title }}</label><br>
-    <input type="text" :value="modelValue" :placeholder="label" @input="$emit('update: modelValue', $event.target.value)">
+    <label for="service">Service</label><br>
+    <label for="value.content" v-bind:value="value.content" v-for="value in values" :key="value.id"></label><br>
+    <input type="text" v-bind:value="value.content" v-for="value in values" :key="value.id">
 
 </template>
 
 <script>
 
 export default {
-    props: {
-        label: {
-            type: String,
-            default: ''
-        },
-        modelValue: {
-            type: String,
-            default: ''
+    data() {
+        return {
+            values:
+                [
+                    { id: 0, content: "FirstName" },
+                    { id: 1, content: "LastName" }
+                ]
         }
     }
 }
