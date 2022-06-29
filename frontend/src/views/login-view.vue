@@ -6,8 +6,8 @@
 
       <form>
         <EmailInput />
-        <PasswordInput />
-        <InputSubmit />
+        <PasswordInput content="Mot de passe" />
+        <InputSubmit content="Valider" />
       </form>
       
       <p>Pas encore de compte, inscrivez-vous <a href="../views/signup-view.vue">ici</a></p>

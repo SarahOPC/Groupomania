@@ -1,6 +1,6 @@
 <template>
     <label for="email">Email</label><br>
-    <input type="email" id="email" name="email" placeholder="john@doe.com"><br>
+    <input type="email" id="email" name="email" placeholder="janedoe@groupomania.com"><br>
 </template>
 
 <script>

@@ -1,9 +1,14 @@
 <template>
-    <label for="password">Mot de passe</label><br>
-    <input type="password" id="password" name="password">
+    <div class="passwordForm" v-bind:value="content">
+        <label for="content" v-bind:value="content">{{ content }}</label><br>
+        <input type="password" v-bind:placeholder="content">
+    </div>
 </template>
 
 <script>
+export default {
+    props: ["content"]
+}
 </script>
 
 <style scoped>

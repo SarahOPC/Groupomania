@@ -10,23 +10,19 @@
                     <InputSubmit content="Valider" />
                     <RadioButton />
                     <InputSubmit content="Valider" />
-                    <img alt="Avatar" src="../../../backend/images/AvatarParDefaut.jpg"><br>
+                    <DefaultAvatar /><br>
                     <InputSubmit content="Changer ma photo de profil" />
 
                 </form>
                 <form>
-                    <label for="passwordText">Changer mon Mot de passe</label><br>
-                    <input type="text" id="passwordText" name="passwordText"><br>
+                    <TextInput content="Quel est mon nouveau mot de passe ?" />
                     <InputSubmit content="Valider" />
-                    <label for="password">Confirmer mon nouveau Mot de passe</label><br>
-                    <input type="password" id="password" name="password"><br>
+                    <PasswordInput content="Confirmation de mon nouveau mot de passe" />
                     <InputSubmit content="Valider" />
                 </form>
                 <FalseRegex />
-                <button type="button"
-                    onclick="alert('Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est irréversible')">Supprimer
-                    mon compte</button>
-                <button type="button">Retourner au fil d'actualité</button>
+                <InputSubmit content="Supprimer mon compte" onclick="alert('Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est irréversible')" />
+                <InputSubmit content="Retourner au fil d'actualité" />
             </div>
             <!--
                 Bonjour + nom de la personne si déjà rempli
@@ -45,16 +41,20 @@ import InputSubmit from '@/components/InputSubmit.vue'
 import FalseRegex from '@/components/FalseRegex.vue'
 import TextInput from '@/components/TextInput.vue'
 import RadioButton from '@/components/RadioButton.vue'
+import PasswordInput from '@/components/PasswordInput.vue'
+import DefaultAvatar from '@/components/DefaultAvatar.vue'
 
 export default {
     name: 'profil-view',
     components: {
-        Logo,
-        InputSubmit,
-        FalseRegex,
-        TextInput,
-        RadioButton
-    }
+    Logo,
+    InputSubmit,
+    FalseRegex,
+    TextInput,
+    RadioButton,
+    PasswordInput,
+    DefaultAvatar
+}
 }
 </script>
 

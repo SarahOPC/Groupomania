@@ -6,8 +6,8 @@
 
       <form>
         <EmailInput />
-        <PasswordInput />
-        <InputSubmit />
+        <PasswordInput content="Mot de passe" />
+        <InputSubmit content="Valider" />
       </form>
       
       <FalseRegex />
