@@ -5,23 +5,22 @@
             <div>
                 <h2>Bonjour</h2>
                 <form>
-
-                    <InputSubmit />
-                    <TextInput />
-                    <InputSubmit />
+                    <TextInput content="FirstName" />
+                    <TextInput content="LastName" />
+                    <InputSubmit content="Valider" />
                     <RadioButton />
-                    <InputSubmit />
+                    <InputSubmit content="Valider" />
                     <img alt="Avatar" src="../../../backend/images/AvatarParDefaut.jpg"><br>
-                    <button type="button">Changer ma photo de profil</button>
+                    <InputSubmit content="Changer ma photo de profil" />
 
                 </form>
                 <form>
                     <label for="passwordText">Changer mon Mot de passe</label><br>
                     <input type="text" id="passwordText" name="passwordText"><br>
-                    <!-- Validation ? -->
+                    <InputSubmit content="Valider" />
                     <label for="password">Confirmer mon nouveau Mot de passe</label><br>
                     <input type="password" id="password" name="password"><br>
-                    <InputSubmit />
+                    <InputSubmit content="Valider" />
                 </form>
                 <FalseRegex />
                 <button type="button"

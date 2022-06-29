@@ -1,20 +1,10 @@
 <template>
-    <input type="submit" v-bind:value="value.content" v-for="value in values" :key="value.id">
+    <input type="submit" v-bind:value="content"><br>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            values:
-            [
-                { id: 0, content: "valider" },
-                { id: 1, content: "modifier" },
-                { id: 2, content: "supprimer" }
-            ]
-
-        }
-    }
+    props: ["content"]
 }
 </script>
 

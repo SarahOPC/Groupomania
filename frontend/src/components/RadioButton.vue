@@ -1,7 +1,9 @@
 <template>
     <label for="service">Service</label><br>
-    <label for="value.content" v-bind:value="value.content" v-for="value in values" :key="value.id"></label><br>
-    <input type="radio" v-bind:value="value.content" v-for="value in values" :key="value.id">
+    <div class="radio" v-bind:value="value.content" v-for="value in values" :key="value.id">
+        <label for="value.content" v-bind:value="value.content">{{ value.content }}</label><br>
+        <input type="radio" v-bind:value="value.content">
+    </div>
 </template>
 
 <script>

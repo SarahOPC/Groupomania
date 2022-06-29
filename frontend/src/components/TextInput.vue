@@ -1,22 +1,15 @@
 <template>
-    <label for="service">Service</label><br>
-    <label for="value.content" v-bind:value="value.content" v-for="value in values" :key="value.id"></label><br>
-    <input type="text" v-bind:value="value.content" v-for="value in values" :key="value.id">
+    <div class="nameForm" v-bind:value="content">
+        <label for="value.content" v-bind:value="content">{{ content }}</label><br>
+        <input type="text" v-bind:placeholder="content">
+    </div>
 
 </template>
 
 <script>
 
 export default {
-    data() {
-        return {
-            values:
-                [
-                    { id: 0, content: "FirstName" },
-                    { id: 1, content: "LastName" }
-                ]
-        }
-    }
+    props: ["content"]
 }
 </script>
 
