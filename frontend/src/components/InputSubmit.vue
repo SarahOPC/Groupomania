@@ -1,5 +1,5 @@
 <template>
-    <input type="submit" v-bind:value="content"><br>
+    <button>{{ content }}</button>
 </template>
 
 <script>

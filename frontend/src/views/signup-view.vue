@@ -7,7 +7,7 @@
       <form>
         <EmailInput />
         <PasswordInput content="Mot de passe" />
-        <InputSubmit content="Valider" />
+        <InputSubmit content="Valider" v-on:click="createUser"/>
       </form>
       
       <FalseRegex />
@@ -25,6 +25,7 @@ import InputSubmit from '@/components/InputSubmit.vue'
 import EmailInput from '@/components/EmailInput.vue'
 import PasswordInput from '@/components/PasswordInput.vue'
 import FalseRegex from'@/components/FalseRegex.vue'
+import axios from 'axios'
 
 export default {
   name: 'signup-view',
@@ -34,6 +35,16 @@ export default {
     EmailInput,
     PasswordInput,
     FalseRegex
+  },
+  methods: {
+        createUser() {
+          axios.post("http://localhost:3000/signup", {
+                email:'mradmin@groupomania.com',
+                password:'root'
+          })
+          .then(function(response) {alert(response);})
+          .catch(function(error) {alert(error);})
+        }
   }
 }
 </script>

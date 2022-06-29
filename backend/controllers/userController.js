@@ -7,6 +7,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.signup = (req, res, next) => {
+    //------------------------------------------------------------------------------------------------------------------
+    console.log("testdeconsolelog");
+    //------------------------------------------------------------------------------------------------------------------
     let requestUserMail = req.body.email;
     let requestUserPassword = req.body.password;
     let hashedPassword = bcrypt.hash(requestUserPassword, 10);
@@ -25,7 +28,7 @@ exports.signup = (req, res, next) => {
 
         dbfile.db.query(sqlRequests.sqlInsertUser, params, function (err, result) {
             if (err) {
-                return res.status(401).json({ error: "Utilisateur déjà existant" });
+                return res.status(401).json({ error: err});
             };
             res.status(201).json({ message: "Utilisateur créé" })
         });

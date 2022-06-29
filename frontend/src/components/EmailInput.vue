@@ -3,7 +3,7 @@
     <input type="email" id="email" name="email" placeholder="janedoe@groupomania.com"><br>
 </template>
 
-<script>
+<script>    
 </script>
 
 <style scoped>
