@@ -17,10 +17,10 @@
                 <form>
                     <TextInput content="Quel est mon nouveau mot de passe ?" />
                     <InputSubmit content="Valider" />
-                    <PasswordInput content="Confirmation de mon nouveau mot de passe" />
+                    
                     <InputSubmit content="Valider" />
                 </form>
-                <FalseRegex />
+                
                 <InputSubmit content="Supprimer mon compte" onclick="alert('Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est irréversible')" />
                 <InputSubmit content="Retourner au fil d'actualité" />
             </div>
@@ -38,10 +38,8 @@
 // @ is an alias to /src
 import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
-import FalseRegex from '@/components/FalseRegex.vue'
 import TextInput from '@/components/TextInput.vue'
 import RadioButton from '@/components/RadioButton.vue'
-import PasswordInput from '@/components/PasswordInput.vue'
 import DefaultAvatar from '@/components/DefaultAvatar.vue'
 
 export default {
@@ -49,10 +47,8 @@ export default {
     components: {
     Logo,
     InputSubmit,
-    FalseRegex,
     TextInput,
     RadioButton,
-    PasswordInput,
     DefaultAvatar
 }
 }
