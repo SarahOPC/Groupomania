@@ -19,6 +19,7 @@
 </template>
 
 <script>
+require('dotenv').config();
 // @ is an alias to /src
 import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
@@ -38,7 +39,7 @@ export default {
   },
   methods: {
         createUser() {
-          axios.post("http://localhost:3000/signup", {
+          axios.post("process.env.BACKEND_URL", {
                 email:'mradmin@groupomania.com',
                 password:'root'
           })
