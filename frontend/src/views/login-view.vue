@@ -7,8 +7,10 @@
       <form>
         <Login />
       </form>
-      
-      <p>Pas encore de compte, inscrivez-vous <a href="../views/signup-view.vue">ici</a></p>
+
+      <div @click="redirect">
+        <p>Pas encore de compte, inscrivez-vous ici</p>
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +25,11 @@ export default {
   components: {
     Logo,
     Login
+  },
+  methods: {
+    redirect() {
+      return this.$router.push('/signup')
+    }
   }
 }
 

@@ -8,13 +8,15 @@
         <Signup />
       </form>
       
-      <p>Déjà inscrit, identifiez-vous <a href="../views/login-view.vue">ici</a></p>
-
+      <div @click="redirect">
+        <p>Déjà inscrit, identifiez-vous ici</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+
 
 // @ is an alias to /src
 import Logo from '@/components/logo-component.vue'
@@ -25,6 +27,11 @@ export default {
   components: {
     Logo,
     Signup,
+  },
+  methods: {
+    redirect() {
+      return this.$router.push('/')
+    }
   }
 }
 </script>

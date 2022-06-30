@@ -59,7 +59,8 @@ exports.login = (req, res, next) => {
                                     access_token: jwt.sign(
                                         { userId: result[0].id },
                                         `${process.env.ACCESS_TOKEN_SECRET}`,
-                                        { expiresIn: "12h" }
+                                        { expiresIn: "12h" },
+                                        console.log("youpi")
                                     ),
                                     message: "Utilisateur trouvé et mot de passe valide"
                                 })
