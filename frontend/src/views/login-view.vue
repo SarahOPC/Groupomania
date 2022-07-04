@@ -2,15 +2,7 @@
   <div>
     <Logo />
     <div>
-      <h2>Identifiez-vous</h2>
-
-      <form>
         <Login />
-      </form>
-
-      <div @click="redirect">
-        <p>Pas encore de compte, inscrivez-vous ici</p>
-      </div>
     </div>
   </div>
 </template>
