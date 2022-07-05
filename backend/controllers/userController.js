@@ -101,10 +101,6 @@ exports.updateProfilFirstName = (req, res, next) => {
     let user_Id = req.params.id;
     let userId = parseInt(user_Id);
     let firstName = req.body.firstName;
-    console.log(userId);
-    console.log(firstName);
-
-
 
     dbfile.db.connect(function (err) {
         if (err) {

@@ -55,6 +55,7 @@ export default {
         .then(function(response) {
           if (response.status === 200) {
             localStorage.setItem('userToken', JSON.stringify(response.data.access_token));
+            localStorage.setItem('userId', JSON.stringify(response.data.userId));
             return self.$router.push({ path: '/news' })
           } else {
             alert("Ce n'est pas ce que nous attendions");

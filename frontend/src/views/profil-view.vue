@@ -4,25 +4,28 @@
             <Logo />
             <div>
                 <h2>Bonjour</h2>
-                <form>
-                    <TextInput content="FirstName" />
-                    <TextInput content="LastName" />
-                    <InputSubmit content="Valider" />
+                <div class="name">
+                    <TextInput />
+                </div>
+                <div class="service">
                     <RadioButton />
                     <InputSubmit content="Valider" />
+                </div>
+                <div class="avatar">
                     <DefaultAvatar /><br>
                     <InputSubmit content="Changer ma photo de profil" />
-
-                </form>
-                <form>
-                    <TextInput content="Quel est mon nouveau mot de passe ?" />
+                </div>
+                <div class="changePassword">
+                    <label for="newPassword">Nouveau mot de passe</label><br>
+                    <input type="text" id="newPassword" name="newPassword" placeholder="Nouveau mot de passe"><br>
+                    <label for="password">Confirmation du nouveau mot de passe</label><br>
+                    <input type="password" id="password" name="password" placeholder="Nouveau mot de passe"><br>
                     <InputSubmit content="Valider" />
-                    
-                    <InputSubmit content="Valider" />
-                </form>
-                
+                </div>
+                <div class="changeview">
                 <InputSubmit content="Supprimer mon compte" onclick="alert('Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est irréversible')" />
                 <InputSubmit content="Retourner au fil d'actualité" />
+                </div>
             </div>
             <!--
                 Bonjour + nom de la personne si déjà rempli
@@ -50,7 +53,7 @@ export default {
     TextInput,
     RadioButton,
     DefaultAvatar
-}
+    }
 }
 </script>
 
