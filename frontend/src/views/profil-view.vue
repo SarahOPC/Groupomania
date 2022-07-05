@@ -8,8 +8,7 @@
                     <TextInput />
                 </div>
                 <div class="service">
-                    <RadioButton />
-                    <InputSubmit content="Valider" />
+                    <SelectButton />
                 </div>
                 <div class="avatar">
                     <DefaultAvatar /><br>
@@ -42,7 +41,7 @@
 import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
 import TextInput from '@/components/TextInput.vue'
-import RadioButton from '@/components/RadioButton.vue'
+import SelectButton from '@/components/SelectButton.vue'
 import DefaultAvatar from '@/components/DefaultAvatar.vue'
 
 export default {
@@ -51,7 +50,7 @@ export default {
     Logo,
     InputSubmit,
     TextInput,
-    RadioButton,
+    SelectButton,
     DefaultAvatar
     }
 }
