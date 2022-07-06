@@ -3,20 +3,17 @@
         <div>
             <Logo />
             <div>
-                <h2 v-if="mode !== 'firstTime'">Bonjour {{ displayNames() }}</h2>
-                <h2 v-else>Bonjour</h2>
-                <h3 v-if="mode !== 'firstTime'">Du service {{ displayService() }}</h3>
-
-                <div class="name">
+                <h2>Bonjour</h2>
+                <div class>
                     <TextInput />
                 </div>
                 <div class="service">
                     <SelectButton />
                 </div>
                 <div class="avatar">
-                    <h3 v-if="mode !== 'firstTime'">Ma photo de profil {{ displayAvatar() }}</h3>
+                    <h3 v-if="mode !== 'firstTime'">Ma photo de profil {{ responseAvatar.avatar }}</h3>
                     <DefaultAvatar v-if="mode == 'firstTime'" /><br>
-                    <InputSubmit v-on:click="changeAvatar()" content="Changer ma photo de profil" />
+                    <InputSubmit v-on:click="changeAvatar(); displayAvatar()" content="Changer ma photo de profil" />
                 </div>
                 <div class="changePassword">
                     <label for="newPassword">Nouveau mot de passe</label><br>
@@ -62,48 +59,11 @@ export default {
     data() {
         return {
             password: '',
-            mode: 'firstTime'
+            mode: 'firstTime',
+            responseAvatar: ''
         }
     },
     methods: {
-        displayNames() {
-            let validToken = localStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
-            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
-            
-            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
-            })
-            .then(function(response) {
-                if(response.status === 200) {
-                    let responseFirstName = response.data.firstName;
-                    let responseLastName = response.data.lastName;
-                    let names = responseFirstName + " " + responseLastName;
-                    return names;
-                }
-            })
-            .catch(function(error) {
-                console.log(error);
-            })
-        },
-        displayService() {
-            let validToken = localStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
-            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
-            
-            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
-            })
-            .then(function(response) {
-                if(response.status === 200) {
-                    let responseService = response.data.service;
-                    return responseService;
-                }
-            })
-            .catch(function(error) {
-                console.log(error);
-            })
-        },
         displayAvatar() {
             let validToken = localStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -114,8 +74,7 @@ export default {
             })
             .then(function(response) {
                 if(response.status === 200) {
-                    let responseAvatar = response.data.avatar;
-                    return responseAvatar;
+                    return this.responseAvatar = response.data;
                 }
             })
             .catch(function(error) {

@@ -1,12 +1,17 @@
 <template>
-    <div class="nameForm">
-        <label for="firstName">Prénom</label><br>
-        <input type="text" v-model="firstName" id="firstName" name="firstName" placeholder="Prénom"><br>
-        <InputSubmit v-on:click="updateFirstName()" content="Valider" /><br>
-        <label for="lastName">Nom</label><br>
-        <input type="text" v-model="lastName" id="lastName" name="lastName" placeholder="Nom"><br>
-        <InputSubmit v-on:click="updateLastName()" content="Valider" />
+<div>
+    <div>
+        <div v-if="mode == 'firstTime'">
+            <label for="firstName">Prénom</label><br>
+            <input type="text" v-model="firstName" id="firstName" name="firstName" placeholder="Prénom"><br>
+            <label for="lastName">Nom</label><br>
+            <input type="text" v-model="lastName" id="lastName" name="lastName" placeholder="Nom"><br>
+            <InputSubmit v-on:click="updateFirstName(); updateLastName(); displayNames();" content="Valider" />
+        </div>
     </div>
+    <h2 v-if="mode == 'notFirstTime'">{{ names }}</h2>
+    <InputSubmit v-on:click="changeMode()" content="Mettre à jour mes informations" />
+</div>
 
 </template>
 
@@ -19,13 +24,19 @@ export default {
     data() {
         return {
             firstName:"",
-            lastName: ""
+            lastName: "",
+            names: '',
+            mode: 'notFirstTime'
         }
     },
     components: {
         InputSubmit
     },
     methods: {
+        changeMode() {
+            let self = this;
+            return self.mode = 'firstTime';
+        },
         updateFirstName() {
             let validToken = localStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -57,6 +68,25 @@ export default {
             .then(function(response) {
                 alert("Votre nom vient d'être mis à jour");
                 console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
+        displayNames() {
+            let self = this;
+            let validToken = localStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = localStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
+            
+            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
+            })
+            .then(function(response) {
+                if(response.status === 200) {
+                    self.mode = 'notFirstTime';
+                    return self.names = response.data.result[0].prenom + " " + response.data.result[0].nom;
+                }
             })
             .catch(function(error) {
                 console.log(error);
