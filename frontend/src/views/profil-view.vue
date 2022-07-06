@@ -11,9 +11,8 @@
                     <SelectButton />
                 </div>
                 <div class="avatar">
-                    <h3 v-if="mode !== 'firstTime'">Ma photo de profil {{ responseAvatar.avatar }}</h3>
-                    <DefaultAvatar v-if="mode == 'firstTime'" /><br>
-                    <InputSubmit v-on:click="changeAvatar(); displayAvatar()" content="Changer ma photo de profil" />
+                    <h3>Ma photo de profil {{ responseAvatar }}</h3>
+                    <InputSubmit v-on:click="changeAvatar(); displayAvatar();" content="Changer ma photo de profil" />
                 </div>
                 <div class="changePassword">
                     <label for="newPassword">Nouveau mot de passe</label><br>
@@ -44,7 +43,6 @@ import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
 import TextInput from '@/components/TextInput.vue'
 import SelectButton from '@/components/SelectButton.vue'
-import DefaultAvatar from '@/components/DefaultAvatar.vue'
 import axios from 'axios'
 
 export default {
@@ -54,7 +52,6 @@ export default {
     InputSubmit,
     TextInput,
     SelectButton,
-    DefaultAvatar
     },
     data() {
         return {
@@ -65,6 +62,8 @@ export default {
     },
     methods: {
         displayAvatar() {
+            alert("I'm here")
+            let self = this;
             let validToken = localStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = localStorage.getItem('userId');
@@ -74,7 +73,8 @@ export default {
             })
             .then(function(response) {
                 if(response.status === 200) {
-                    return this.responseAvatar = response.data;
+                    alert(response.data.result[0].avatar)
+                    return self.responseAvatar = response.data.result[0].avatar;
                 }
             })
             .catch(function(error) {
