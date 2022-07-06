@@ -5,7 +5,7 @@ const sqlRequests = {
     sqlFindUserPassword : "SELECT password FROM users WHERE mail = ?",
     sqlFindUserId : "SELECT id FROM users WHERE mail = ?",
     // ------------------------ Profil ---------------------------
-    sqlGetProfil: 'SELECT `mail`, `prenom`, `nom`, `service`, `avatar` FROM users WHERE id = ?',
+    sqlGetProfil: 'SELECT `prenom`, `nom`, `service`, `avatar` FROM users WHERE id = ?',
     sqlUpdateProfilFirstName: 'UPDATE users SET `prenom` = ? WHERE id = ?',
     sqlUpdateProfilLastName: 'UPDATE users SET `nom` = ? WHERE id = ?',
     sqlUpdateProfilService: 'UPDATE users SET `service` = ? WHERE id = ?',

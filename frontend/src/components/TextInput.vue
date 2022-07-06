@@ -37,6 +37,7 @@ export default {
                 }, headers:{'Authorization': 'Bearer ' + userValidToken},
             })
             .then(function(response) {
+                alert("Votre prénom vient d'être mis à jour");
                 console.log(response);
             })
             .catch(function(error) {
@@ -54,6 +55,7 @@ export default {
                 }, headers:{'Authorization': 'Bearer ' + userValidToken},
             })
             .then(function(response) {
+                alert("Votre nom vient d'être mis à jour");
                 console.log(response);
             })
             .catch(function(error) {

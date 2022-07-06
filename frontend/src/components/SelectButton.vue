@@ -3,13 +3,13 @@
     <label for="service">Service</label><br>
     
     <select v-model="selectedService" name="service" id="service">
-      <option value="fruit">Fruit</option>
-      <option value="legume">Legume</option>
-      <option value="proteine">Proteine</option>
-      <option value="boisson">Boisson</option>
-      <option value="sucre">Sucre</option>
-      <option value="feculent">Feculent</option>
-      <option value="laitage">Laitage</option>
+      <option value="Fruit">Fruit</option>
+      <option value="Legume">Legume</option>
+      <option value="Proteine">Proteine</option>
+      <option value="Boisson">Boisson</option>
+      <option value="Sucre">Sucre</option>
+      <option value="Feculent">Feculent</option>
+      <option value="Laitage">Laitage</option>
     </select><br>
     <InputSubmit v-on:click="updateService()" content="Valider" />
 
@@ -42,6 +42,7 @@ export default {
                 }, headers:{'Authorization': 'Bearer ' + userValidToken},
             })
             .then(function(response) {
+                alert("Votre service vient d'être mis à jour");
                 console.log(response);
             })
             .catch(function(error) {

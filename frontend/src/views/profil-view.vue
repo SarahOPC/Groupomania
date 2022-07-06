@@ -3,7 +3,10 @@
         <div>
             <Logo />
             <div>
-                <h2>Bonjour</h2>
+                <h2 v-if="mode !== 'firstTime'">Bonjour {{ displayNames() }}</h2>
+                <h2 v-else>Bonjour</h2>
+                <h3 v-if="mode !== 'firstTime'">Du service {{ displayService() }}</h3>
+
                 <div class="name">
                     <TextInput />
                 </div>
@@ -11,8 +14,9 @@
                     <SelectButton />
                 </div>
                 <div class="avatar">
-                    <DefaultAvatar /><br>
-                    <InputSubmit content="Changer ma photo de profil" />
+                    <h3 v-if="mode !== 'firstTime'">Ma photo de profil {{ displayAvatar() }}</h3>
+                    <DefaultAvatar v-if="mode == 'firstTime'" /><br>
+                    <InputSubmit v-on:click="changeAvatar()" content="Changer ma photo de profil" />
                 </div>
                 <div class="changePassword">
                     <label for="newPassword">Nouveau mot de passe</label><br>
@@ -22,8 +26,9 @@
                     <InputSubmit v-on:click="updatePassword()" content="Valider" />
                 </div>
                 <div class="changeview">
-                <InputSubmit content="Supprimer mon compte" onclick="alert('Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est irréversible')" />
-                <InputSubmit content="Retourner au fil d'actualité" />
+                    <InputSubmit v-on:click="deleteProfil()" content="Supprimer mon compte" />
+                    <p>Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est DEFINITIVE et IRREVERSIBLE</p>
+                    <InputSubmit v-on:click="switchToNews()" content="Retourner au fil d'actualité" />
                 </div>
             </div>
             <!--
@@ -56,10 +61,67 @@ export default {
     },
     data() {
         return {
-            password: ''
+            password: '',
+            mode: 'firstTime'
         }
     },
     methods: {
+        displayNames() {
+            let validToken = localStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = localStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
+            
+            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
+            })
+            .then(function(response) {
+                if(response.status === 200) {
+                    let responseFirstName = response.data.firstName;
+                    let responseLastName = response.data.lastName;
+                    let names = responseFirstName + " " + responseLastName;
+                    return names;
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
+        displayService() {
+            let validToken = localStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = localStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
+            
+            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
+            })
+            .then(function(response) {
+                if(response.status === 200) {
+                    let responseService = response.data.service;
+                    return responseService;
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
+        displayAvatar() {
+            let validToken = localStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = localStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
+            
+            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
+            })
+            .then(function(response) {
+                if(response.status === 200) {
+                    let responseAvatar = response.data.avatar;
+                    return responseAvatar;
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
         updatePassword() {
             let validToken = localStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -71,11 +133,50 @@ export default {
                 }, headers:{'Authorization': 'Bearer ' + userValidToken},
             })
             .then(function(response) {
+                alert("Votre mot de passe est maintenant modifié");
                 console.log(response);
             })
             .catch(function(error) {
                 console.log(error);
             })
+        },
+        //changeAvatar() {
+        //    let validToken = localStorage.getItem('userToken');
+        //    let userValidToken = validToken.replace(/['"]+/g, '');
+        //    let id = localStorage.getItem('userId');
+        //    let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/avatar";
+        //    let bodyFormData = new FormData();
+        //    bodyFormData.append('image', imageFile);
+
+        //    axios({method:'put', url: urlDesti, data: bodyFormData, headers:{'Authorization': 'Bearer ' + userValidToken},
+        //    })
+        //    .then(function(response) {
+        //        alert("Votre avatar vient d'être mis à jour");
+        //        console.log(response);
+        //    })
+        //    .catch(function(error) {
+        //        console.log(error);
+        //    })
+        //},
+        deleteProfil() {
+            let validToken = localStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = localStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
+
+            axios({method:'delete', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
+            })
+            .then(function(response) {
+                alert("Votre compte vient d'être supprimer, à bientôt");
+                console.log(response);
+                localStorage.clear();
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
+        switchToNews() {
+            this.$router.push({ path: '/news' })
         }
     }
 }
