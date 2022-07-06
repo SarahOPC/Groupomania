@@ -12,6 +12,9 @@
                 </div>
                 <div class="avatar">
                     <h3>Ma photo de profil {{ responseAvatar }}</h3>
+                    <img src="../../image/AvatarParDefaut.jpg" alt="Avatar">
+                    <label for="fileName">Choisir une nouvelle photo de profil</label>
+                    <input type="file" id="fileName" name="fileName">
                     <InputSubmit v-on:click="changeAvatar(); displayAvatar();" content="Changer ma photo de profil" />
                 </div>
                 <div class="changePassword">
@@ -61,6 +64,42 @@ export default {
         }
     },
     methods: {
+        updatePassword() {
+            let validToken = localStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = localStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/password";
+            
+            axios({method:'put', url: urlDesti, data: {
+                    password: this.password
+                }, headers:{'Authorization': 'Bearer ' + userValidToken},
+            })
+            .then(function(response) {
+                alert("Votre mot de passe est maintenant modifié");
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
+        /* changeAvatar() {
+            let validToken = localStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = localStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/avatar";
+            let bodyFormData = new FormData();
+            bodyFormData.append('image', imageFile);
+
+            axios({method:'put', url: urlDesti, data: bodyFormData, headers:{'Authorization': 'Bearer ' + userValidToken},
+            })
+            .then(function(response) {
+                alert("Votre avatar vient d'être mis à jour");
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
         displayAvatar() {
             alert("I'm here")
             let self = this;
@@ -80,43 +119,7 @@ export default {
             .catch(function(error) {
                 console.log(error);
             })
-        },
-        updatePassword() {
-            let validToken = localStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
-            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/password";
-            
-            axios({method:'put', url: urlDesti, data: {
-                    password: this.password
-                }, headers:{'Authorization': 'Bearer ' + userValidToken},
-            })
-            .then(function(response) {
-                alert("Votre mot de passe est maintenant modifié");
-                console.log(response);
-            })
-            .catch(function(error) {
-                console.log(error);
-            })
-        },
-        //changeAvatar() {
-        //    let validToken = localStorage.getItem('userToken');
-        //    let userValidToken = validToken.replace(/['"]+/g, '');
-        //    let id = localStorage.getItem('userId');
-        //    let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/avatar";
-        //    let bodyFormData = new FormData();
-        //    bodyFormData.append('image', imageFile);
-
-        //    axios({method:'put', url: urlDesti, data: bodyFormData, headers:{'Authorization': 'Bearer ' + userValidToken},
-        //    })
-        //    .then(function(response) {
-        //        alert("Votre avatar vient d'être mis à jour");
-        //        console.log(response);
-        //    })
-        //    .catch(function(error) {
-        //        console.log(error);
-        //    })
-        //},
+        }, */
         deleteProfil() {
             let validToken = localStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
