@@ -12,10 +12,11 @@
                 </div>
                 <div class="avatar">
                     <h3>Ma photo de profil {{ responseAvatar }}</h3>
-                    <img src="../../image/AvatarParDefaut.jpg" alt="Avatar">
-                    <label for="fileName">Choisir une nouvelle photo de profil</label>
-                    <input type="file" id="fileName" name="fileName">
-                    <InputSubmit v-on:click="changeAvatar(); displayAvatar();" content="Changer ma photo de profil" />
+                    <img src="../../image/AvatarParDefaut.jpg" alt="Avatar"><br>
+                    <label for="fileName">Choisir une nouvelle photo de profil</label><br>
+                    <input @change="changeAvatar" type="file" id="fileName" name="fileName">
+                    <!--<input v-on:click="(); displayAvatar();" type="file" id="fileName" name="fileName">-->
+
                 </div>
                 <div class="changePassword">
                     <label for="newPassword">Nouveau mot de passe</label><br>
@@ -30,9 +31,6 @@
                     <InputSubmit v-on:click="switchToNews()" content="Retourner au fil d'actualité" />
                 </div>
             </div>
-            <!--
-                Bonjour + nom de la personne si déjà rempli
-            -->
             <!--
                 Button => delete user dans BDD + tous les posts et commentaires en BDD
             -->
@@ -65,9 +63,9 @@ export default {
     },
     methods: {
         updatePassword() {
-            let validToken = localStorage.getItem('userToken');
+            let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
+            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/password";
             
             axios({method:'put', url: urlDesti, data: {
@@ -82,15 +80,16 @@ export default {
                 console.log(error);
             })
         },
-        /* changeAvatar() {
-            let validToken = localStorage.getItem('userToken');
+        changeAvatar(e) {
+            let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
+            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/avatar";
-            let bodyFormData = new FormData();
-            bodyFormData.append('image', imageFile);
+            let file = e.target.files[0].name;
+            let formData = new FormData();
+            formData.append("file", file);
 
-            axios({method:'put', url: urlDesti, data: bodyFormData, headers:{'Authorization': 'Bearer ' + userValidToken},
+            axios({method:'put', url: urlDesti, data: formData, headers:{'Authorization': 'Bearer ' + userValidToken},
             })
             .then(function(response) {
                 alert("Votre avatar vient d'être mis à jour");
@@ -100,12 +99,12 @@ export default {
                 console.log(error);
             })
         },
-        displayAvatar() {
+        /*displayAvatar() {
             alert("I'm here")
             let self = this;
-            let validToken = localStorage.getItem('userToken');
+            let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
+            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
             
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
@@ -121,9 +120,9 @@ export default {
             })
         }, */
         deleteProfil() {
-            let validToken = localStorage.getItem('userToken');
+            let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
+            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
 
             axios({method:'delete', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
@@ -131,7 +130,7 @@ export default {
             .then(function(response) {
                 alert("Votre compte vient d'être supprimer, à bientôt");
                 console.log(response);
-                localStorage.clear();
+                sessionStorage.clear();
             })
             .catch(function(error) {
                 console.log(error);
@@ -145,5 +144,8 @@ export default {
 </script>
 
 <style scoped>
-
+.avatar img {
+    width: 15%;
+    height: 15%;
+}
 </style>

@@ -38,9 +38,9 @@ export default {
     },
     methods: {
         updateService() {
-            let validToken = localStorage.getItem('userToken');
+            let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
+            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/service";
             
             axios({method:'put', url: urlDesti, data: {
@@ -61,16 +61,15 @@ export default {
         },
         displayService() {
             let self = this;
-            let validToken = localStorage.getItem('userToken');
+            let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
+            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
             
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
             })
             .then(function(response) {
                 if(response.status === 200) {
-                    alert(response.data.result[0].service)
                     self.mode = 'notFirstTime';
                     return self.services = response.data.result[0].service;
                 }

@@ -174,9 +174,7 @@ exports.updateProfilService = (req, res, next) => {
 exports.updateProfilAvatar = (req, res, next) => {
     let user_Id = req.params.id;
     let userId = parseInt(user_Id);
-    let avatar = req.file.originalname;
-
-    avatar = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+    let avatar = `${req.protocol}://${req.get("host")}/images/${req.body.file}`
 
     dbfile.db.connect(function (err) {
         if (err) {

@@ -38,9 +38,9 @@ export default {
             return self.mode = 'firstTime';
         },
         updateFirstName() {
-            let validToken = localStorage.getItem('userToken');
+            let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
+            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/firstName";
             
             axios({method:'put', url: urlDesti, data: {
@@ -56,9 +56,9 @@ export default {
             })
         },
         updateLastName() {
-            let validToken = localStorage.getItem('userToken');
+            let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
+            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/lastName";
 
             axios({method:'put', url: urlDesti, data: {
@@ -75,9 +75,9 @@ export default {
         },
         displayNames() {
             let self = this;
-            let validToken = localStorage.getItem('userToken');
+            let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = localStorage.getItem('userId');
+            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
             
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
