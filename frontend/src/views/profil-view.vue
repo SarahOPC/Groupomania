@@ -11,11 +11,11 @@
                     <SelectButton />
                 </div>
                 <div class="avatar">
-                    <h3>Ma photo de profil {{ responseAvatar }}</h3>
-                    <img src="../../image/AvatarParDefaut.jpg" alt="Avatar"><br>
+                    <h3>Ma photo de profil </h3>
+                    <img v-if="responseAvatar == ''" src="../../image/AvatarParDefaut.jpg" alt="Avatar"><br>
                     <label for="fileName">Choisir une nouvelle photo de profil</label><br>
-                    <input @change="changeAvatar" type="file" id="fileName" name="fileName">
-                    <!--<input v-on:click="(); displayAvatar();" type="file" id="fileName" name="fileName">-->
+                    <input @change="changeAvatarInDatabase" type="file" id="fileName" name="fileName">
+                    <img :src="responseAvatar" alt="Avatar">
 
                 </div>
                 <div class="changePassword">
@@ -80,7 +80,8 @@ export default {
                 console.log(error);
             })
         },
-        changeAvatar(e) {
+        changeAvatarInDatabase(e) {
+            let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = sessionStorage.getItem('userId');
@@ -94,13 +95,13 @@ export default {
             .then(function(response) {
                 alert("Votre avatar vient d'être mis à jour");
                 console.log(response);
+                self.displayAvatar();
             })
             .catch(function(error) {
                 console.log(error);
             })
         },
-        /*displayAvatar() {
-            alert("I'm here")
+        displayAvatar() {
             let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -111,14 +112,13 @@ export default {
             })
             .then(function(response) {
                 if(response.status === 200) {
-                    alert(response.data.result[0].avatar)
                     return self.responseAvatar = response.data.result[0].avatar;
                 }
             })
             .catch(function(error) {
                 console.log(error);
             })
-        }, */
+        },
         deleteProfil() {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');

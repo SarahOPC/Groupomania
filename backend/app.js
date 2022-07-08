@@ -23,7 +23,7 @@ app.use(cors({
 }));
 // Sécurité ---------------------------------------------------------------------
 
-app.use('/images', express.static(path.join(__dirname, 'images'))); // nom du dossier + images
+app.use('/images', express.static('images')); // nom du dossier + images
 
 app.use(express.json());
 app.use('/', userRoutes);
