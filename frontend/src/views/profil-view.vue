@@ -15,7 +15,7 @@
                     <img v-if="responseAvatar == ''" src="../../image/AvatarParDefaut.jpg" alt="Avatar"><br>
                     <label for="fileName">Choisir une nouvelle photo de profil</label><br>
                     <input @change="changeAvatarInDatabase" type="file" id="fileName" name="fileName">
-                    <img v-if="responseAvatar !== ''" :src="responseAvatar" alt="Avatar">
+                    <img crossorigin="anonymous" v-if="responseAvatar !== ''" :src="responseAvatar" alt="Avatar">
 
                 </div>
                 <div class="changePassword">
