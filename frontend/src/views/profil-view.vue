@@ -15,7 +15,7 @@
                     <img v-if="responseAvatar == ''" src="../../image/AvatarParDefaut.jpg" alt="Avatar"><br>
                     <label for="fileName">Choisir une nouvelle photo de profil</label><br>
                     <input @change="changeAvatarInDatabase" type="file" id="fileName" name="fileName">
-                    <img :src="responseAvatar" alt="Avatar">
+                    <img v-if="responseAvatar !== ''" :src="responseAvatar" alt="Avatar">
 
                 </div>
                 <div class="changePassword">
@@ -45,6 +45,7 @@ import InputSubmit from '@/components/InputSubmit.vue'
 import TextInput from '@/components/TextInput.vue'
 import SelectButton from '@/components/SelectButton.vue'
 import axios from 'axios'
+import FormData from 'form-data'
 
 export default {
     name: 'profil-view',
@@ -86,12 +87,12 @@ export default {
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/avatar";
-            let file = e.target.files[0].name;
+            const headersToPass = {'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data'};
+            let file = e.target.files[0];
             let formData = new FormData();
-            formData.append("file", file);
+            formData.append("image", file);
 
-            axios({method:'put', url: urlDesti, data: formData, headers:{'Authorization': 'Bearer ' + userValidToken},
-            })
+            axios({method:'put', url: urlDesti, data: formData, headers: headersToPass})
             .then(function(response) {
                 alert("Votre avatar vient d'être mis à jour");
                 console.log(response);
