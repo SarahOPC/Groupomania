@@ -4,13 +4,13 @@ const fs = require("fs");
 
 exports.createPost = (req, res, next) => {
     const postBodyText = req.body.text;
-    const postBodyUserId = req.body.user_id;
-    const postBodyImage = req.body.image;
+    const postUserId = req.params.id;
+    const postBodyImage = req.uniqueFileName;
 
     // variable = condition ? si oui : sinon
-    let postImage = postBodyImage != ''
-        ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
-        : null;
+    let postImage = postBodyImage == '' || postBodyImage == undefined || postBodyImage == null
+        ? null
+        : `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
 
     dbfile.db.connect(async function (err) {
         if (err) {
@@ -19,7 +19,7 @@ exports.createPost = (req, res, next) => {
         console.log("Connecté à la base de données");
 
         let params = [
-            postBodyText, postImage, postBodyUserId
+            postBodyText, postImage, postUserId
         ];
 
         dbfile.db.query(sqlRequests.sqlCreatePost, params, function (err, result) {

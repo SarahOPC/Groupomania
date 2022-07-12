@@ -1,21 +1,19 @@
 <template>
     <div>
         <Logo />
-        <div>
-            <h3>Quelque chose à partager</h3>
+        <div> 
+            <h3>Miamomania</h3>
+            <h4>Le réseau social de Groupomania</h4>
             <form>
                 <AreaForText />
-                <InputSubmit content="Valider" /><br>
-                <InputSubmit content="Modifier" /><br>
-                <InputSubmit content="Supprimer" /><br>
             </form>
-            <button type="button">Ajouter une image (.jpg ou .png)</button>
+            
         </div>
         <div>
             <div class="previousPost"></div><br>
             <InputSubmit content="J'aime" /><br>
             <InputSubmit content="Je n'aime pas" /><br>
-            <TextInput content="Commentaire" /><br>
+            <input type="text" id="comments" name="comments" placeholder="Mon commentaire"><br>
             <InputSubmit content="Valider" /><br>
             <InputSubmit content="Modifier" /><br>
             <InputSubmit content="Supprimer" /><br>
@@ -32,7 +30,7 @@
 import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
 import AreaForText from '@/components/AreaForText.vue'
-import TextInput from '@/components/TextInput.vue'
+//import axios from 'axios'
 
 export default {
     name: 'main-news-feed-view',
@@ -40,8 +38,10 @@ export default {
     Logo,
     InputSubmit,
     AreaForText,
-    TextInput
-}
+    },
+    methods: {
+        
+        }
 }
 
 

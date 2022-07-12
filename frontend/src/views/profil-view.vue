@@ -3,13 +3,14 @@
         <div>
             <Logo />
             <div>
-                <h2>Bonjour</h2>
+                <h2>Bonjour {{ firstName }}</h2>
                 <div class>
                     <TextInput />
                 </div>
                 <div class="service">
                     <SelectButton />
-                </div>
+                    <h2>{{ service }}</h2>
+                    </div>
                 <div class="avatar">
                     <h3>Ma photo de profil </h3>
                     <img v-if="responseAvatar == ''" src="../../image/AvatarParDefaut.jpg" alt="Avatar"><br>
@@ -49,20 +50,61 @@ import FormData from 'form-data'
 
 export default {
     name: 'profil-view',
+    beforeMount() {
+        this.getFirstName();
+        this.getService();
+        this.displayAvatar();
+    },
     components: {
-    Logo,
-    InputSubmit,
-    TextInput,
-    SelectButton,
+        Logo,
+        InputSubmit,
+        TextInput,
+        SelectButton,
     },
     data() {
         return {
             password: '',
             mode: 'firstTime',
-            responseAvatar: ''
+            responseAvatar: '',
+            firstName: '',
+            service: ''
         }
     },
     methods: {
+        getFirstName: function() {
+            let self = this;
+            let validToken = sessionStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = sessionStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
+
+            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            .then(function(response) {
+                if(response.status === 200) {
+                return self.firstName = response.data.result[0].prenom;
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
+        getService() {
+            let self = this;
+            let validToken = sessionStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = sessionStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
+
+            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            .then(function(response) {
+                if(response.status === 200) {
+                return self.service = response.data.result[0].service;
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
         updatePassword() {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -71,11 +113,13 @@ export default {
             
             axios({method:'put', url: urlDesti, data: {
                     password: this.password
-                }, headers:{'Authorization': 'Bearer ' + userValidToken},
+                }, headers:{'Authorization': 'Bearer ' + userValidToken}
             })
             .then(function(response) {
+                if(response.status === 200) {
                 alert("Votre mot de passe est maintenant modifié");
                 console.log(response);
+                }
             })
             .catch(function(error) {
                 console.log(error);
@@ -94,9 +138,11 @@ export default {
 
             axios({method:'put', url: urlDesti, data: formData, headers: headersToPass})
             .then(function(response) {
+                if(response.status === 200) {
                 alert("Votre avatar vient d'être mis à jour");
                 console.log(response);
                 self.displayAvatar();
+                }
             })
             .catch(function(error) {
                 console.log(error);
@@ -129,9 +175,11 @@ export default {
             axios({method:'delete', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
             })
             .then(function(response) {
+                if(response.status === 200) {
                 alert("Votre compte vient d'être supprimer, à bientôt");
                 console.log(response);
                 sessionStorage.clear();
+                }
             })
             .catch(function(error) {
                 console.log(error);
