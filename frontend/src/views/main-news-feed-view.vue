@@ -7,8 +7,9 @@
             <form>
                 <AreaForText />
             </form>
-            
+            <PostComponent />
         </div>
+        
         <div>
             <div class="previousPost"></div><br>
             <InputSubmit content="J'aime" /><br>
@@ -30,7 +31,7 @@
 import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
 import AreaForText from '@/components/AreaForText.vue'
-//import axios from 'axios'
+import PostComponent from '@/components/PostComponent.vue'
 
 export default {
     name: 'main-news-feed-view',
@@ -38,10 +39,8 @@ export default {
     Logo,
     InputSubmit,
     AreaForText,
-    },
-    methods: {
-        
-        }
+    PostComponent
+    }
 }
 
 

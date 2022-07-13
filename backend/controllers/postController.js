@@ -33,9 +33,9 @@ exports.createPost = (req, res, next) => {
 
 exports.updatePost = (req, res, next) => {
     const postBodyText = req.body.text;
-    const postBodyUserId = req.body.user_id;
+    const postUserId = req.params.id;
     const postBodyImage = req.body.image;
-    const postId = req.params.id;
+    const postId = req.params.postId;
 
     let postImage = postBodyImage != ''
         ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
@@ -48,7 +48,7 @@ exports.updatePost = (req, res, next) => {
         console.log("Connecté à la base de données");
 
         let params = [
-            postBodyText, postImage, postBodyUserId, postId
+            postBodyText, postImage, postUserId, postId
         ];
 
         dbfile.db.query(sqlRequests.sqlUpdatePost, params, function (err, result) {
