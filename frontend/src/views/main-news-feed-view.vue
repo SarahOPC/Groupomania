@@ -2,7 +2,7 @@
     <div>
         <Logo />
         <div> 
-            <h3>Miamomania</h3>
+            <h1>Miamomania</h1>
             <h4>Le réseau social de Groupomania</h4>
             <form>
                 <AreaForText />

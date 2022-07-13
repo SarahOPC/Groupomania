@@ -19,28 +19,26 @@ export default {
     },
     data() {
         return {
-            text: ""
+            text: "",
+            file: ""
         }
     },
     methods: {
-        retrieveImage(event) {
-            let file = event.target.files[0];
-            return file;
+        retrieveImage(e) {
+            return this.file = e.target.files[0];
         },
         createPosts() {
-            let self = this;
+            //let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id;
-            this.retrieveImage();
+            const headersToPass = {'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data'};
             let formData = new FormData();
-            formData.append("image", self.file);
+            formData.append("image", this.file);
+            formData.append("text", this.text);
 
-            axios({method:'post', url: urlDesti, data: {
-                    text: this.text,
-                    formData : this.formData
-                }, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            axios({method:'post', url: urlDesti, data: formData, headers: headersToPass})
             .then(function(response) {
                 if(response.status === 200) {
                     console.log(response);
