@@ -7,11 +7,12 @@
             <form>
                 <AreaForText />
             </form>
-            <PostComponent />
         </div>
         
         <div>
-            <div class="previousPost"></div><br>
+            <div class="previousPost">
+                <PostComponent />
+            </div><br>
             <InputSubmit content="J'aime" /><br>
             <InputSubmit content="Je n'aime pas" /><br>
             <input type="text" id="comments" name="comments" placeholder="Mon commentaire"><br>

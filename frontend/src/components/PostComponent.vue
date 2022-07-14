@@ -1,9 +1,10 @@
 <template>
     <div>
-        <!--<div v-for="(text, image) in posts">{{ text }} - {{ image }} :key="index"</div>-->
-        {{ text }}
-        <img crossorigin="anonymous" :src="image" alt="image du post">
-
+        <div v-for="post in posts" :key="post.id" >{{ post.userId }} - {{ post.text }}
+            <div v-if="post.image != '' || post.image != null">
+                <img crossorigin="anonymous" :src="post.image" alt="image du post">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -17,13 +18,12 @@ export default {
     },
     data() {
         return {
-            image: '',
-            text: ''
+            posts: ''
         }
     },
     methods: {
         getAllPosts: function() {
-            //let self = this;
+            let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/";
@@ -31,9 +31,15 @@ export default {
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
-                    return response;
-                    //return {self.text: response.data.result[1].text,
-                            //self.image: response.data.result[1].image}
+                    /* for(let i = 0; i < response.data.result.length; i ++) {
+                        let text = response.data.result[i].text;
+                        let image = response.data.result[i].image;
+                        let userId = response.data.result[i].userId;
+                        let post = {text, image, userId};
+                        return post; 
+                    }*/
+                    //return self.posts = this.post;
+                    return self.posts = response.data.result;
                 }
             })
             .catch(function(error) {
