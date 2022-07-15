@@ -5,7 +5,7 @@
                 <img crossorigin="anonymous" :src="post.image" alt="image du post">
             </div>
             <div>
-                <InputSubmit v-bind:postIds="post.id" v-on:click="displayPostUpdateArea(post.id); getOnePost(post.id);" content="Modifier" />
+                <InputSubmit v-bind:postIds="post.id" v-on:click="getOnePost(post.id);" content="Modifier" />
                 <div v-if="displayPostUpdate">
                     <AreaForUpdatingPost />
                 </div>
@@ -61,13 +61,6 @@ export default {
                 console.log(error);
             })
         },
-        displayPostUpdateArea(postId) {
-            let currentPostId = postId;
-            if(postId == currentPostId) {
-                self.displayPostUpdate = true;
-                return postId;
-            }
-        },
         getOnePost(postId) {
             let self = this;
             let validToken = sessionStorage.getItem('userToken');
@@ -78,6 +71,7 @@ export default {
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
+                    self.displayPostUpdate = true;
                     return self.posts = response.data.result;
                 }
             })

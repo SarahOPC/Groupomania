@@ -118,7 +118,7 @@ exports.getAllPosts = (req, res, next) => {
 };
 
 exports.getOnePost = (req, res, next) => {
-    const postId = req.params.id;
+    const postId = req.params.postId;
 
     dbfile.db.connect(async function (err) {
         if (err) {
