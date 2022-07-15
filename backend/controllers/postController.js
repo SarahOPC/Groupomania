@@ -63,7 +63,7 @@ exports.updatePost = (req, res, next) => {
 };
 
 exports.deletePost = (req, res, next) => {
-    let postId = req.params.id;
+    let postId = req.params.postId;
 
     dbfile.db.connect(async function (err) {
         if (err) {

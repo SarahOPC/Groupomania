@@ -5,12 +5,12 @@
                 <img crossorigin="anonymous" :src="post.image" alt="image du post">
             </div>
             <div>
-                <InputSubmit v-bind:postIds="post.id" v-on:click="displayPostUpdateArea(post.id)" content="Modifier" />
+                <InputSubmit v-bind:postIds="post.id" v-on:click="displayPostUpdateArea(post.id); getOnePost(post.id);" content="Modifier" />
                 <div v-if="displayPostUpdate">
                     <AreaForUpdatingPost />
                 </div>
             </div>
-            <InputSubmit v-on:click="deleteOnePost()" content="Supprimer" /><br>
+            <InputSubmit v-on:click="deleteOnePost(post.id)" content="Supprimer" /><br>
             <InputSubmit v-on:click="ratingOnePost()" content="J'aime" />
             <InputSubmit v-on:click="ratingOnePost()" content="Je n'aime pas" /><br>
             <input type="text" id="comments" name="comments" placeholder="Mon commentaire">
@@ -62,12 +62,31 @@ export default {
             })
         },
         displayPostUpdateArea(postId) {
-            //if()
-            this.displayPostUpdate = true;
-            return postId;
+            let currentPostId = postId;
+            if(postId == currentPostId) {
+                self.displayPostUpdate = true;
+                return postId;
+            }
         },
-        /* deleteOnePost() {
-            //--------------------------------------- postId----------------------------------//
+        getOnePost(postId) {
+            let self = this;
+            let validToken = sessionStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = sessionStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
+
+            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            .then(function(response) {
+                if(response.status === 200) {
+                    return self.posts = response.data.result;
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
+        deleteOnePost(postId) {
+            let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = sessionStorage.getItem('userId');
@@ -78,13 +97,14 @@ export default {
                 if(response.status === 200) {
                     console.log(response);
                     alert("Votre post vient d'être supprimé");
+                    self.getAllPosts();
                 }
             })
             .catch(function(error) {
                 console.log(error);
             })
         },
-        addOneComment() {
+        /* addOneComment() {
             //--------------------------------------- postId----------------------------------//
             //--------------------------------------- commentId----------------------------------//
             let validToken = sessionStorage.getItem('userToken');

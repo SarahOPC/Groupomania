@@ -3,7 +3,7 @@
     <div>
         <label for="imagePost">Changer l'image (.jpg ou .png)</label>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
-        <InputSubmit v-on:click="updateOnePost()" content="Publier" /><br>
+        <InputSubmit v-on:click="updateOnePost()" content="Publier mon post modifié" /><br>
     </div>
         
 </template>
@@ -25,7 +25,6 @@ export default {
     },
     methods: {
         updateOnePost(postId) {
-            let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = sessionStorage.getItem('userId');
@@ -35,11 +34,10 @@ export default {
             formData.append("image", this.file);
             formData.append("text", this.text);
 
-            axios({method:'PUT', url: urlDesti, data: formData, headers: headersToPass})
+            axios({method:'put', url: urlDesti, data: formData, headers: headersToPass})
             .then(function(response) {
                 if(response.status === 200) {
                     console.log(response);
-                    return self.displayPostUpdate = true;
                 }
             })
             .catch(function(error) {
