@@ -4,10 +4,12 @@
             <div v-if="(typeof post.image) == 'string' ">
                 <img crossorigin="anonymous" :src="post.image" alt="image du post">
             </div>
-            <InputSubmit v-bind:postIds="post.id" v-on:click="updateOnePost()" content="Modifier" />
-            <!--<div v-if=""> ---------------------au clic sur modifier------------------------->
-                <!--<AreaForText />
-            </div>-->
+            <div>
+                <InputSubmit v-bind:postIds="post.id" v-on:click="displayPostUpdateArea(post.id)" content="Modifier" />
+                <div v-if="displayPostUpdate">
+                    <AreaForUpdatingPost />
+                </div>
+            </div>
             <InputSubmit v-on:click="deleteOnePost()" content="Supprimer" /><br>
             <InputSubmit v-on:click="ratingOnePost()" content="J'aime" />
             <InputSubmit v-on:click="ratingOnePost()" content="Je n'aime pas" /><br>
@@ -20,15 +22,15 @@
 
 <script>
 import InputSubmit from '@/components/InputSubmit.vue'
-//import AreaForText from '@/components/AreaForText.vue'
+import AreaForUpdatingPost from '@/components/AreaForUpdatingPost.vue'
 import axios from 'axios'
 
 export default {
     name: 'postComponent',
     components: {
     InputSubmit,
-    //AreaForText
-},
+    AreaForUpdatingPost
+    },
     beforeMount() {
         this.getAllPosts();
     },
@@ -38,7 +40,8 @@ export default {
     data() {
         return {
             posts: '',
-            postId: this.postIds
+            postId: this.postIds,
+            displayPostUpdate: false
         }
     },
     methods: {
@@ -58,30 +61,10 @@ export default {
                 console.log(error);
             })
         },
-        updateOnePost() {
-            //--------------------------------------- postId----------------------------------//
-            //--------------------------------------- AreaForText-----------------------------//
-            let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
-            let postId = self.postId;
-            console.log(postId);
-            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
-            const headersToPass = {'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data'};
-            let formData = new FormData();
-            formData.append("image", this.file);
-            formData.append("text", this.text);
-
-            axios({method:'put', url: urlDesti, data: formData, headers: headersToPass})
-            .then(function(response) {
-                if(response.status === 200) {
-                    console.log(response);
-                }
-            })
-            .catch(function(error) {
-                console.log(error);
-            })
+        displayPostUpdateArea(postId) {
+            //if()
+            this.displayPostUpdate = true;
+            return postId;
         },
         /* deleteOnePost() {
             //--------------------------------------- postId----------------------------------//

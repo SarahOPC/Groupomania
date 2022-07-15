@@ -1,6 +1,7 @@
 const dbfile = require('../config/db');
 const sqlRequests = require('../models/postModel');
 const fs = require("fs");
+const { Console } = require('console');
 
 exports.createPost = (req, res, next) => {
     const postBodyText = req.body.text;
@@ -34,12 +35,13 @@ exports.createPost = (req, res, next) => {
 exports.updatePost = (req, res, next) => {
     const postBodyText = req.body.text;
     const postUserId = req.params.id;
-    const postBodyImage = req.body.image;
+    const postBodyImage = req.uniqueFileName;
+    console.log(postBodyImage);
     const postId = req.params.postId;
 
-    let postImage = postBodyImage != ''
-        ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
-        : null;
+    let postImage = postBodyImage == '' || postBodyImage == undefined || postBodyImage == null
+        ? null
+        : `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
 
     dbfile.db.connect(async function (err) {
         if (err) {
