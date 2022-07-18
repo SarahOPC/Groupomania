@@ -1,8 +1,8 @@
 // Requêtes SQL préparées
 const sqlRequests = {
-    sqlCreateComment: 'INSERT INTO comments (`text`, `user_id`, `post_id`) VALUES (?, ?, ?)',
+    sqlCreateComment: 'INSERT INTO comments (`text`, `userId`, `postId`) VALUES (?, ?, ?)',
     sqlDeleteComment: 'DELETE FROM comments WHERE id = ?',
-    sqlGetAllComments: 'SELECT * FROM comments WHERE post_id = ?'
+    sqlGetAllComments: 'SELECT * FROM comments WHERE postId = ?'
 
 };
 

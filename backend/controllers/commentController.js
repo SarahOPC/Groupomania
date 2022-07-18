@@ -2,8 +2,8 @@ const dbfile = require('../config/db');
 const sqlRequests = require('../models/commentModel');
 
 exports.createComment = (req, res, next) => {
-    let post_Id = req.params.id;
-    let userId = req.body.user_id;
+    let post_Id = req.params.postId;
+    let userId = req.params.id;
     let commentText = req.body.text;
     let postId = parseInt(post_Id);
 

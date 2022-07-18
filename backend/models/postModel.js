@@ -6,7 +6,7 @@ const sqlRequests = {
     sqlUpdatePost : "UPDATE posts SET text = ?, image = ?, userId = ? WHERE id = ?" ,
     sqlCreatePost: "INSERT INTO posts (`text`, `image`, `userId`) VALUES (?, ?, ?)",
     sqlGetOneForDelete : "SELECT image FROM posts WHERE id = ?",
-    sqlLikesDislikes : "SELECT * FROM likesdislikes WHERE postId = ? AND userId = ?",
+    sqlLikesDislikes : "SELECT value FROM likesdislikes WHERE postId = ? AND userId = ?",
     sqlCreatingLike: "INSERT INTO likesdislikes (`postId`, `userId`, `value`) VALUES (?, ?, ?)",
     sqlDeletingLike: "DELETE FROM likesdislikes WHERE postId = ? AND userId = ?"
 };

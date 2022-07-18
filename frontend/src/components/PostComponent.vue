@@ -13,9 +13,13 @@
             <InputSubmit v-on:click="deleteOnePost(post.id)" content="Supprimer" /><br>
             <InputSubmit v-on:click="likingOnePost(post.id)" content="J'aime" />
             <InputSubmit v-on:click="dislikingOnePost(post.id)" content="Je n'aime pas" /><br>
-            <input type="text" id="comments" name="comments" placeholder="Mon commentaire">
-            <InputSubmit v-on:click="addOneComment()" content="Publier" />
-            <InputSubmit v-on:click="deleteOneComment()" content="Supprimer" /><br>
+
+            <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}</div>
+
+            <InputSubmit v-on:click="getOnePostForComments(post.id)" content="Ajouter un commentaire" /><br>
+            <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
+            <InputSubmit v-on:click="addOneComment(post.id)" content="Publier mon commentaire" />
+            <InputSubmit v-on:click="deleteOneComment(post.id)" content="Supprimer mon commentaire" /><br>
         </div>
     </div>
 </template>
@@ -35,13 +39,17 @@ export default {
         this.getAllPosts();
     },
     props: {
-        postIds: Number
+        postIds: Number,
+        commentIds: Number
     },
     data() {
         return {
             posts: '',
             postId: this.postIds,
-            displayPostUpdate: false
+            displayPostUpdate: false,
+            text: '',
+            comments: '',
+            commentId: this.commentIds
         }
     },
     methods: {
@@ -54,7 +62,24 @@ export default {
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
+                    self.getAllComments();
                     return self.posts = response.data.result.slice().reverse();
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
+        getAllComments(postId) {
+            let self = this;
+            let validToken = sessionStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + postId + "/comment";
+
+            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            .then(function(response) {
+                if(response.status === 200) {
+                    return self.comments = response.data.result.slice().reverse();
                 }
             })
             .catch(function(error) {
@@ -98,26 +123,42 @@ export default {
                 console.log(error);
             })
         },
-        /* addOneComment() {
-            //--------------------------------------- postId----------------------------------//
-            //--------------------------------------- commentId----------------------------------//
+        getOnePostForComments(postId) {
+            let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = sessionStorage.getItem('userId');
-            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/comment";
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
 
-            axios({method:'delete', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
-                    console.log(response);
-                    alert("Votre post vient d'être supprimé");
+                    return self.posts = response.data.result;
                 }
             })
             .catch(function(error) {
                 console.log(error);
             })
         },
-        deleteOneComment() {
+        addOneComment(postId) {
+            let self = this;
+            let validToken = sessionStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = sessionStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/comment";
+
+            axios({method:'post', url: urlDesti, data: {text: this.text}, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            .then(function(response) {
+                if(response.status === 200) {
+                    console.log(response);
+                    self.getAllPosts();
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
+        /* deleteOneComment() {
             //--------------------------------------- postId----------------------------------//
             //--------------------------------------- commentId----------------------------------//
             let validToken = sessionStorage.getItem('userToken');
@@ -140,15 +181,16 @@ export default {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = sessionStorage.getItem('userId');
-            let like = 1;
+            let likesdislikes = 1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
-            axios({method:'post', url: urlDesti, data: like, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            axios({method:'post', url: urlDesti, data: {likesdislikes: likesdislikes}, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
                     console.log(response);
                 }
             })
+
             .catch(function(error) {
                 console.log(error);
             })
@@ -157,10 +199,10 @@ export default {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = sessionStorage.getItem('userId');
-            let like = -1;
+            let likesdislikes = -1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
-            axios({method:'post', url: urlDesti, data: like, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            axios({method:'post', url: urlDesti, data: {likesdislikes: likesdislikes}, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
                     console.log(response);

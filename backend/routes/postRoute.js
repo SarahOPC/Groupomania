@@ -9,6 +9,6 @@ router.put('/:id/:postId', auth, fileUploader.saveFile, postController.updatePos
 router.delete('/:id/:postId', auth, postController.deletePost);
 router.get('/', auth, postController.getAllPosts);
 router.get('/:id/:postId', auth, postController.getOnePost);
-router.post('/:id/like', auth, postController.ratingPost);
+router.post('/:id/:postId/like', auth, postController.ratingPost);
 
 module.exports = router;
