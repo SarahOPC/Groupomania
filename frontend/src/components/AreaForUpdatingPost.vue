@@ -1,21 +1,24 @@
 <template>
-        <textarea v-model="text" name="newPostFromUser" rows="7" cols="50"></textarea><br>
+        <textarea name="newPostFromUser" rows="7" cols="50" :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"></textarea><br>
     <div>
         <label for="imagePost">Changer l'image (.jpg ou .png)</label>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
-        <InputSubmit v-on:click="updateOnePost()" content="Publier mon post modifié" /><br>
+        <InputSubmit v-on:click="updateOnePost(postId), reloadPageAfterChange()" content="Publier mon post modifié" /><br>
     </div>
         
 </template>
 
 <script>
 import InputSubmit from '@/components/InputSubmit.vue'
+//import PostComponent from '@/components/PostComponent.vue'
 import axios from 'axios'
 
 export default {
     name: "areaForUpdatingPost",
     components: {
-    InputSubmit
+    InputSubmit,
+    //PostComponent
     },
     data() {
         return {
@@ -23,7 +26,15 @@ export default {
             file: ""
         }
     },
+    props: {
+        modelValue: String,
+        postId: Number
+    },
+    emits: ['update:modelValue'],
     methods: {
+        retrieveImage(e) {
+            return this.file = e.target.files[0];
+        },
         updateOnePost(postId) {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -32,7 +43,8 @@ export default {
             const headersToPass = {'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data'};
             let formData = new FormData();
             formData.append("image", this.file);
-            formData.append("text", this.text);
+            formData.append("text", this.modelValue);
+            console.log("file = " + this.file);
 
             axios({method:'put', url: urlDesti, data: formData, headers: headersToPass})
             .then(function(response) {
@@ -43,6 +55,12 @@ export default {
             .catch(function(error) {
                 console.log(error);
             })
+        },
+        changeInputContent(content) {
+            this.$emit('update:modelValue', content)
+        },
+        reloadPageAfterChange() {
+            this.$refs.PostComponent.getAllPosts();
         }
     }
 }

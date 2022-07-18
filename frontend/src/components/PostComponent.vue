@@ -7,12 +7,12 @@
             <div>
                 <InputSubmit v-bind:postIds="post.id" v-on:click="getOnePost(post.id);" content="Modifier" />
                 <div v-if="displayPostUpdate">
-                    <AreaForUpdatingPost />
+                    <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id"/>
                 </div>
             </div>
             <InputSubmit v-on:click="deleteOnePost(post.id)" content="Supprimer" /><br>
-            <InputSubmit v-on:click="ratingOnePost()" content="J'aime" />
-            <InputSubmit v-on:click="ratingOnePost()" content="Je n'aime pas" /><br>
+            <InputSubmit v-on:click="likingOnePost(post.id)" content="J'aime" />
+            <InputSubmit v-on:click="dislikingOnePost(post.id)" content="Je n'aime pas" /><br>
             <input type="text" id="comments" name="comments" placeholder="Mon commentaire">
             <InputSubmit v-on:click="addOneComment()" content="Publier" />
             <InputSubmit v-on:click="deleteOneComment()" content="Supprimer" /><br>
@@ -135,10 +135,41 @@ export default {
             .catch(function(error) {
                 console.log(error);
             })
-        },
-        ratingOnePost() {
+        }, */
+        likingOnePost(postId) {
+            let validToken = sessionStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = sessionStorage.getItem('userId');
+            let like = 1;
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
-        } */
+            axios({method:'post', url: urlDesti, data: like, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            .then(function(response) {
+                if(response.status === 200) {
+                    console.log(response);
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        },
+        dislikingOnePost(postId) {
+            let validToken = sessionStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            let id = sessionStorage.getItem('userId');
+            let like = -1;
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
+
+            axios({method:'post', url: urlDesti, data: like, headers:{'Authorization': 'Bearer ' + userValidToken}})
+            .then(function(response) {
+                if(response.status === 200) {
+                    console.log(response);
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        }
     }
 }
 </script>

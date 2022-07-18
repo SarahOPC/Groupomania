@@ -36,7 +36,6 @@ exports.updatePost = (req, res, next) => {
     const postBodyText = req.body.text;
     const postUserId = req.params.id;
     const postBodyImage = req.uniqueFileName;
-    console.log(postBodyImage);
     const postId = req.params.postId;
 
     let postImage = postBodyImage == '' || postBodyImage == undefined || postBodyImage == null
@@ -142,9 +141,8 @@ exports.getOnePost = (req, res, next) => {
 
 exports.ratingPost = (req, res, next) => {
     let likes = req.body.likesdislikes; // 1, 0 ou -1
-    let userId = req.body.user_id;
-    let post_Id = req.params.id;
-    let postId = parseInt(post_Id);
+    let userId = req.params.id;
+    let postId = req.params.postId;
 
     dbfile.db.connect(async function (err) {
         if (err) {
