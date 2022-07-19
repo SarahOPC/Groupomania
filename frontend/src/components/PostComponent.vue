@@ -1,25 +1,33 @@
 <template>
     <div>
-        <div v-for="post in posts" :key="post.id">{{ post.id }} - {{ post.userId }} - {{ post.text }}
+        <div v-for="post in posts" :key="post.id">{{ post.userId }} - {{ post.text }}
             <div v-if="(typeof post.image) == 'string' ">
                 <img crossorigin="anonymous" :src="post.image" alt="image du post">
             </div>
             <div>
-                <InputSubmit v-bind:postIds="post.id" v-on:click="getOnePost(post.id);" content="Modifier" />
+                <InputSubmit v-bind:postIds="post.id" v-on:click="getOnePost(post.id)" content="Modifier" />
                 <div v-if="displayPostUpdate">
-                    <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id"/>
+                    <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()"/>
                 </div>
             </div>
             <InputSubmit v-on:click="deleteOnePost(post.id)" content="Supprimer" /><br>
             <InputSubmit v-on:click="likingOnePost(post.id)" content="J'aime" />
             <InputSubmit v-on:click="dislikingOnePost(post.id)" content="Je n'aime pas" /><br>
 
-            <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}</div>
+            <InputSubmit v-bind:postIds="post.id" v-on:click="getAllComments(post.id)" content="Voir tous les commentaires" /><br>
+            <div v-if="displayCommentsArea">
+                <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
+                    <InputSubmit v-bind:commentIds="comment.id" v-on:click="deleteOneComment(post.id, comment.id)" content="Supprimer mon commentaire" /><br>
+                </div>
+            </div>
 
             <InputSubmit v-on:click="getOnePostForComments(post.id)" content="Ajouter un commentaire" /><br>
-            <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
-            <InputSubmit v-on:click="addOneComment(post.id)" content="Publier mon commentaire" />
-            <InputSubmit v-on:click="deleteOneComment(post.id)" content="Supprimer mon commentaire" /><br>
+            <div v-if="displayNewCommentArea">
+                <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
+                <InputSubmit v-on:click="addOneComment(post.id)" content="Publier mon commentaire" />
+            </div>
+            
+
         </div>
     </div>
 </template>
@@ -49,11 +57,13 @@ export default {
             displayPostUpdate: false,
             text: '',
             comments: '',
-            commentId: this.commentIds
+            commentId: this.commentIds,
+            displayNewCommentArea: false,
+            displayCommentsArea: false
         }
     },
     methods: {
-        getAllPosts: function() {
+        getAllPosts() {
             let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -62,7 +72,7 @@ export default {
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
-                    self.getAllComments();
+                    self.displayPostUpdate =false;
                     return self.posts = response.data.result.slice().reverse();
                 }
             })
@@ -74,11 +84,14 @@ export default {
             let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
-            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + postId + "/comment";
+            let id = sessionStorage.getItem('userId');
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/comment";
 
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
+                    console.log(response.data.result);
+                    self.displayCommentsArea = true;
                     return self.comments = response.data.result.slice().reverse();
                 }
             })
@@ -133,7 +146,9 @@ export default {
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
+                    self.displayNewCommentArea = true;
                     return self.posts = response.data.result;
+                    
                 }
             })
             .catch(function(error) {
@@ -152,31 +167,32 @@ export default {
                 if(response.status === 200) {
                     console.log(response);
                     self.getAllPosts();
+                    self.displayNewCommentArea = false;
                 }
             })
             .catch(function(error) {
                 console.log(error);
             })
         },
-        /* deleteOneComment() {
-            //--------------------------------------- postId----------------------------------//
-            //--------------------------------------- commentId----------------------------------//
+        deleteOneComment(postId, commentId) {
+            let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = sessionStorage.getItem('userId');
-            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + commentId + "/comment";
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/" + commentId + "/comment";
 
             axios({method:'delete', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
                     console.log(response);
-                    alert("Votre post vient d'être supprimé");
+                    alert("Votre commentaire vient d'être supprimé");
+                    self.getAllComments(postId);
                 }
             })
             .catch(function(error) {
                 console.log(error);
             })
-        }, */
+        },
         likingOnePost(postId) {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');

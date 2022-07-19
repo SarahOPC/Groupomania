@@ -27,7 +27,7 @@ exports.createComment = (req, res, next) => {
 };
 
 exports.deleteComment = (req, res, next) => {
-    let comment_Id = req.params.id;
+    let comment_Id = req.params.commentId;
     let commentId = parseInt(comment_Id);
 
     dbfile.db.connect(async function (err) {
@@ -50,7 +50,7 @@ exports.deleteComment = (req, res, next) => {
 };
 
 exports.getAllComments = (req, res, next) => {
-    let post_Id = req.params.id;
+    let post_Id = req.params.postId;
     let postId = parseInt(post_Id);
 
     dbfile.db.connect(async function (err) {

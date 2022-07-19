@@ -8,6 +8,14 @@
   <router-view></router-view>
 </template>
 
+<script>
+/* import mixins from '@/mixins/mixinsTokenAndId'
+
+export default {
+    mixins: [mixins]
+} */
+</script>
+
 <style>
 #app {
   font-family: Lato, Helvetica, Arial, sans-serif;

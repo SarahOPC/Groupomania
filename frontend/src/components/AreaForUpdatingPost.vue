@@ -1,24 +1,22 @@
 <template>
-        <textarea name="newPostFromUser" rows="7" cols="50" :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"></textarea><br>
     <div>
+        <textarea type="text" name="newPostFromUser" rows="7" cols="50" :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"></textarea><br>
         <label for="imagePost">Changer l'image (.jpg ou .png)</label>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
-        <InputSubmit v-on:click="updateOnePost(postId), reloadPageAfterChange()" content="Publier mon post modifié" /><br>
+        <InputSubmit v-on:click="updateOnePost(postId)" content="Publier mon post modifié" /><br>
     </div>
         
 </template>
 
 <script>
 import InputSubmit from '@/components/InputSubmit.vue'
-//import PostComponent from '@/components/PostComponent.vue'
 import axios from 'axios'
 
 export default {
     name: "areaForUpdatingPost",
     components: {
-    InputSubmit,
-    //PostComponent
+    InputSubmit
     },
     data() {
         return {
@@ -30,12 +28,13 @@ export default {
         modelValue: String,
         postId: Number
     },
-    emits: ['update:modelValue'],
+    emits: ['reloadPostsPage', 'update:modelValue'],
     methods: {
         retrieveImage(e) {
             return this.file = e.target.files[0];
         },
         updateOnePost(postId) {
+            let self = this;
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
             let id = sessionStorage.getItem('userId');
@@ -44,12 +43,14 @@ export default {
             let formData = new FormData();
             formData.append("image", this.file);
             formData.append("text", this.modelValue);
-            console.log("file = " + this.file);
+            console.log(this.file);
+            console.log(this.modelValue);
 
             axios({method:'put', url: urlDesti, data: formData, headers: headersToPass})
             .then(function(response) {
                 if(response.status === 200) {
                     console.log(response);
+                    return self.$emit('reloadPostsPage');
                 }
             })
             .catch(function(error) {
@@ -58,9 +59,6 @@ export default {
         },
         changeInputContent(content) {
             this.$emit('update:modelValue', content)
-        },
-        reloadPageAfterChange() {
-            this.$refs.PostComponent.getAllPosts();
         }
     }
 }
