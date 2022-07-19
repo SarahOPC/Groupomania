@@ -1,5 +1,10 @@
 <template>
     <div>
+        <nav>
+            <router-link to="/news">Voir le fil d'actualité</router-link> | 
+            <!--<router-link to="/logout">Se déconnecter</router-link>-->
+        </nav>
+        <router-view></router-view>
         <div>
             <Logo />
             <div>
@@ -193,6 +198,19 @@ export default {
 </script>
 
 <style scoped>
+
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+}
 .avatar img {
     width: 15%;
     height: 15%;

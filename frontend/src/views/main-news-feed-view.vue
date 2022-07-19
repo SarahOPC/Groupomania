@@ -1,4 +1,9 @@
 <template>
+<nav>
+    <router-link to="/profil">Voir mon profil</router-link> |
+    <!--<router-link to="/logout">Se déconnecter</router-link>-->
+  </nav>
+  <router-view></router-view>
     <div>
         <Logo />
         <div> 
@@ -16,7 +21,6 @@
         </div>
         <!--
             Menu avec Profil et deconnexion
-            Précédents posts en ordre antéchronologique
         -->
     </div>
 </template>
@@ -41,4 +45,16 @@ export default {
 
 <style scoped>
 
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+}
 </style>

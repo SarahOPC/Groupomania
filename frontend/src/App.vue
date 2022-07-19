@@ -1,8 +1,6 @@
 <template>
   <nav>
     <router-link to="/">Se connecter</router-link> |
-    <router-link to="/profil">Voir mon profil</router-link> |
-    <router-link to="/news">Voir le fil d'actualité</router-link> | 
     <!--<router-link to="/logout">Se déconnecter</router-link>-->
   </nav>
   <router-view></router-view>
