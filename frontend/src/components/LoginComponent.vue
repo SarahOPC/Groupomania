@@ -12,8 +12,8 @@
     <div class="switch" v-if="mode == 'login'" @click="switchToSignup()">Vous n'êtes pas encore inscrit, cliquez ici</div>
     <div class="switch" v-else @click="switchToLogin()">Déjà inscrit, cliquez ici</div>
 
-    <button type="button" class="btn btn-outline-dark" v-if="mode == 'login'" v-on:click="findUser()">Connexion</button>
-    <button type="button" class="btn btn-outline-dark" v-else v-on:click="createUser()">Créer un compte</button>
+    <button type="button" class="btn" v-if="mode == 'login'" v-on:click="findUser()">Connexion</button>
+    <button type="button" class="btn" v-else v-on:click="createUser()">Créer un compte</button>
 </div>
 <div v-if="mode !== 'login'">
   <ul>Mot de passe demandé :
@@ -89,17 +89,27 @@ export default {
 </script>
 
 <style scoped>
-
-.container.button{
-  background-color: #000000;
+.btn {
+  --bs-btn-bg: #FFD7D7;
+  --bs-btn-border-radius: 0.5em;
+  --bs-btn-box-shadow: inset 0 0 0 0 #FD2D01;
+  --bs-btn-font-size: 1em;
+  transition: ease-out 0.3s;
 }
 
-.container.button :hover {
-  background-color:  #FD2D01;
+.btn:hover {
+  --bs-btn-hover-color: #FFD7D7;
+  --bs-btn-hover-bg: #FD2D01;
+  --bs-btn-hover-border-color: #FD2D01;
+  --bs-btn-hover-box-shadow: inset 5em 0 0 0 #FD2D01;
+  --bs-btn-hover-font-size: 1.15em;
 }
 
 h1 {
   color: #FFD7D7;
+}
+.switch {
+  margin-bottom: 1em;
 }
 
 </style>

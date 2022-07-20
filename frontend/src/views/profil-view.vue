@@ -6,7 +6,6 @@
         </nav>
         <router-view></router-view>
         <div>
-            <Logo />
             <div>
                 <h2>Bonjour {{ firstName }}</h2>
                 <div class>
@@ -43,7 +42,6 @@
 
 <script>
 // @ is an alias to /src
-import Logo from '@/components/logo-component.vue'
 import InputSubmit from '@/components/InputSubmit.vue'
 import TextInput from '@/components/TextInput.vue'
 import SelectButton from '@/components/SelectButton.vue'
@@ -58,7 +56,6 @@ export default {
         this.displayAvatar();
     },
     components: {
-        Logo,
         InputSubmit,
         TextInput,
         SelectButton,

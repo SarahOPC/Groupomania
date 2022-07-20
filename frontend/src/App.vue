@@ -1,13 +1,19 @@
 <template>
 <div class="bg-color">
-  <h1>Miamomania</h1>
-  <h2>LE réseau social de Groupomania</h2>
+  <Logo />
   <nav>| <router-link to="/">Se connecter</router-link> |</nav>
   <router-view></router-view>
 </div>
 </template>
 
 <script>
+import Logo from '@/components/logo-component.vue'
+
+export default {
+    components: {
+    Logo
+    }
+}
 /* import mixins from '@/mixins/mixinsTokenAndId'
 
 export default {
@@ -31,15 +37,16 @@ nav {
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
   color: #FFD7D7;
 }
 
+nav a.router-link-exact-active {
+  color: #FD2D01
+;
+}
+
 .bg-color {
-  background-image: linear-gradient(#4E5166, #727272, #4E5166);
+  background-image: linear-gradient(#4e4c4c, #4E5166);
   height: 100vh;
   color: #FFFFFF;
 }

@@ -1,11 +1,10 @@
 <template>
 <nav>
-    | <router-link to="/profil">Voir mon profil</router-link> | 
-    <!--<router-link to="/logout">Se déconnecter</router-link>--> |
-  </nav>
+  | <router-link to="/profil">Voir mon profil</router-link> | 
+  <!--<router-link to="/logout">Se déconnecter</router-link>--> |
+</nav>
   <router-view></router-view>
     <div>
-        <Logo />
         <div>
             <form>
                 <AreaForText />
@@ -22,14 +21,12 @@
 
 <script>
 // @ is an alias to /src
-import Logo from '@/components/logo-component.vue'
 import AreaForText from '@/components/AreaForText.vue'
 import PostComponent from '@/components/PostComponent.vue'
 
 export default {
     name: 'main-news-feed-view',
     components: {
-    Logo,
     AreaForText,
     PostComponent
     }
