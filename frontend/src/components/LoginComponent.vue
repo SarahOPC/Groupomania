@@ -2,7 +2,7 @@
 <h1 v-if="mode == 'login'">Se connecter</h1>
 <h1 v-else>S'inscrire</h1>
 
-<div>
+<div class="container justify-content-center align-items-center">
     <label for="email">Email</label><br>
     <input type="email" v-model="email" id="email" name="email" placeholder="janedoe@groupomania.com"><br>
     
@@ -12,17 +12,17 @@
     <div class="switch" v-if="mode == 'login'" @click="switchToSignup()">Vous n'êtes pas encore inscrit, cliquez ici</div>
     <div class="switch" v-else @click="switchToLogin()">Déjà inscrit, cliquez ici</div>
 
-    <button v-if="mode == 'login'" v-on:click="findUser()">Connexion</button>
-    <button v-else v-on:click="createUser()">Créer un compte</button>
+    <button type="button" class="btn btn-outline-dark" v-if="mode == 'login'" v-on:click="findUser()">Connexion</button>
+    <button type="button" class="btn btn-outline-dark" v-else v-on:click="createUser()">Créer un compte</button>
 </div>
-    <div v-if="mode !== 'login'">
-      <ul>Mot de passe demandé :
-          <li>Une MAJUSCULE - ABC</li>
-          <li>Une minuscule - abc</li>
-          <li>Un chiffre - 123</li>
-          <li>Un caractère spécial hors &lt;, >, / ou $</li>
-      </ul>
-    </div>
+<div v-if="mode !== 'login'">
+  <ul>Mot de passe demandé :
+      <li>Une MAJUSCULE - ABC</li>
+      <li>Une minuscule - abc</li>
+      <li>Un chiffre - 123</li>
+      <li>Un caractère spécial hors &lt;, >, / ou $</li>
+  </ul>
+</div>
     
 </template>
 
@@ -89,4 +89,17 @@ export default {
 </script>
 
 <style scoped>
+
+.container.button{
+  background-color: #000000;
+}
+
+.container.button :hover {
+  background-color:  #FD2D01;
+}
+
+h1 {
+  color: #FFD7D7;
+}
+
 </style>

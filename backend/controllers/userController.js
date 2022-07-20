@@ -10,7 +10,6 @@ exports.signup = (req, res, next) => {
     let requestUserMail = req.body.email;
     let requestUserPassword = req.body.password;
     let hashedPassword = bcrypt.hash(requestUserPassword, 10);
-    let avatar = "../images/AvatarParDefaut.jpg";
 
     dbfile.db.connect(async function (err) {
         if (err) {
@@ -20,8 +19,7 @@ exports.signup = (req, res, next) => {
 
         let params = [
             requestUserMail,
-            await hashedPassword,
-            avatar];
+            await hashedPassword];
 
         dbfile.db.query(sqlRequests.sqlInsertUser, params, function (err, result) {
             if (err) {

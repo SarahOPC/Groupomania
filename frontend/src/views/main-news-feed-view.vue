@@ -1,14 +1,12 @@
 <template>
 <nav>
-    <router-link to="/profil">Voir mon profil</router-link> |
-    <!--<router-link to="/logout">Se déconnecter</router-link>-->
+    | <router-link to="/profil">Voir mon profil</router-link> | 
+    <!--<router-link to="/logout">Se déconnecter</router-link>--> |
   </nav>
   <router-view></router-view>
     <div>
         <Logo />
-        <div> 
-            <h1>Miamomania</h1>
-            <h4>Le réseau social de Groupomania</h4>
+        <div>
             <form>
                 <AreaForText />
             </form>
@@ -19,9 +17,6 @@
                 <PostComponent />
             </div><br>
         </div>
-        <!--
-            Menu avec Profil et deconnexion
-        -->
     </div>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
     <div>
         <nav>
-            <router-link to="/news">Voir le fil d'actualité</router-link> | 
-            <!--<router-link to="/logout">Se déconnecter</router-link>-->
+            | <router-link to="/news">Voir le fil d'actualité</router-link> | 
+            <!--<router-link to="/logout">Se déconnecter</router-link>--> |
         </nav>
         <router-view></router-view>
         <div>
@@ -18,16 +18,16 @@
                     </div>
                 <div class="avatar">
                     <h3>Ma photo de profil </h3>
-                    <img v-if="responseAvatar == ''" src="../../image/AvatarParDefaut.jpg" alt="Avatar"><br>
+                    <img v-if="responseAvatar == null" src="../../images/AvatarParDefaut.jpg" alt="Avatar"><br>
                     <label for="fileName">Choisir une nouvelle photo de profil</label><br>
                     <input @change="changeAvatarInDatabase" type="file" id="fileName" name="fileName">
-                    <img crossorigin="anonymous" v-if="responseAvatar !== ''" :src="responseAvatar" alt="Avatar">
+                    <div v-if="responseAvatar !== null">
+                        <img crossorigin="anonymous" v-if="responseAvatar !== ''" :src="responseAvatar" alt="Avatar">
+                    </div>
 
                 </div>
                 <div class="changePassword">
-                    <label for="newPassword">Nouveau mot de passe</label><br>
-                    <input type="text" id="newPassword" name="newPassword" placeholder="Nouveau mot de passe"><br>
-                    <label for="password">Confirmation du nouveau mot de passe</label><br>
+                    <label for="password">Nouveau mot de passe</label><br>
                     <input type="password" v-model="password" id="password" name="password" placeholder="Nouveau mot de passe"><br>
                     <InputSubmit v-on:click="updatePassword()" content="Valider" />
                 </div>
@@ -37,9 +37,6 @@
                     <InputSubmit v-on:click="switchToNews()" content="Retourner au fil d'actualité" />
                 </div>
             </div>
-            <!--
-                Button => delete user dans BDD + tous les posts et commentaires en BDD
-            -->
         </div>
     </div>
 </template>

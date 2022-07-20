@@ -1,9 +1,10 @@
 <template>
-  <nav>
-    <router-link to="/">Se connecter</router-link> |
-    <!--<router-link to="/logout">Se déconnecter</router-link>-->
-  </nav>
+<div class="bg-color">
+  <h1>Miamomania</h1>
+  <h2>LE réseau social de Groupomania</h2>
+  <nav>| <router-link to="/">Se connecter</router-link> |</nav>
   <router-view></router-view>
+</div>
 </template>
 
 <script>
@@ -34,6 +35,12 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #FFD7D7;
+}
+
+.bg-color {
+  background-image: linear-gradient(#4E5166, #727272, #4E5166);
+  height: 100vh;
+  color: #FFFFFF;
 }
 </style>

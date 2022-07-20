@@ -90,7 +90,6 @@ export default {
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
-                    console.log(response.data.result);
                     self.displayCommentsArea = true;
                     return self.comments = response.data.result.slice().reverse();
                 }
@@ -203,6 +202,7 @@ export default {
             axios({method:'post', url: urlDesti, data: {likesdislikes: likesdislikes}, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
+                    console.log(response.data.results.insertId);
                     console.log(response);
                 }
             })
@@ -221,6 +221,7 @@ export default {
             axios({method:'post', url: urlDesti, data: {likesdislikes: likesdislikes}, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
+                    console.log(response.data.results.insertId);
                     console.log(response);
                 }
             })
