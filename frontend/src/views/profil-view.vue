@@ -2,7 +2,9 @@
     <div>
         <nav>
             <router-link to="/news">Voir le fil d'actualité</router-link> | 
-            <!--<router-link to="/logout">Se déconnecter</router-link>--> |
+            <!--<router-link to="/logout">Se déconnecter</router-link>-->
+            <font-awesome-icon icon="fa-solid fa-right-from-bracket" /> |
+            <font-awesome-icon icon="fa-solid fa-user-police-tie" />
         </nav>
         <router-view></router-view>
         <div class="container">

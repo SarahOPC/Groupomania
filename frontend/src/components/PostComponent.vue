@@ -6,25 +6,35 @@
     </div>
     <div>
         <InputSubmit v-bind:postIds="post.id" v-on:click="getOnePost(post.id)" content="Modifier" />
+        <font-awesome-icon icon="fa-solid fa-pencil" />
         <div v-if="displayPostUpdate">
             <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()"/>
         </div>
     </div>
     <InputSubmit v-on:click="deleteOnePost(post.id)" content="Supprimer" /><br>
+    <font-awesome-icon icon="fa-solid fa-trash-can" />
     <InputSubmit v-on:click="likingOnePost(post.id)" content="J'aime" />
+    <font-awesome-icon icon="fa-regular fa-face-smile" />
+    <font-awesome-icon icon="fa-solid fa-face-smile" />
     <InputSubmit v-on:click="dislikingOnePost(post.id)" content="Je n'aime pas" /><br>
+    <font-awesome-icon icon="fa-regular fa-face-frown" />
+    <font-awesome-icon icon="fa-solid fa-face-frown" />
 
     <InputSubmit v-bind:postIds="post.id" v-on:click="getAllComments(post.id)" content="Voir tous les commentaires" /><br>
+    <font-awesome-icon icon="fa-solid fa-messages" />
     <div v-if="displayCommentsArea == post.id">
         <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
             <InputSubmit v-bind:commentIds="comment.id" v-on:click="deleteOneComment(post.id, comment.id)" content="Supprimer mon commentaire" /><br>
+            <font-awesome-icon icon="fa-solid fa-message-minus" />
         </div>
     </div>
 
     <InputSubmit v-on:click="getOnePostForComments(post.id)" content="Ajouter un commentaire" /><br>
+    <font-awesome-icon icon="fa-solid fa-message-medical" />
     <div v-if="displayNewCommentArea">
         <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
         <InputSubmit v-on:click="addOneComment(post.id)" content="Publier mon commentaire" />
+        <font-awesome-icon icon="fa-solid fa-message-check" />
     </div>
     
 
@@ -239,13 +249,15 @@ export default {
     margin-top: 1em;
     margin-bottom: 1em;
     border-radius: 0.5em;
-    background-color: #4E5166;
-    color: #FFD7D7;
+    border-color: #4E5166;
+    border-style: groove;
+    color: #4E5166;
+    font-weight: bold;
 }
 
 img {
-    width: 25%;
-    height: 25%;
+    width: 20%;
+    height: 20%;
 }
 
 </style>

@@ -4,6 +4,7 @@
         <label for="imagePost">Ajouter une image (.jpg ou .png)</label><br>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
         <InputSubmit v-on:click="createPosts()" content="Publier" /><br>
+        <font-awesome-icon icon="fa-solid fa-paper-plane" />
     </div>
         
 </template>
@@ -63,6 +64,7 @@ textarea {
     text-align-last: center;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+    color: #4E5166;
 }
 
 </style>

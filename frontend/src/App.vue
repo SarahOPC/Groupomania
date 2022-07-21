@@ -2,7 +2,8 @@
 
 <div class="bg-color">
   <Logo />
-  <nav>| <router-link to="/">Se connecter</router-link> |</nav>
+  <nav>| <router-link to="/">Se connecter</router-link>
+  <font-awesome-icon icon="fa-solid fa-right-to-bracket" /> |</nav>
   <router-view></router-view>
 </div>
 

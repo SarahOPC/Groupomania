@@ -63,3 +63,14 @@ export default {
     }
 }
 </script>
+
+<style>
+
+textarea {
+    border-radius: 0.5em;
+    border-color: #FD2D01;
+    border-style: dotted;
+    margin-bottom: 1.5em;
+}
+
+</style>
