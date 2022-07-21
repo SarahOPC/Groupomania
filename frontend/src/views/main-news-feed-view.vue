@@ -4,18 +4,14 @@
   <!--<router-link to="/logout">Se déconnecter</router-link>--> |
 </nav>
   <router-view></router-view>
-    <div>
-        <div>
-            <form>
-                <AreaForText />
-            </form>
-        </div>
+    <div class="container">
+      <form>
+          <AreaForText />
+      </form>
         
-        <div>
-            <div class="previousPost">
-                <PostComponent />
-            </div><br>
-        </div>
+      <div class="previousPost">
+          <PostComponent />
+      </div><br>
     </div>
 </template>
 
@@ -37,16 +33,21 @@ export default {
 
 <style scoped>
 
-nav {
-  padding: 30px;
+.container {
+    margin-top: 3em;
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #4E5166;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #FD2D01;
 }
+
+.previousPost {
+  margin: 1.5em;
+}
+
 </style>

@@ -1,7 +1,7 @@
 <template>
-        <textarea v-model="text" name="newPostFromUser" rows="7" cols="50" placeholder="Envie de partager quelque chose...?"></textarea><br>
     <div>
-        <label for="imagePost">Ajouter une image (.jpg ou .png)</label>
+        <textarea v-model="text" name="newPostFromUser" rows="7" cols="50" placeholder="Envie de partager quelque chose...?"></textarea><br>
+        <label for="imagePost">Ajouter une image (.jpg ou .png)</label><br>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
         <InputSubmit v-on:click="createPosts()" content="Publier" /><br>
     </div>
@@ -51,4 +51,18 @@ export default {
 </script>
 
 <style scoped>
+
+textarea {
+    border-radius: 0.5em;
+    border-color: #FD2D01;
+    border-style: dotted;
+    margin-bottom: 1.5em;
+}
+
+#fileName {
+    text-align-last: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
 </style>

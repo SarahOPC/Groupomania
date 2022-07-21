@@ -2,7 +2,7 @@
 <h1 v-if="mode == 'login'">Se connecter</h1>
 <h1 v-else>S'inscrire</h1>
 
-<div class="container justify-content-center align-items-center">
+<div class="container">
     <label for="email">Email</label><br>
     <input type="email" v-model="email" id="email" name="email" placeholder="janedoe@groupomania.com"><br>
     
@@ -15,13 +15,12 @@
     <button type="button" class="btn" v-if="mode == 'login'" v-on:click="findUser()">Connexion</button>
     <button type="button" class="btn" v-else v-on:click="createUser()">Créer un compte</button>
 </div>
-<div v-if="mode !== 'login'">
-  <ul>Mot de passe demandé :
-      <li>Une MAJUSCULE - ABC</li>
-      <li>Une minuscule - abc</li>
-      <li>Un chiffre - 123</li>
-      <li>Un caractère spécial hors &lt;, >, / ou $</li>
-  </ul>
+<div class="helpPsw" v-if="mode !== 'login'">
+  <p>Mot de passe demandé :</p>
+  <p>Une MAJUSCULE - ABC</p>
+  <p>Une minuscule - abc</p>
+  <p>Un chiffre - 123</p>
+  <p>Un caractère spécial hors &lt;, >, / ou $</p>
 </div>
     
 </template>
@@ -89,27 +88,35 @@ export default {
 </script>
 
 <style scoped>
+
+.container, .helpPsw {
+  color: #4E5166;
+  margin-top: 3em;
+}
 .btn {
-  --bs-btn-bg: #FFD7D7;
+  --bs-btn-bg: #4E5166;
   --bs-btn-border-radius: 0.5em;
-  --bs-btn-box-shadow: inset 0 0 0 0 #FD2D01;
-  --bs-btn-font-size: 1em;
-  transition: ease-out 0.3s;
+  --bs-btn-color: #FFD7D7;
+  --bs-btn-font-weight: bold;
 }
 
 .btn:hover {
-  --bs-btn-hover-color: #FFD7D7;
-  --bs-btn-hover-bg: #FD2D01;
+  --bs-btn-hover-color: #4E5166;
+  --bs-btn-hover-bg: #FFD7D7;
   --bs-btn-hover-border-color: #FD2D01;
-  --bs-btn-hover-box-shadow: inset 5em 0 0 0 #FD2D01;
-  --bs-btn-hover-font-size: 1.15em;
 }
 
 h1 {
-  color: #FFD7D7;
+  color: #4E5166;
 }
 .switch {
   margin-bottom: 1em;
+}
+
+.helpPsw p{
+  display: flex;
+  flex-direction: column;
+  margin: 0em;
 }
 
 </style>

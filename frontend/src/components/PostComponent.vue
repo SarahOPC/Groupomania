@@ -1,35 +1,34 @@
 <template>
+
+<div class="container" v-for="post in posts" :key="post.id">{{ post.userId }} - {{ post.text }}
+    <div v-if="(typeof post.image) == 'string' ">
+        <img crossorigin="anonymous" :src="post.image" alt="image du post">
+    </div>
     <div>
-        <div v-for="post in posts" :key="post.id">{{ post.userId }} - {{ post.text }}
-            <div v-if="(typeof post.image) == 'string' ">
-                <img crossorigin="anonymous" :src="post.image" alt="image du post">
-            </div>
-            <div>
-                <InputSubmit v-bind:postIds="post.id" v-on:click="getOnePost(post.id)" content="Modifier" />
-                <div v-if="displayPostUpdate">
-                    <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()"/>
-                </div>
-            </div>
-            <InputSubmit v-on:click="deleteOnePost(post.id)" content="Supprimer" /><br>
-            <InputSubmit v-on:click="likingOnePost(post.id)" content="J'aime" />
-            <InputSubmit v-on:click="dislikingOnePost(post.id)" content="Je n'aime pas" /><br>
-
-            <InputSubmit v-bind:postIds="post.id" v-on:click="getAllComments(post.id)" content="Voir tous les commentaires" /><br>
-            <div v-if="displayCommentsArea">
-                <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
-                    <InputSubmit v-bind:commentIds="comment.id" v-on:click="deleteOneComment(post.id, comment.id)" content="Supprimer mon commentaire" /><br>
-                </div>
-            </div>
-
-            <InputSubmit v-on:click="getOnePostForComments(post.id)" content="Ajouter un commentaire" /><br>
-            <div v-if="displayNewCommentArea">
-                <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
-                <InputSubmit v-on:click="addOneComment(post.id)" content="Publier mon commentaire" />
-            </div>
-            
-
+        <InputSubmit v-bind:postIds="post.id" v-on:click="getOnePost(post.id)" content="Modifier" />
+        <div v-if="displayPostUpdate">
+            <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()"/>
         </div>
     </div>
+    <InputSubmit v-on:click="deleteOnePost(post.id)" content="Supprimer" /><br>
+    <InputSubmit v-on:click="likingOnePost(post.id)" content="J'aime" />
+    <InputSubmit v-on:click="dislikingOnePost(post.id)" content="Je n'aime pas" /><br>
+
+    <InputSubmit v-bind:postIds="post.id" v-on:click="getAllComments(post.id)" content="Voir tous les commentaires" /><br>
+    <div v-if="displayCommentsArea == post.id">
+        <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
+            <InputSubmit v-bind:commentIds="comment.id" v-on:click="deleteOneComment(post.id, comment.id)" content="Supprimer mon commentaire" /><br>
+        </div>
+    </div>
+
+    <InputSubmit v-on:click="getOnePostForComments(post.id)" content="Ajouter un commentaire" /><br>
+    <div v-if="displayNewCommentArea">
+        <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
+        <InputSubmit v-on:click="addOneComment(post.id)" content="Publier mon commentaire" />
+    </div>
+    
+
+</div>
 </template>
 
 <script>
@@ -59,7 +58,7 @@ export default {
             comments: '',
             commentId: this.commentIds,
             displayNewCommentArea: false,
-            displayCommentsArea: false
+            displayCommentsArea: ''
         }
     },
     methods: {
@@ -90,7 +89,7 @@ export default {
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
-                    self.displayCommentsArea = true;
+                    self.displayCommentsArea = postId;
                     return self.comments = response.data.result.slice().reverse();
                 }
             })
@@ -234,8 +233,19 @@ export default {
 </script>
 
 <style scoped>
-img {
-    width: 15%;
-    height: 15%;
+
+.container {
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border-radius: 0.5em;
+    background-color: #4E5166;
+    color: #FFD7D7;
 }
+
+img {
+    width: 25%;
+    height: 25%;
+}
+
 </style>

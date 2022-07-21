@@ -1,9 +1,9 @@
 <template>
-<div class="container d-flex">
-    <div class="logo col-1">    
+<div class="container">
+    <div class="logo">    
         <img alt="Logo Groupomania Rouge" src="../../../Icones/icon-left-font.webp">    
     </div>
-    <div class="col-11">
+    <div class="title">
         <h1>Miamomania</h1><h2>LE réseau social de Groupomania</h2>
     </div>
 </div>
@@ -13,11 +13,11 @@
 </script>
 <style scoped>
 .logo img {
-    width: 100%;
+    width: 5%;
 }
 
-.col-11 {
-    color: #FFD7D7;
+.title {
+    color: #4E5166;
 }
 
 </style>

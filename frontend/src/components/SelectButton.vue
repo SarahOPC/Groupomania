@@ -1,7 +1,6 @@
 <template>
 <div>
     <div v-if="mode == 'firstTime'">
-        <label for="service">Service</label><br>
         
         <select v-model="selectedService" name="service" id="service">
         <option value="Fruit">Fruit</option>
@@ -14,7 +13,7 @@
         </select><br>
         <InputSubmit v-on:click="updateService(); displayService();" content="Valider" />
     </div>
-    <h2 v-if="mode == 'notFirstTime'">Service {{ services }}</h2>
+    <h2 v-if="mode == 'notFirstTime'">{{ services }}</h2>
     <InputSubmit v-on:click="changeMode()" content="Mettre à jour mon service" />
 
 </div>
@@ -83,4 +82,9 @@ export default {
 </script>
 
 <style scoped>
+
+#service {
+    border-radius: 0.5em;
+}
+
 </style>

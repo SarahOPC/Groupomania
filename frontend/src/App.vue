@@ -1,9 +1,11 @@
 <template>
+
 <div class="bg-color">
   <Logo />
   <nav>| <router-link to="/">Se connecter</router-link> |</nav>
   <router-view></router-view>
 </div>
+
 </template>
 
 <script>
@@ -14,11 +16,7 @@ export default {
     Logo
     }
 }
-/* import mixins from '@/mixins/mixinsTokenAndId'
 
-export default {
-    mixins: [mixins]
-} */
 </script>
 
 <style>
@@ -31,13 +29,9 @@ export default {
 
 }
 
-nav {
-  padding: 30px;
-}
-
 nav a {
   font-weight: bold;
-  color: #FFD7D7;
+  color: #4E5166;
 }
 
 nav a.router-link-exact-active {
@@ -46,8 +40,8 @@ nav a.router-link-exact-active {
 }
 
 .bg-color {
-  background-image: linear-gradient(#4e4c4c, #4E5166);
-  height: 100vh;
-  color: #FFFFFF;
+  background-color:  #FFD7D7;
+  height: auto;
+  color: #4E5166;
 }
 </style>

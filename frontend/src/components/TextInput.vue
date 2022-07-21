@@ -97,4 +97,9 @@ export default {
 </script>
 
 <style scoped>
+
+input {
+    border-radius: 0.5em;
+}
+
 </style>

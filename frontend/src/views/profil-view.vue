@@ -1,40 +1,41 @@
 <template>
     <div>
         <nav>
-            | <router-link to="/news">Voir le fil d'actualité</router-link> | 
+            <router-link to="/news">Voir le fil d'actualité</router-link> | 
             <!--<router-link to="/logout">Se déconnecter</router-link>--> |
         </nav>
         <router-view></router-view>
-        <div>
-            <div>
-                <h2>Bonjour {{ firstName }}</h2>
-                <div class>
-                    <TextInput />
-                </div>
-                <div class="service">
-                    <SelectButton />
-                    <h2>{{ service }}</h2>
+        <div class="container">
+            <h2>Bonjour {{ firstName }}</h2>
+            <div class="profile d-flex align-items-center justify-content-center">
+                <div class="info col-5">
+                    <div>
+                        <TextInput />
                     </div>
-                <div class="avatar">
+                    <div class="service">
+                        <h2>Service {{ service }}</h2>
+                        <SelectButton />
+                    </div>
+                </div>
+                <div class="avatar col-5">
                     <h3>Ma photo de profil </h3>
                     <img v-if="responseAvatar == null" src="../../images/AvatarParDefaut.jpg" alt="Avatar"><br>
-                    <label for="fileName">Choisir une nouvelle photo de profil</label><br>
-                    <input @change="changeAvatarInDatabase" type="file" id="fileName" name="fileName">
                     <div v-if="responseAvatar !== null">
                         <img crossorigin="anonymous" v-if="responseAvatar !== ''" :src="responseAvatar" alt="Avatar">
+                    <label for="fileName">Choisir une nouvelle photo de profil</label><br>
+                    <input @change="changeAvatarInDatabase" type="file" id="fileName" name="fileName">
                     </div>
-
                 </div>
-                <div class="changePassword">
-                    <label for="password">Nouveau mot de passe</label><br>
-                    <input type="password" v-model="password" id="password" name="password" placeholder="Nouveau mot de passe"><br>
-                    <InputSubmit v-on:click="updatePassword()" content="Valider" />
-                </div>
-                <div class="changeview">
-                    <InputSubmit v-on:click="deleteProfil()" content="Supprimer mon compte" />
-                    <p>Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est DEFINITIVE et IRREVERSIBLE</p>
-                    <InputSubmit v-on:click="switchToNews()" content="Retourner au fil d'actualité" />
-                </div>
+            </div>
+            <div class="changePassword">
+                <label for="password">Nouveau mot de passe</label><br>
+                <input type="password" v-model="password" id="password" name="password" placeholder="Nouveau mot de passe">
+                <InputSubmit v-on:click="updatePassword()" content="Valider" /><br>
+                <InputSubmit v-on:click="deleteProfil()" content="Supprimer mon compte" />
+                <p>Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est <span>DEFINITIVE et IRREVERSIBLE</span></p>
+            </div>
+            <div class="changeView">
+                <InputSubmit v-on:click="switchToNews()" content="Retourner au fil d'actualité" />
             </div>
         </div>
     </div>
@@ -192,21 +193,44 @@ export default {
 </script>
 
 <style scoped>
-
-nav {
-  padding: 30px;
+.container {
+    margin-top: 3em;
 }
 
 nav a {
-  font-weight: bold;
-  color: #2c3e50;
+    font-weight: bold;
+    color: #4E5166;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+    color: #FD2D01;
 }
+
+.info.col-5, .avatar.col-5, .changePassword, .changeView {
+    margin: 1em;
+    padding: 1em;
+    background-color: #4E5166;
+    color: #FFD7D7;
+    border-radius: 1em;
+}
+
 .avatar img {
-    width: 15%;
-    height: 15%;
+    width: 50%;
+    height: 50%;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    border-radius: 0.5em;
 }
+
+#password {
+    border-radius: 0.5em;
+    margin: 0.5em;
+}
+
+span {
+    color: #FD2D01;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 </style>
