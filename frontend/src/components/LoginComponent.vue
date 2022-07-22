@@ -1,6 +1,12 @@
 <template>
-<h1 v-if="mode == 'login'">Se connecter</h1>
-<h1 v-else>S'inscrire</h1>
+<div v-if="mode == 'login'">
+  <h1>Se connecter</h1>
+  <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket" />
+</div>
+<div v-else>
+  <h1>S'inscrire</h1>
+  <font-awesome-icon icon="fa-solid fa-door-open" />
+</div>
 
 <div class="container">
     <label for="email">Email</label><br>
@@ -90,7 +96,7 @@ export default {
 <style scoped>
 
 .container, .helpPsw {
-  color: #4E5166;
+  color: #FFD7D7;
   margin-top: 3em;
 }
 .btn {
@@ -107,16 +113,20 @@ export default {
 }
 
 h1 {
-  color: #4E5166;
+  color: #FFD7D7;
 }
 .switch {
   margin-bottom: 1em;
 }
 
-.helpPsw p{
+.helpPsw p {
   display: flex;
   flex-direction: column;
   margin: 0em;
+}
+
+input {
+    border-radius: 0.5em;
 }
 
 </style>

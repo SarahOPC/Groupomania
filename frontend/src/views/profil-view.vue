@@ -9,23 +9,29 @@
         <router-view></router-view>
         <div class="container">
             <h2>Bonjour {{ firstName }}</h2>
+            <h2>Service {{ service }}</h2>
             <div class="profile d-flex align-items-center justify-content-center">
                 <div class="info col-5">
                     <div>
                         <TextInput />
                     </div>
                     <div class="service">
-                        <h2>Service {{ service }}</h2>
                         <SelectButton />
                     </div>
                 </div>
                 <div class="avatar col-5">
-                    <h3>Ma photo de profil </h3>
-                    <img v-if="responseAvatar == null" src="../../images/AvatarParDefaut.jpg" alt="Avatar"><br>
-                    <div v-if="responseAvatar !== null">
-                        <img crossorigin="anonymous" v-if="responseAvatar !== ''" :src="responseAvatar" alt="Avatar">
-                    <label for="fileName">Choisir une nouvelle photo de profil</label><br>
-                    <input @change="changeAvatarInDatabase" type="file" id="fileName" name="fileName">
+                    <div>
+                        <h3>Ma photo de profil </h3>
+                    </div>
+                    <div>
+                        <img v-if="responseAvatar == null" src="../../images/AvatarParDefaut.jpg" alt="Avatar"><br>
+                        <div v-if="responseAvatar !== null">
+                            <img crossorigin="anonymous" v-if="responseAvatar !== ''" :src="responseAvatar" alt="Avatar">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="fileName">Choisir une nouvelle photo de profil</label><br>
+                        <input @change="changeAvatarInDatabase" type="file" id="fileName" name="fileName">
                     </div>
                 </div>
             </div>
@@ -199,9 +205,13 @@ export default {
     margin-top: 3em;
 }
 
+h2 {
+    font-weight: bold;
+}
+
 nav a {
     font-weight: bold;
-    color: #4E5166;
+    color: #FFD7D7;
 }
 
 nav a.router-link-exact-active {
@@ -211,9 +221,10 @@ nav a.router-link-exact-active {
 .info.col-5, .avatar.col-5, .changePassword, .changeView {
     margin: 1em;
     padding: 1em;
-    background-color: #4E5166;
-    color: #FFD7D7;
+    background-color: #FFFFFF;
+    color: #4E5166;
     border-radius: 1em;
+    box-shadow: 0.4em 0.4em 0.4em #FD2D01;
 }
 
 .avatar img {
@@ -222,6 +233,7 @@ nav a.router-link-exact-active {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     border-radius: 0.5em;
+    box-shadow: 0.4em 0.4em 0.4em #FD2D01;
 }
 
 #password {

@@ -58,13 +58,15 @@ textarea {
     border-color: #FD2D01;
     border-style: dotted;
     margin-bottom: 1.5em;
+    box-shadow: 0.4em 0.4em 0.4em #FD2D01;
 }
 
-#fileName {
+#fileName, label {
     text-align-last: center;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
-    color: #4E5166;
+    color: #FFD7D7;
+    font-weight: bold;
 }
 
 </style>

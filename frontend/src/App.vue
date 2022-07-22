@@ -1,12 +1,6 @@
 <template>
-
-<div class="bg-color">
   <Logo />
-  <nav>| <router-link to="/">Se connecter</router-link>
-  <font-awesome-icon icon="fa-solid fa-right-to-bracket" /> |</nav>
   <router-view></router-view>
-</div>
-
 </template>
 
 <script>
@@ -27,22 +21,27 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #4E5166;
+  background-image: url(../../../imagesBackground/bgMars4k.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
 
+html {
+  background-image: url(../../../imagesBackground/bgMars4k.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  height: 100%;
 }
 
 nav a {
   font-weight: bold;
-  color: #4E5166;
+  color: #FFD7D7;
 }
 
 nav a.router-link-exact-active {
-  color: #FD2D01
-;
-}
-
-.bg-color {
-  background-color:  #FFD7D7;
-  height: auto;
-  color: #4E5166;
+  color: #FD2D01;
 }
 </style>

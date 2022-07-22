@@ -42,7 +42,7 @@ export default {
 
 nav a {
   font-weight: bold;
-  color: #4E5166;
+  color: #FFD7D7;
 }
 
 nav a.router-link-exact-active {

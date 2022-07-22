@@ -253,11 +253,17 @@ export default {
     border-style: groove;
     color: #4E5166;
     font-weight: bold;
+    box-shadow: 0.4em 0.4em 0.4em #FD2D01;
+    width: 50%;
+    background-color: #FFFFFF;
 }
 
 img {
-    width: 20%;
-    height: 20%;
+    width: 50%;
+    height: 50%;
+    box-shadow: 0.4em 0.4em 0.4em #FD2D01;
+    margin-top: 1em;
+    margin-bottom: 1.5em;
 }
 
 </style>
