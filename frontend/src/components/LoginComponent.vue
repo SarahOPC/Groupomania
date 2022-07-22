@@ -1,18 +1,18 @@
 <template>
 <div v-if="mode == 'login'">
   <h1>Se connecter</h1>
-  <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket" />
+  <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket" size="lg" :style="{ color: '#FFD7D7' }"/>
 </div>
 <div v-else>
   <h1>S'inscrire</h1>
-  <font-awesome-icon icon="fa-solid fa-door-open" />
+  <font-awesome-icon icon="fa-solid fa-door-open" size="lg" :style="{ color: '#FFD7D7' }"/>
 </div>
 
 <div class="container">
-    <label for="email">Email</label><br>
+    <label for="email">Email</label><br><font-awesome-icon icon="fa-solid fa-at" size="lg" :style="{ color: '#FFD7D7' }" />
     <input type="email" v-model="email" id="email" name="email" placeholder="janedoe@groupomania.com"><br>
     
-    <label for="password" >Mot de Passe</label><br>
+    <label for="password" >Mot de Passe</label><br><font-awesome-icon icon="fa-solid fa-key" size="lg" :style="{ color: '#FFD7D7' }" />
     <input type="password" v-model="password" id="password" name="password" placeholder="Mot de Passe">
 
     <div class="switch" v-if="mode == 'login'" @click="switchToSignup()">Vous n'êtes pas encore inscrit, cliquez ici</div>

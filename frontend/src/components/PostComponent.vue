@@ -6,35 +6,35 @@
     </div>
     <div>
         <InputSubmit v-bind:postIds="post.id" v-on:click="getOnePost(post.id)" content="Modifier" />
-        <font-awesome-icon icon="fa-solid fa-pencil" />
+        <font-awesome-icon icon="fa-solid fa-pencil" size="lg" :style="{ color: '#4E5166' }" />
         <div v-if="displayPostUpdate">
             <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()"/>
         </div>
     </div>
-    <InputSubmit v-on:click="deleteOnePost(post.id)" content="Supprimer" /><br>
-    <font-awesome-icon icon="fa-solid fa-trash-can" />
+    <InputSubmit v-on:click="deleteOnePost(post.id)" content="Supprimer" />
+    <font-awesome-icon icon="fa-solid fa-trash-can" size="lg" :style="{ color: '#4E5166' }" /><br>
     <InputSubmit v-on:click="likingOnePost(post.id)" content="J'aime" />
-    <font-awesome-icon icon="fa-regular fa-face-smile" />
-    <font-awesome-icon icon="fa-solid fa-face-smile" />
-    <InputSubmit v-on:click="dislikingOnePost(post.id)" content="Je n'aime pas" /><br>
-    <font-awesome-icon icon="fa-regular fa-face-frown" />
-    <font-awesome-icon icon="fa-solid fa-face-frown" />
+    <font-awesome-icon icon="fa-regular fa-face-smile" size="lg" :style="{ color: '#4E5166' }" />
+    <font-awesome-icon icon="fa-solid fa-face-smile" size="lg" :style="{ color: '#4E5166' }" />
+    <InputSubmit v-on:click="dislikingOnePost(post.id)" content="Je n'aime pas" />
+    <font-awesome-icon icon="fa-regular fa-face-frown" size="lg" :style="{ color: '#4E5166' }" />
+    <font-awesome-icon icon="fa-solid fa-face-frown" size="lg" :style="{ color: '#4E5166' }" /><br>
 
-    <InputSubmit v-bind:postIds="post.id" v-on:click="getAllComments(post.id)" content="Voir tous les commentaires" /><br>
-    <font-awesome-icon icon="fa-solid fa-messages" />
+    <InputSubmit v-bind:postIds="post.id" v-on:click="getAllComments(post.id)" content="Voir tous les commentaires" />
+    <font-awesome-icon icon="fa-solid fa-comments" size="lg" :style="{ color: '#4E5166' }" /><br>
     <div v-if="displayCommentsArea == post.id">
         <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
-            <InputSubmit v-bind:commentIds="comment.id" v-on:click="deleteOneComment(post.id, comment.id)" content="Supprimer mon commentaire" /><br>
-            <font-awesome-icon icon="fa-solid fa-message-minus" />
+            <InputSubmit v-bind:commentIds="comment.id" v-on:click="deleteOneComment(post.id, comment.id)" content="Supprimer mon commentaire" />
+            <font-awesome-icon icon="fa-solid fa-circle-minus" size="lg" :style="{ color: '#4E5166' }" /><br>
         </div>
     </div>
 
-    <InputSubmit v-on:click="getOnePostForComments(post.id)" content="Ajouter un commentaire" /><br>
-    <font-awesome-icon icon="fa-solid fa-message-medical" />
+    <InputSubmit v-on:click="getOnePostForComments(post.id)" content="Ajouter un commentaire" />
+    <font-awesome-icon icon="fa-solid fa-circle-plus" size="lg" :style="{ color: '#4E5166' }" /><br>
     <div v-if="displayNewCommentArea">
         <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
         <InputSubmit v-on:click="addOneComment(post.id)" content="Publier mon commentaire" />
-        <font-awesome-icon icon="fa-solid fa-message-check" />
+        <font-awesome-icon icon="fa-solid fa-check-circle" size="lg" :style="{ color: '#4E5166' }" />
     </div>
     
 

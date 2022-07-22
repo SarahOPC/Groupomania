@@ -4,7 +4,7 @@
         <label for="imagePost">Ajouter une image (.jpg ou .png)</label><br>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
         <InputSubmit v-on:click="createPosts()" content="Publier" /><br>
-        <font-awesome-icon icon="fa-solid fa-paper-plane" />
+        <font-awesome-icon icon="fa-solid fa-paper-plane" size="lg" :style="{ color: '#FFD7D7' }"/>
     </div>
         
 </template>

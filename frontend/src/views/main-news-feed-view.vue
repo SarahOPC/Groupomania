@@ -1,10 +1,9 @@
 <template>
 <nav>
-  | <router-link to="/profil">Voir mon profil</router-link>
-  <font-awesome-icon icon="fa-solid fa-address-card" /> | 
+  <router-link to="/profil"><font-awesome-icon icon="fa-solid fa-address-card"  size="lg" :style="{ color: '#FFD7D7' }" /></router-link>
   <!--<router-link to="/logout">Se déconnecter</router-link>-->
-  <font-awesome-icon icon="fa-solid fa-right-from-bracket" /> |
-  <font-awesome-icon icon="fa-solid fa-user-police-tie" />
+  <font-awesome-icon icon="fa-solid fa-right-from-bracket"  size="lg" :style="{ color: '#FFD7D7' }" />
+  <font-awesome-icon icon="fa-solid fa-user-secret" size="lg" :style="{ color: '#FFD7D7' }" />
 </nav>
   <router-view></router-view>
     <div class="container">

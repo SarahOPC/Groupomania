@@ -10,37 +10,32 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
 import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons'
 import { faDoorOpen } from '@fortawesome/free-solid-svg-icons'
+import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { faMessage } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faAt } from '@fortawesome/free-solid-svg-icons'
+import { faKey } from '@fortawesome/free-solid-svg-icons'
+import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { faFaceSmile as fasFaceSmile } from '@fortawesome/free-solid-svg-icons'
+import { faFaceSmile as farFaceSmile } from '@fortawesome/free-regular-svg-icons'
+import { faFaceFrown as fasFaceFrown } from '@fortawesome/free-solid-svg-icons'
+import { faFaceFrown as farFaceFrown } from '@fortawesome/free-regular-svg-icons'
+import { faCircleMinus} from '@fortawesome/free-solid-svg-icons'
+import { faCirclePlus} from '@fortawesome/free-solid-svg-icons'
+import { faComments} from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle} from '@fortawesome/free-solid-svg-icons'
 
-import { faSolidDislike } from '@fortawesome/free-solid-svg-icons'
-import { faSolidPoliceman } from '@fortawesome/free-solid-svg-icons'
-import { faSolidProfil } from '@fortawesome/free-solid-svg-icons'
-import { faSolidIn } from '@fortawesome/free-solid-svg-icons'
-import { faSolidOut } from '@fortawesome/free-solid-svg-icons'
-import { faSolidDeleteComment } from '@fortawesome/free-solid-svg-icons'
-import { faSolidAddComment } from '@fortawesome/free-solid-svg-icons'
-import { faSolidSeeAllComments } from '@fortawesome/free-solid-svg-icons'
-import { faSolidSharePost } from '@fortawesome/free-solid-svg-icons'
-import { faSolidEditPost } from '@fortawesome/free-solid-svg-icons'
-import { faSolidDeletePost } from '@fortawesome/free-solid-svg-icons'
 
-import { faRegLike } from '@fortawesome/free-regular-svg-icons'
-import { faRegDislike } from '@fortawesome/free-regular-svg-icons'
-import { faRegPoliceman } from '@fortawesome/free-regular-svg-icons'
-import { faRegProfil } from '@fortawesome/free-regular-svg-icons'
-import { faRegIn } from '@fortawesome/free-regular-svg-icons'
-import { faRegOut } from '@fortawesome/free-regular-svg-icons'
-import { faRegDeleteComment } from '@fortawesome/free-regular-svg-icons'
-import { faRegAddComment } from '@fortawesome/free-regular-svg-icons'
-import { faRegSeeAllComments } from '@fortawesome/free-regular-svg-icons'
-import { faRegSharePost } from '@fortawesome/free-regular-svg-icons'
-import { faRegEditPost } from '@fortawesome/free-regular-svg-icons'
-import { faRegDeletePost } from '@fortawesome/free-regular-svg-icons'
 
 /* add icons to the library */
-library.add(faArrowRightToBracket, faDoorOpen, faRegLike, faSolidDislike, faRegDislike, faSolidPoliceman, faRegPoliceman,
-    faSolidProfil, faRegProfil, faSolidIn, faRegIn, faSolidOut, faRegOut, faSolidDeleteComment, faRegDeleteComment,
-    faSolidAddComment, faRegAddComment, faSolidSeeAllComments, faRegSeeAllComments, faSolidSharePost, faRegSharePost,
-    faSolidEditPost, faRegEditPost, faSolidDeletePost, faRegDeletePost)
+library.add(faArrowRightToBracket, faDoorOpen, faAddressCard,
+    faRightFromBracket, faUserSecret, faMessage, faPaperPlane,
+    faAt, faKey, faPencil, faTrashCan, fasFaceSmile, farFaceSmile,
+    fasFaceFrown, farFaceFrown, faCircleMinus, faCirclePlus, faComments,
+    faCheckCircle)
 
 createApp(App)
 .use(router)
