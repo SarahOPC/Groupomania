@@ -5,9 +5,15 @@
 
 <script>
 import Logo from '@/components/logo-component.vue'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import { Tooltip } from 'bootstrap/dist/js/bootstrap.esm.min.js'
 
 export default {
-    components: {
+  mounted() {
+     Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
+    .forEach(tooltipNode => new Tooltip(tooltipNode))},
+  components: {
     Logo
     }
 }
@@ -44,4 +50,5 @@ nav a {
 nav a.router-link-exact-active {
   color: #FD2D01;
 }
+
 </style>

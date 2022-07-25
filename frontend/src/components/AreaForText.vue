@@ -3,20 +3,15 @@
         <textarea v-model="text" name="newPostFromUser" rows="7" cols="50" placeholder="Envie de partager quelque chose...?"></textarea><br>
         <label for="imagePost">Ajouter une image (.jpg ou .png)</label><br>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
-        <InputSubmit v-on:click="createPosts()" content="Publier" /><br>
-        <font-awesome-icon icon="fa-solid fa-paper-plane" size="lg" :style="{ color: '#FFD7D7' }"/>
+        <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Publier" v-on:click="createPosts()" icon="fa-solid fa-paper-plane" size="lg" :style="{ color: '#FFD7D7' }"/>
     </div>
         
 </template>
 
 <script>
-import InputSubmit from '@/components/InputSubmit.vue'
 import axios from 'axios'
 
 export default {
-    components: {
-        InputSubmit
-    },
     data() {
         return {
             text: "",

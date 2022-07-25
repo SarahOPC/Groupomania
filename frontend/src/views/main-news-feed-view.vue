@@ -1,9 +1,9 @@
 <template>
 <nav>
-  <router-link to="/profil"><font-awesome-icon icon="fa-solid fa-address-card"  size="lg" :style="{ color: '#FFD7D7' }" /></router-link>
+  <router-link to="/profil"><font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Mon profil" icon="fa-solid fa-address-card"  size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" /></router-link>
   <!--<router-link to="/logout">Se déconnecter</router-link>-->
-  <font-awesome-icon icon="fa-solid fa-right-from-bracket"  size="lg" :style="{ color: '#FFD7D7' }" />
-  <font-awesome-icon icon="fa-solid fa-user-secret" size="lg" :style="{ color: '#FFD7D7' }" />
+  <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Se déconnecter" icon="fa-solid fa-right-from-bracket"  size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
+  <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Rôle du médiateur" icon="fa-solid fa-user-secret" size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
 </nav>
   <router-view></router-view>
     <div class="container">
