@@ -36,10 +36,18 @@ export default {
         InputSubmit
     },
     methods: {
-        updateService() {
+        getUserValidToken() {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
+            return userValidToken;
+        },
+        getUserIdFromLocalStorage() {
             let id = sessionStorage.getItem('userId');
+            return id;
+        },
+        updateService() {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/service";
             
             axios({method:'put', url: urlDesti, data: {
@@ -59,10 +67,9 @@ export default {
             return self.mode = 'firstTime';
         },
         displayService() {
+             let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
             
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},

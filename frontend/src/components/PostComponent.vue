@@ -62,10 +62,18 @@ export default {
         }
     },
     methods: {
-        getAllPosts() {
-            let self = this;
+        getUserValidToken() {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
+            return userValidToken;
+        },
+        getUserIdFromLocalStorage() {
+            let id = sessionStorage.getItem('userId');
+            return id;
+        },
+        getAllPosts() {
+            let userValidToken = this.getUserValidToken();
+            let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/";
 
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
@@ -80,10 +88,9 @@ export default {
             })
         },
         getAllComments(postId) {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/comment";
 
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
@@ -98,10 +105,9 @@ export default {
             })
         },
         getOnePost(postId) {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
 
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
@@ -116,10 +122,9 @@ export default {
             })
         },
         deleteOnePost(postId) {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
 
             axios({method:'delete', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
@@ -135,10 +140,9 @@ export default {
             })
         },
         getOnePostForComments(postId) {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
 
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
@@ -154,10 +158,9 @@ export default {
             })
         },
         addOneComment(postId) {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/comment";
 
             axios({method:'post', url: urlDesti, data: {text: this.text}, headers:{'Authorization': 'Bearer ' + userValidToken}})
@@ -173,10 +176,9 @@ export default {
             })
         },
         deleteOneComment(postId, commentId) {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/" + commentId + "/comment";
 
             axios({method:'delete', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
@@ -192,9 +194,8 @@ export default {
             })
         },
         likingOnePost(postId) {
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let likesdislikes = 1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
@@ -211,9 +212,8 @@ export default {
             })
         },
         dislikingOnePost(postId) {
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let likesdislikes = -1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 

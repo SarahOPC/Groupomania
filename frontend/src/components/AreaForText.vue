@@ -19,13 +19,21 @@ export default {
         }
     },
     methods: {
+        getUserValidToken() {
+            let validToken = sessionStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            return userValidToken;
+        },
+        getUserIdFromLocalStorage() {
+            let id = sessionStorage.getItem('userId');
+            return id;
+        },
         retrieveImage(e) {
             return this.file = e.target.files[0];
         },
         createPosts() {
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id;
             const headersToPass = {'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data'};
             let formData = new FormData();

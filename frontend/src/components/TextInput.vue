@@ -33,14 +33,22 @@ export default {
         InputSubmit
     },
     methods: {
+        getUserValidToken() {
+            let validToken = sessionStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            return userValidToken;
+        },
+        getUserIdFromLocalStorage() {
+            let id = sessionStorage.getItem('userId');
+            return id;
+        },
         changeMode() {
             let self = this;
             return self.mode = 'firstTime';
         },
         updateFirstName() {
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/firstName";
             
             axios({method:'put', url: urlDesti, data: {
@@ -56,9 +64,8 @@ export default {
             })
         },
         updateLastName() {
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/lastName";
 
             axios({method:'put', url: urlDesti, data: {
@@ -74,10 +81,9 @@ export default {
             })
         },
         displayNames() {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
             
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},

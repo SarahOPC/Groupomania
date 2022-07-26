@@ -79,11 +79,19 @@ export default {
         }
     },
     methods: {
-        getFirstName: function() {
-            let self = this;
+        getUserValidToken() {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
+            return userValidToken;
+        },
+        getUserIdFromLocalStorage() {
             let id = sessionStorage.getItem('userId');
+            return id;
+        },
+        getFirstName: function() {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
+            let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
 
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
@@ -97,10 +105,9 @@ export default {
             })
         },
         getService() {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
 
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
@@ -114,9 +121,8 @@ export default {
             })
         },
         updatePassword() {
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/password";
             
             axios({method:'put', url: urlDesti, data: {
@@ -134,10 +140,9 @@ export default {
             })
         },
         changeAvatarInDatabase(e) {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/avatar";
             const headersToPass = {'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data'};
             let file = e.target.files[0];
@@ -157,10 +162,9 @@ export default {
             })
         },
         displayAvatar() {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
             
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
@@ -175,9 +179,8 @@ export default {
             })
         },
         deleteProfil() {
-            let validToken = sessionStorage.getItem('userToken');
-            let userValidToken = validToken.replace(/['"]+/g, '');
-            let id = sessionStorage.getItem('userId');
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
 
             axios({method:'delete', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken},
