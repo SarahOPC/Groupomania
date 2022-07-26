@@ -171,6 +171,7 @@ export default {
             })
             .then(function(response) {
                 if(response.status === 200) {
+                    sessionStorage.setItem('avatar', response.data.result[0].avatar);
                     return self.responseAvatar = response.data.result[0].avatar;
                 }
             })

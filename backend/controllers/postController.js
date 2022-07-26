@@ -1,7 +1,6 @@
 const dbfile = require('../config/db');
 const sqlRequests = require('../models/postModel');
 const fs = require("fs");
-const { Console } = require('console');
 
 exports.createPost = (req, res, next) => {
     const postBodyText = req.body.text;
@@ -74,30 +73,34 @@ exports.deletePost = (req, res, next) => {
             postId
         ];
 
-        let imageToDelete;
         dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, async function (err, result) {
             if (err) {
                 return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err });
-            };
-            let imageToDelete = JSON.stringify(result[0].image);
-            return imageToDelete;
-        });
-
-        if (imageToDelete) {
-            const filename = imageToDelete.split('/images/')[1];
-            fs.unlink(`images/${filename}`, (err) => {
-                if (err) throw err;
-                console.log(`images/${filename} was deleted`);
-            })
-        }
-
-        dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
-            if (err) {
-                return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
-            };
-            res.status(200).json({ message: "Post supprimé" })
+            } else {
+                let imageToDelete = await result[0].image;
+                if(result[0] == null || result[0] == undefined) {
+                    dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
+                        if (err) {
+                            return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
+                        };
+                        res.status(200).json({ message: "Post supprimé" })
+                    })
+                } else if(imageToDelete != null || imageToDelete != undefined) {
+                    const filename = imageToDelete.split('/images/')[1];
+                    fs.unlink(`images/${filename}`, (err) => {
+                        if (err) throw err;
+                        console.log(`images/${filename} was deleted`);
+                    })
+                    dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
+                        if (err) {
+                            return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
+                        };
+                        res.status(200).json({ message: "Post supprimé" })
+                    })
+                }
+            }
         })
-    })
+    })      
 };
 
 exports.getAllPosts = (req, res, next) => {
