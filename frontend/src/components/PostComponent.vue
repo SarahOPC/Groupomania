@@ -5,28 +5,28 @@
         <img crossorigin="anonymous" :src="post.image" alt="image du post">
     </div>
     <div>
-        <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier" v-bind:postIds="post.id" v-on:click="getOnePost(post.id)" icon="fa-solid fa-pencil" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" />
-        <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer" v-on:click="deleteOnePost(post.id)" icon="fa-solid fa-trash-can" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" />
-        <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="J'aime" v-on:click="likingOnePost(post.id)" icon="fa-regular fa-face-smile" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" />
+        <font-awesome-icon data-bs-toggle="tooltip" title="Modifier" v-bind:postIds="post.id" v-on:click="getOnePost(post.id)" icon="fa-solid fa-pencil" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" />
+        <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer" v-on:click="deleteOnePost(post.id)" icon="fa-solid fa-trash-can" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" />
+        <font-awesome-icon data-bs-toggle="tooltip" title="J'aime" v-on:click="likingOnePost(post.id)" icon="fa-regular fa-face-smile" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" />
         <font-awesome-icon icon="fa-solid fa-face-smile" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' }" />
-        <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Je n'aime pas" v-on:click="dislikingOnePost(post.id)" icon="fa-regular fa-face-frown" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" />
+        <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas" v-on:click="dislikingOnePost(post.id)" icon="fa-regular fa-face-frown" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" />
         <font-awesome-icon icon="fa-solid fa-face-frown" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" /><br>
         <div v-if="displayPostUpdate">
             <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()"/>
         </div>
     </div>
     
-    <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Voir tous les commentaires" v-bind:postIds="post.id" v-on:click="getAllComments(post.id)" icon="fa-solid fa-comments" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" /><br>
+    <font-awesome-icon data-bs-toggle="tooltip" title="Voir tous les commentaires" v-bind:postIds="post.id" v-on:click="getAllComments(post.id)" icon="fa-solid fa-comments" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" /><br>
     <div v-if="displayCommentsArea == post.id">
         <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
-            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer mon commentaire" v-bind:commentIds="comment.id" v-on:click="deleteOneComment(post.id, comment.id)" icon="fa-solid fa-circle-minus" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" /><br>
+            <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire" v-bind:commentIds="comment.id" v-on:click="deleteOneComment(post.id, comment.id)" icon="fa-solid fa-circle-minus" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" /><br>
         </div>
     </div>
 
-    <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Ajouter un commentaire" v-on:click="getOnePostForComments(post.id)" icon="fa-solid fa-circle-plus" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" /><br>
+    <font-awesome-icon data-bs-toggle="tooltip" title="Ajouter un commentaire" v-on:click="getOnePostForComments(post.id)" icon="fa-solid fa-circle-plus" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" /><br>
     <div v-if="displayNewCommentArea">
         <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
-        <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Publier mon commentaire" v-on:click="addOneComment(post.id)" icon="fa-solid fa-check-circle" size="lg" :style="{ color: '#4E5166', 'margin-left': '0.5em' , cursor: 'pointer' }" />
+        <font-awesome-icon data-bs-toggle="tooltip" title="Publier mon commentaire" v-on:click="addOneComment(post.id)" icon="fa-solid fa-check-circle" size="lg" :style="{ color: '#4E5166', 'margin-left': '0.5em' , cursor: 'pointer' }" />
     </div>
     
 

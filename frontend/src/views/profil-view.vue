@@ -1,10 +1,10 @@
 <template>
     <div>
         <nav>
-            <router-link to="/news"><font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="News" icon="fa-solid fa-message" size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }"  /></router-link>
+            <router-link to="/news"><font-awesome-icon data-bs-toggle="tooltip" title="News" icon="fa-solid fa-message" size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }"  /></router-link>
             <!--<router-link to="/logout">Se déconnecter</router-link>-->
-            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Me déconnecter" icon="fa-solid fa-right-from-bracket"  size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
-            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Rôle du médiateur" icon="fa-solid fa-user-secret" size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
+            <font-awesome-icon data-bs-toggle="tooltip" title="Me déconnecter" icon="fa-solid fa-right-from-bracket"  size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
+            <font-awesome-icon data-bs-toggle="tooltip" title="Rôle du médiateur" icon="fa-solid fa-user-secret" size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
         </nav>
         <router-view></router-view>
         <div class="container">
