@@ -16,7 +16,7 @@ exports.createPost = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
-        console.log("Connecté à la base de données");
+        console.log("Connecté à la base de données createPost");
 
         let params = [
             postBodyText, postImage, postUserId
@@ -45,7 +45,7 @@ exports.updatePost = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
-        console.log("Connecté à la base de données");
+        console.log("Connecté à la base de données updatePost");
 
         let params = [
             postBodyText, postImage, postUserId, postId
@@ -62,12 +62,14 @@ exports.updatePost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
     let postId = req.params.postId;
+    let userId = req.params.id;
+    let authUserId = JSON.stringify(req.auth.userId)
 
     dbfile.db.connect(async function (err) {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
-        console.log("Connecté à la base de données");
+        console.log("Connecté à la base de données deletePost");
 
         let params = [
             postId
@@ -76,31 +78,31 @@ exports.deletePost = (req, res, next) => {
         dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, async function (err, result) {
             if (err) {
                 return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err });
-            } else {
-                let imageToDelete = await result[0].image;
-                if(result[0] == null || result[0] == undefined) {
-                    dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
-                        if (err) {
-                            return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
-                        };
-                        res.status(200).json({ message: "Post supprimé" })
-                    })
-                } else if(imageToDelete != null || imageToDelete != undefined) {
-                    const filename = imageToDelete.split('/images/')[1];
-                    fs.unlink(`images/${filename}`, (err) => {
-                        if (err) throw err;
-                        console.log(`images/${filename} was deleted`);
-                    })
-                    dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
-                        if (err) {
-                            return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
-                        };
-                        res.status(200).json({ message: "Post supprimé" })
-                    })
-                }
+            } else if(userId !== authUserId) {
+                return res.status(400).json({error: new Error("Requête non autorisée")});
             }
-        })
-    })      
+            console.log(result[0].image === null);
+            if(result[0].image !== null && result[0].image !== 'undefined'){
+                let imageToDelete = await result[0].image;
+                const filename = imageToDelete.split('/images/')[1];
+                fs.unlink(`images/${filename}`, () => {
+                    dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
+                        if (err) {
+                            return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
+                        };
+                        res.status(200).json({ message: "Post supprimé" })
+                    })
+                })
+            } else {
+                dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
+                    if (err) {
+                        return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
+                    };
+                    res.status(200).json({ message: "Post supprimé" })
+                })
+            }
+        })      
+    });
 };
 
 exports.getAllPosts = (req, res, next) => {
@@ -108,7 +110,7 @@ exports.getAllPosts = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
-        console.log("Connecté à la base de données");
+        console.log("Connecté à la base de données getAllPosts");
 
         dbfile.db.query(sqlRequests.sqlGetAllPosts, function (err, result) {
             if (err) {
@@ -126,7 +128,7 @@ exports.getOnePost = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
-        console.log("Connecté à la base de données");
+        console.log("Connecté à la base de données getOnePost");
 
         let params = [
             postId
@@ -151,7 +153,7 @@ exports.ratingPost = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
-        console.log("Connecté à la base de données");
+        console.log("Connecté à la base de données ratingPost");
 
         let parameters = [
             postId, userId, likes
@@ -161,7 +163,7 @@ exports.ratingPost = (req, res, next) => {
                 dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, function(err, results) {
                     if (err) {
                         return res.status(401).json({ message: "Impossible de liker le post" });
-                    } else if(results[0] === undefined){
+                    } else if(results[0] === null || results[0] === undefined){
                         dbfile.db.query(sqlRequests.sqlCreatingLike, parameters, function (err, results) {
                             if (err) {
                                 return res.status(401).json({ message: "Impossible de liker le post" });
@@ -182,7 +184,7 @@ exports.ratingPost = (req, res, next) => {
                 dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, function(err, results) {
                     if (err) {
                         return res.status(401).json({ message: "Impossible de disliker le post" });
-                    } else if(results[0] === undefined){
+                    } else if(results[0] === null || results[0] === undefined){
                         dbfile.db.query(sqlRequests.sqlCreatingLike, parameters, function (err, results) {
                             if (err) {
                                 return res.status(401).json({ message: "Impossible de disliker le post" });

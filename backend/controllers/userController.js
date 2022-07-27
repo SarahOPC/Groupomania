@@ -15,7 +15,7 @@ exports.signup = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
-        console.log("Connecté à la base de données");
+        console.log("Connecté à la base de données signup");
 
         let params = [
             requestUserMail,
@@ -41,7 +41,7 @@ exports.login = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         } else {
-            console.log("Connecté à la base de données");
+            console.log("Connecté à la base de données login");
 
             dbfile.db.query(sqlRequests.sqlFindUserMail, params, async function (err, result) {
                 if (err) {
@@ -79,7 +79,7 @@ exports.getProfil = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         } else {
-            console.log("Connecté à la base de données");
+            console.log("Connecté à la base de données getProfil");
         }
 
         let params = [
@@ -104,7 +104,7 @@ exports.updateProfilFirstName = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         } else {
-            console.log("Connecté à la base de données");
+            console.log("Connecté à la base de données updateFirstName");
         }
 
         let params = [
@@ -129,7 +129,7 @@ exports.updateProfilLastName = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         } else {
-            console.log("Connecté à la base de données");
+            console.log("Connecté à la base de données updateLastName");
         }
 
         let params = [
@@ -154,7 +154,7 @@ exports.updateProfilService = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         } else {
-            console.log("Connecté à la base de données");
+            console.log("Connecté à la base de données service");
         }
 
         let params = [
@@ -179,7 +179,7 @@ exports.updateProfilAvatar = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         } else {
-            console.log("Connecté à la base de données");
+            console.log("Connecté à la base de données avatar");
         }
 
         let params = [
@@ -205,7 +205,7 @@ exports.updateProfilPassword = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         } else {
-            console.log("Connecté à la base de données");
+            console.log("Connecté à la base de données mdp");
         }
 
         let params = [
@@ -229,7 +229,7 @@ exports.deleteProfil = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         } else {
-            console.log("Connecté à la base de données");
+            console.log("Connecté à la base de données deleteProfil");
         }
 
         let params = [

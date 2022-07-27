@@ -24,7 +24,7 @@ class="rounded-3" style="width: 2em; margin-right: 1em; box-shadow: none;" />
         icon="fa-regular fa-face-frown" size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" />
         
         <font-awesome-icon icon="fa-solid fa-face-frown" size="lg" 
-        :style="{ color: '#4E5166', 'margin-right': '0.5em' , cursor: 'pointer' }" /><br>
+        :style="{ color: '#4E5166', 'margin-right': '0.5em'}" /><br>
         
         <div v-if="displayPostUpdate">
             <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()"/>
@@ -161,15 +161,13 @@ export default {
         deleteOnePost(postId) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
-            let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
 
             axios({method:'delete', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
                     console.log(response);
-                    alert("Votre post vient d'être supprimé");
-                    self.getAllPosts();
+                    this.getAllPosts();
                 }
             })
             .catch(function(error) {
@@ -257,6 +255,7 @@ export default {
             axios({method:'post', url: urlDesti, data: {likesdislikes: likesdislikes}, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
+                    console.log(response.data);
                     console.log(response.data.results.insertId);
                     console.log(response);
                 }

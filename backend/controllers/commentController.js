@@ -11,7 +11,7 @@ exports.createComment = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
-        console.log("Connecté à la base de données");
+        console.log("Connecté à la base de données createComment");
 
         let params = [
             commentText, userId, postId
@@ -34,7 +34,7 @@ exports.deleteComment = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
-        console.log("Connecté à la base de données");
+        console.log("Connecté à la base de données deleteComment");
 
         let params = [
             commentId
@@ -57,7 +57,7 @@ exports.getAllComments = (req, res, next) => {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
-        console.log("Connecté à la base de données");
+        console.log("Connecté à la base de données getAllComments");
 
         let params = [
             postId
