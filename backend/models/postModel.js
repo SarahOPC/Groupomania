@@ -8,7 +8,8 @@ const sqlRequests = {
     sqlGetOneForDelete : "SELECT image FROM posts WHERE id = ?",
     sqlLikesDislikes : "SELECT value FROM likesdislikes WHERE postId = ? AND userId = ?",
     sqlCreatingLike: "INSERT INTO likesdislikes (`postId`, `userId`, `value`) VALUES (?, ?, ?)",
-    sqlDeletingLike: "DELETE FROM likesdislikes WHERE postId = ? AND userId = ?"
+    sqlDeletingLike: "DELETE FROM likesdislikes WHERE postId = ? AND userId = ?",
+    sqlGetRating: "SELECT value FROM likesdislikes WHERE postId = ? AND userId = ?"
 };
 
 module.exports = sqlRequests;

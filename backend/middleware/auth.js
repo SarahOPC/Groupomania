@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
         // si j'ai un userId dans la requête, je le compare avec celui récupéré du token
         if (req.body.userId && req.body.userId !== userId) { // si j'ai un userId dans la requête et qu'il est différent de celui du token
             throw "403: unauthorized request";
-        } else if(req.body.userId == userId || req.body.userId == admin){
+        } else if(req.body.userId == userId){
             next(); // sinon, on peut executer les autres middlewares en jeu
         }
 

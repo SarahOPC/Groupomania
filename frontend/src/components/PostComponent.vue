@@ -237,14 +237,13 @@ export default {
             axios({method:'post', url: urlDesti, data: {likesdislikes: likesdislikes}, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
-                    console.log(response.data.results.insertId);
                     console.log(response);
                 }
             })
 
             .catch(function(error) {
                 console.log(error);
-            })
+            });
         },
         dislikingOnePost(postId) {
             let userValidToken = this.getUserValidToken();
@@ -255,14 +254,12 @@ export default {
             axios({method:'post', url: urlDesti, data: {likesdislikes: likesdislikes}, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
-                    console.log(response.data);
-                    console.log(response.data.results.insertId);
                     console.log(response);
                 }
             })
             .catch(function(error) {
                 console.log(error);
-            })
+            });
         }
     }
 }

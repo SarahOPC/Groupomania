@@ -63,7 +63,6 @@ exports.updatePost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
     let postId = req.params.postId;
     let userId = req.params.id;
-    let authUserId = JSON.stringify(req.auth.userId)
 
     dbfile.db.connect(async function (err) {
         if (err) {
@@ -78,8 +77,6 @@ exports.deletePost = (req, res, next) => {
         dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, async function (err, result) {
             if (err) {
                 return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err });
-            } else if(userId !== authUserId) {
-                return res.status(400).json({error: new Error("Requête non autorisée")});
             }
             console.log(result[0].image === null);
             if(result[0].image !== null && result[0].image !== 'undefined'){
@@ -158,49 +155,50 @@ exports.ratingPost = (req, res, next) => {
         let parameters = [
             postId, userId, likes
         ];
-        switch (likes) {
-            case 1:
-                dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, function(err, results) {
+
+        dbfile.db.query(sqlRequests.sqlGetRating, parameters, async function(err, result) {
+            if(err) {
+                return res.status(401).json({ message: "Impossible d'évaluer ce post" });
+            } else if(await result[0] === null || await result[0] === undefined) {
+                dbfile.db.query(sqlRequests.sqlCreatingLike, parameters, async function (err, results) {
                     if (err) {
                         return res.status(401).json({ message: "Impossible de liker le post" });
-                    } else if(results[0] === null || results[0] === undefined){
-                        dbfile.db.query(sqlRequests.sqlCreatingLike, parameters, function (err, results) {
+                    };
+                    res.status(200).json({ results });
+                })
+            } else {
+                switch (likes) {
+                    case 1:
+                        dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, async function(err, results) {
                             if (err) {
                                 return res.status(401).json({ message: "Impossible de liker le post" });
-                            };
-                            res.status(200).json({ results });
+                            } else if(await results[0].value === 1){
+                                dbfile.db.query(sqlRequests.sqlDeletingLike, parameters, async function (err, results) {
+                                    if (err) {
+                                        return res.status(401).json({ message: "Impossible de supprimer le like du post" });
+                                    };
+                                    res.status(200).json({ results });
+                                })
+                            }
                         })
-                    } else if(results[0].value === 1){
-                        dbfile.db.query(sqlRequests.sqlDeletingLike, parameters, function (err, results) {
-                            if (err) {
-                                return res.status(401).json({ message: "Impossible de supprimer le like du post" });
-                            };
-                            res.status(200).json({ results });
-                        })
-                    }
-                })
-                break;
-            case -1:
-                dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, function(err, results) {
-                    if (err) {
-                        return res.status(401).json({ message: "Impossible de disliker le post" });
-                    } else if(results[0] === null || results[0] === undefined){
-                        dbfile.db.query(sqlRequests.sqlCreatingLike, parameters, function (err, results) {
+                        break;
+                    case -1:
+                        dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, async function(err, results) {
                             if (err) {
                                 return res.status(401).json({ message: "Impossible de disliker le post" });
-                            };
-                            res.status(200).json({ results });
+                            } else if(await results[0].value === -1){
+                                dbfile.db.query(sqlRequests.sqlDeletingLike, parameters, async function (err, results) {
+                                    if (err) {
+                                        return res.status(401).json({ message: "Impossible de supprimer le dislike du post" });
+                                    };
+                                    res.status(200).json({ results });
+                                })
+                            }
                         })
-                    } else if(results[0].value === -1){
-                        dbfile.db.query(sqlRequests.sqlDeletingLike, parameters, function (err, results) {
-                            if (err) {
-                                return res.status(401).json({ message: "Impossible de supprimer le dislike du post" });
-                            };
-                            res.status(200).json({ results });
-                        })
-                    }
-                })
-                break;
-        }
+                        break;
+                }
+            }
+        });
+
     });
 }

@@ -17,11 +17,11 @@ const routes = [
     name: 'main-news-feed-view',
     component: () => import(/* webpackChunkName: "news" */ '../views/main-news-feed-view.vue')
   },
-  //{
-  //  path: '/logout',
-  //  name: 'Logout',
-  //  component: () => import(/* webpackChunkName: "logout" */ '../views/LogoutView.vue')
-  //} */
+  {
+    path: '/logout',
+    name: 'logout-view',
+    component: () => import(/* webpackChunkName: "logout" */ '../views/logout-view.vue')
+  }
 ]
 
 const router = createRouter({

@@ -1,6 +1,6 @@
 // Requêtes SQL préparées
 const sqlRequests = {
-    sqlInsertUser : "INSERT INTO users (`mail`, `password`) VALUES (?, ?)",
+    sqlInsertUser : "INSERT INTO users (`mail`, `password`, `avatar`) VALUES (?, ?, 'http://localhost:3000/images/AvatarParDefaut.jpg')",
     sqlFindUserMail : "SELECT * FROM users WHERE mail = ?",
     sqlFindUserPassword : "SELECT password FROM users WHERE mail = ?",
     sqlFindUserId : "SELECT id FROM users WHERE mail = ?",
