@@ -40,4 +40,4 @@ library.add(faArrowRightToBracket, faDoorOpen, faAddressCard,
 createApp(App)
 .use(router)
 .component('font-awesome-icon', FontAwesomeIcon)
-.mount('#app')
+.mount('#app');

@@ -162,7 +162,6 @@ export default {
             axios({ method: 'put', url: urlDesti, data: formData, headers: headersToPass })
                 .then(function (response) {
                     if (response.status === 200) {
-                        alert("Votre avatar vient d'être mis à jour");
                         console.log(response);
                         self.displayAvatar();
                     }
@@ -200,7 +199,7 @@ export default {
             })
                 .then(function (response) {
                     if (response.status === 200) {
-                        alert("Votre compte vient d'être supprimer, à bientôt");
+                        alert("Votre compte vient d'être supprimer");
                         console.log(response);
                         sessionStorage.clear();
                     }

@@ -1,5 +1,4 @@
 <template>
-
     <div class="container" v-for="post in posts" :key="post.id">
         <img crossorigin="anonymous" v-if="avatar !== ''" :src="avatar" alt="Avatar" class="rounded-3"
             style="width: 2em; margin-right: 1em; box-shadow: none;" />
@@ -8,33 +7,36 @@
             <img crossorigin="anonymous" :src="post.image" alt="image du post">
         </div>
         <div>
+
             <font-awesome-icon data-bs-toggle="tooltip" title="Modifier" v-bind:postIds="post.id"
                 v-on:click="getOnePost(post.id)" icon="fa-solid fa-pencil" size="lg"
                 :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
 
-            <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer" v-on:click="deleteOnePost(post.id)"
-                icon="fa-solid fa-trash-can" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            <div>
+                <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer" v-bind:postIds="post.id" 
+                    v-on:click="deleteOnePost(post.id)" icon="fa-solid fa-trash-can" size="lg"
+                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
 
-            <font-awesome-icon data-bs-toggle="tooltip" title="J'aime" v-on:click="likingOnePost(post.id)"
-                icon="fa-regular fa-face-smile" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                <font-awesome-icon v-if="liked == 0" data-bs-toggle="tooltip" title="J'aime" v-bind:postIds="post.id" 
+                    v-on:click.stop="likingOnePost(post.id)" icon="fa-regular fa-face-smile" size="lg"
+                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
 
-            <font-awesome-icon icon="fa-solid fa-face-smile" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em' }" />
+                <font-awesome-icon v-if="liked == 1" icon="fa-solid fa-face-smile" size="lg"
+                    :style="{ color: '#4E5166', 'margin-right': '0.5em' }" />
 
-            <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas" v-on:click="dislikingOnePost(post.id)"
-                icon="fa-regular fa-face-frown" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                <font-awesome-icon v-if="disliked == 0" data-bs-toggle="tooltip" title="Je n'aime pas" v-bind:postIds="post.id" 
+                    v-on:click="dislikingOnePost(post.id)" icon="fa-regular fa-face-frown" size="lg"
+                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
 
-            <font-awesome-icon icon="fa-solid fa-face-frown" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em' }" /><br>
+                <font-awesome-icon v-if="liked == 1" icon="fa-solid fa-face-frown" size="lg"
+                    :style="{ color: '#4E5166', 'margin-right': '0.5em' }" /><br>
+            </div>
 
             <div v-if="displayPostUpdate">
                 <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()" />
             </div>
         </div>
-
+                
         <font-awesome-icon data-bs-toggle="tooltip" title="Voir tous les commentaires" v-bind:postIds="post.id"
             v-on:click="getAllComments(post.id)" icon="fa-solid fa-comments" size="lg"
             :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" /><br>
@@ -66,7 +68,7 @@ import axios from 'axios'
 export default {
     name: 'postComponent',
     components: {
-        AreaForUpdatingPost
+       AreaForUpdatingPost
     },
     beforeMount() {
         this.getAllPosts();
@@ -86,7 +88,9 @@ export default {
             commentId: this.commentIds,
             displayNewCommentArea: false,
             displayCommentsArea: '',
-            avatar: ''
+            avatar: '',
+            liked: 0,
+            disliked: 0
         }
     },
     methods: {
@@ -168,13 +172,14 @@ export default {
         deleteOnePost(postId) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
+            let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
 
             axios({ method: 'delete', url: urlDesti, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log(response);
-                        this.getAllPosts();
+                        return self.getAllPosts();
                     }
                 })
                 .catch(function (error) {
@@ -210,7 +215,7 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                         self.getAllPosts();
-                        self.displayNewCommentArea = false;
+                        return self.displayNewCommentArea = false;
                     }
                 })
                 .catch(function (error) {
@@ -227,8 +232,7 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log(response);
-                        alert("Votre commentaire vient d'être supprimé");
-                        self.getAllComments(postId);
+                        return self.getAllComments(postId);
                     }
                 })
                 .catch(function (error) {
@@ -236,9 +240,9 @@ export default {
                 })
         },
         likingOnePost(postId) {
-            console.log('test');
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
+            let self = this;
             let likesdislikes = 1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
@@ -246,6 +250,7 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log(response);
+                        return self.liked = 1;
                     }
                 })
 
@@ -256,6 +261,7 @@ export default {
         dislikingOnePost(postId) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
+            let self = this;
             let likesdislikes = -1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
@@ -263,6 +269,7 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log(response);
+                        return self.disliked = 1;
                     }
                 })
                 .catch(function (error) {

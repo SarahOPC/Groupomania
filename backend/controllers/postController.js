@@ -62,7 +62,6 @@ exports.updatePost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
     let postId = req.params.postId;
-    let userId = req.params.id;
 
     dbfile.db.connect(async function (err) {
         if (err) {
@@ -78,8 +77,7 @@ exports.deletePost = (req, res, next) => {
             if (err) {
                 return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err });
             }
-            console.log(result[0].image === null);
-            if(result[0].image !== null && result[0].image !== 'undefined'){
+            if (result[0].image !== null && result[0].image !== 'undefined') {
                 let imageToDelete = await result[0].image;
                 const filename = imageToDelete.split('/images/')[1];
                 fs.unlink(`images/${filename}`, () => {
@@ -98,7 +96,7 @@ exports.deletePost = (req, res, next) => {
                     res.status(200).json({ message: "Post supprimé" })
                 })
             }
-        })      
+        })
     });
 };
 
@@ -156,10 +154,10 @@ exports.ratingPost = (req, res, next) => {
             postId, userId, likes
         ];
 
-        dbfile.db.query(sqlRequests.sqlGetRating, parameters, async function(err, result) {
-            if(err) {
+        dbfile.db.query(sqlRequests.sqlGetRating, parameters, async function (err, result) {
+            if (err) {
                 return res.status(401).json({ message: "Impossible d'évaluer ce post" });
-            } else if(await result[0] === null || await result[0] === undefined) {
+            } else if (await result[0] === null || await result[0] === undefined) {
                 dbfile.db.query(sqlRequests.sqlCreatingLike, parameters, async function (err, results) {
                     if (err) {
                         return res.status(401).json({ message: "Impossible de liker le post" });
@@ -169,10 +167,10 @@ exports.ratingPost = (req, res, next) => {
             } else {
                 switch (likes) {
                     case 1:
-                        dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, async function(err, results) {
+                        dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, async function (err, results) {
                             if (err) {
                                 return res.status(401).json({ message: "Impossible de liker le post" });
-                            } else if(await results[0].value === 1){
+                            } else if (await results[0].value === 1) {
                                 dbfile.db.query(sqlRequests.sqlDeletingLike, parameters, async function (err, results) {
                                     if (err) {
                                         return res.status(401).json({ message: "Impossible de supprimer le like du post" });
@@ -183,10 +181,10 @@ exports.ratingPost = (req, res, next) => {
                         })
                         break;
                     case -1:
-                        dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, async function(err, results) {
+                        dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, async function (err, results) {
                             if (err) {
                                 return res.status(401).json({ message: "Impossible de disliker le post" });
-                            } else if(await results[0].value === -1){
+                            } else if (await results[0].value === -1) {
                                 dbfile.db.query(sqlRequests.sqlDeletingLike, parameters, async function (err, results) {
                                     if (err) {
                                         return res.status(401).json({ message: "Impossible de supprimer le dislike du post" });

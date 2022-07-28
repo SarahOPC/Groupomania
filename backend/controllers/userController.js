@@ -23,7 +23,7 @@ exports.signup = (req, res, next) => {
 
         dbfile.db.query(sqlRequests.sqlInsertUser, params, function (err, result) {
             if (err) {
-                return res.status(401).json({ error: err});
+                return res.status(401).json({ error: err });
             };
             res.status(201).json({ message: "Utilisateur créé" })
         });
@@ -172,7 +172,7 @@ exports.updateProfilService = (req, res, next) => {
 exports.updateProfilAvatar = (req, res, next) => {
     let user_Id = req.params.id;
     let userId = parseInt(user_Id);
-    let uniqueFileName = req.uniqueFileName;    
+    let uniqueFileName = req.uniqueFileName;
     let avatar = `${req.protocol}://${req.get("host")}/images/${uniqueFileName}`;
 
     dbfile.db.connect(function (err) {
