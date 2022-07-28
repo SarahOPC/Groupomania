@@ -16,7 +16,7 @@ import InputSubmit from '@/components/InputSubmit.vue'
 
 export default {
     name: "logout-view",
-    component: {
+    components: {
         InputSubmit
     },
     data() {
@@ -47,7 +47,7 @@ export default {
     font-weight: bold;
 }
 
-span, h2 {
+span {
     cursor: pointer;
 }
 

@@ -70,7 +70,6 @@ textarea {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     color: #FFD7D7;
-    font-weight: bold;
 }
 
 </style>

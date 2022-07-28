@@ -110,13 +110,14 @@ export default {
         },
         getAllPosts() {
             let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
             let self = this;
-            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/";
-
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id ;
             axios({method:'get', url: urlDesti, headers:{'Authorization': 'Bearer ' + userValidToken}})
             .then(function(response) {
                 if(response.status === 200) {
                     self.displayPostUpdate =false;
+                    console.log(response.data);
                     return self.posts = response.data.result.slice().reverse();
                 }
             })

@@ -2,7 +2,6 @@
 
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
-let admin;
 
 module.exports = async (req, res, next) => {
         
@@ -12,10 +11,11 @@ module.exports = async (req, res, next) => {
         const userId = decodedToken.userId;
         // on attribut le userId à l'objet requête
         req.auth = { userId: userId };
+        paramsId = parseInt(req.params.id);
         // si j'ai un userId dans la requête, je le compare avec celui récupéré du token
-        if (req.body.userId && req.body.userId !== userId) { // si j'ai un userId dans la requête et qu'il est différent de celui du token
+        if (req.params.id && paramsId !== userId) { // si j'ai un userId dans la requête et qu'il est différent de celui du token
             throw "403: unauthorized request";
-        } else if(req.body.userId == userId){
+        } else if(paramsId == userId){
             next(); // sinon, on peut executer les autres middlewares en jeu
         }
 

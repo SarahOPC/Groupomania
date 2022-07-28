@@ -7,7 +7,7 @@ const fileUploader = require("../middleware/fileUploader");
 router.post('/:id', auth, fileUploader.saveFile, postController.createPost);
 router.put('/:id/:postId', auth, fileUploader.saveFile, postController.updatePost);
 router.delete('/:id/:postId', auth, postController.deletePost);
-router.get('/', auth, postController.getAllPosts);
+router.get('/:id', auth, postController.getAllPosts);
 router.get('/:id/:postId', auth, postController.getOnePost);
 router.post('/:id/:postId/like', auth, postController.ratingPost);
 

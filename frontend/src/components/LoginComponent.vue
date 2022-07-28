@@ -103,7 +103,6 @@ export default {
   --bs-btn-bg: #4E5166;
   --bs-btn-border-radius: 0.5em;
   --bs-btn-color: #FFD7D7;
-  --bs-btn-font-weight: bold;
 }
 
 .btn:hover {
