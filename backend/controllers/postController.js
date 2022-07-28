@@ -176,7 +176,7 @@ exports.ratingPost = (req, res, next) => {
                                         return res.status(401).json({ message: "Impossible de supprimer le like du post" });
                                     };
                                     res.status(200).json({ results });
-                                })
+                                }) // passer en case 0 + un get des likes pour afficher si deja liker
                             }
                         })
                         break;

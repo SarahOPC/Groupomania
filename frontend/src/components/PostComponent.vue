@@ -14,22 +14,24 @@
 
             <div>
                 <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer" v-bind:postIds="post.id" 
-                    v-on:click="deleteOnePost(post.id)" icon="fa-solid fa-trash-can" size="lg"
+                    @click.stop="deleteOnePost(post.id)" icon="fa-solid fa-trash-can" size="lg"
                     :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
 
                 <font-awesome-icon v-if="liked == 0" data-bs-toggle="tooltip" title="J'aime" v-bind:postIds="post.id" 
-                    v-on:click.stop="likingOnePost(post.id)" icon="fa-regular fa-face-smile" size="lg"
+                    v-on:click="likingOnePost(post.id)" icon="fa-regular fa-face-smile" size="lg"
                     :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
 
-                <font-awesome-icon v-if="liked == 1" icon="fa-solid fa-face-smile" size="lg"
-                    :style="{ color: '#4E5166', 'margin-right': '0.5em' }" />
+                <font-awesome-icon v-if="liked == 1" data-bs-toggle="tooltip" title="J'aime" v-bind:postIds="post.id" 
+                    v-on:click="unlikingOnePost(post.id)" icon="fa-solid fa-face-smile" size="lg"
+                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
 
                 <font-awesome-icon v-if="disliked == 0" data-bs-toggle="tooltip" title="Je n'aime pas" v-bind:postIds="post.id" 
                     v-on:click="dislikingOnePost(post.id)" icon="fa-regular fa-face-frown" size="lg"
                     :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
 
-                <font-awesome-icon v-if="liked == 1" icon="fa-solid fa-face-frown" size="lg"
-                    :style="{ color: '#4E5166', 'margin-right': '0.5em' }" /><br>
+                <font-awesome-icon v-if="disliked == 1" data-bs-toggle="tooltip" title="Je n'aime pas" v-bind:postIds="post.id" 
+                    v-on:click="undislikingOnePost(post.id)" icon="fa-solid fa-face-frown" size="lg"
+                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" /><br>
             </div>
 
             <div v-if="displayPostUpdate">
@@ -258,6 +260,25 @@ export default {
                     console.log(error);
                 });
         },
+        unlikingOnePost(postId) {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
+            let self = this;
+            let likesdislikes = 0;
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
+
+            axios({ method: 'post', url: urlDesti, data: { likesdislikes: likesdislikes }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
+                .then(function (response) {
+                    if (response.status === 200) {
+                        console.log(response);
+                        return self.liked = 0;
+                    }
+                })
+
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
         dislikingOnePost(postId) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
@@ -270,6 +291,24 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                         return self.disliked = 1;
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+        undislikingOnePost(postId) {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
+            let self = this;
+            let likesdislikes = 0;
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
+
+            axios({ method: 'post', url: urlDesti, data: { likesdislikes: likesdislikes }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
+                .then(function (response) {
+                    if (response.status === 200) {
+                        console.log(response);
+                        return self.disliked = 0;
                     }
                 })
                 .catch(function (error) {
