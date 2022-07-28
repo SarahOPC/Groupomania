@@ -1,17 +1,16 @@
 <template>
 
-<button>{{ content }}</button>
+  <button>{{ content }}</button>
 
 </template>
 
 <script>
 export default {
-    props: ["content"]
+  props: ["content"]
 }
 </script>
 
 <style scoped>
-
 button {
   background-color: #4E5166;
   border-radius: 0.5em;
@@ -26,5 +25,4 @@ button:hover {
   background-color: #FFD7D7;
   border-color: #FD2D01;
 }
-
 </style>

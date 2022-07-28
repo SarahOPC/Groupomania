@@ -1,14 +1,14 @@
 <template>
     <div>
         <textarea type="text" name="newPostFromUser" rows="7" cols="50" :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"></textarea><br>
+            @input="$emit('update:modelValue', $event.target.value)"></textarea><br>
         <label for="imagePost">Changer l'image (.jpg ou .png)</label>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
         <InputSubmit v-on:click="updateOnePost(postId)" content="Publier mon post modifié" /><br>
-        <font-awesome-icon icon="fa-solid fa-paper-plane" size="lg" :style="{ color: '#FFD7D7' }"/>
+        <font-awesome-icon icon="fa-solid fa-paper-plane" size="lg" :style="{ color: '#FFD7D7' }" />
 
     </div>
-        
+
 </template>
 
 <script>
@@ -18,7 +18,7 @@ import axios from 'axios'
 export default {
     name: "areaForUpdatingPost",
     components: {
-    InputSubmit
+        InputSubmit
     },
     data() {
         return {
@@ -45,27 +45,27 @@ export default {
             return this.file = e.target.files[0];
         },
         updateOnePost(postId) {
-             let userValidToken = this.getUserValidToken();
+            let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
-            const headersToPass = {'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data'};
+            const headersToPass = { 'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data' };
             let formData = new FormData();
             formData.append("image", this.file);
             formData.append("text", this.modelValue);
             console.log(this.file);
             console.log(this.modelValue);
 
-            axios({method:'put', url: urlDesti, data: formData, headers: headersToPass})
-            .then(function(response) {
-                if(response.status === 200) {
-                    console.log(response);
-                    return self.$emit('reloadPostsPage');
-                }
-            })
-            .catch(function(error) {
-                console.log(error);
-            })
+            axios({ method: 'put', url: urlDesti, data: formData, headers: headersToPass })
+                .then(function (response) {
+                    if (response.status === 200) {
+                        console.log(response);
+                        return self.$emit('reloadPostsPage');
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
         },
         changeInputContent(content) {
             this.$emit('update:modelValue', content)
@@ -75,12 +75,10 @@ export default {
 </script>
 
 <style>
-
 textarea {
     border-radius: 0.5em;
     border-color: #FD2D01;
     border-style: dotted;
     margin-bottom: 1.5em;
 }
-
 </style>
