@@ -5,12 +5,15 @@
                 <font-awesome-icon data-bs-toggle="tooltip" title="News" icon="fa-solid fa-message" size="lg"
                     :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
             </router-link>
+
+                <font-awesome-icon @click="showModal = true" @close-modal="showModal = false" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret"
+                    size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em', cursor: 'pointer' }" />
+                    <ModeratorModal v-show="showModal" @close-modal="showModal = false" />
+
             <router-link to="/logout">
                 <font-awesome-icon data-bs-toggle="tooltip" title="Me déconnecter" icon="fa-solid fa-right-from-bracket"
                     size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
             </router-link>
-            <font-awesome-icon data-bs-toggle="tooltip" title="Rôle du médiateur" icon="fa-solid fa-user-secret"
-                size="lg" :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
         </nav>
         <router-view></router-view>
         <div class="container">
@@ -30,7 +33,7 @@
                         <h3>Ma photo de profil </h3>
                     </div>
                     <div>
-                        <img v-if="responseAvatar == null" src="../../images/AvatarParDefaut.jpg" alt="Avatar"><br>
+                        <img v-if="responseAvatar === ''" src="../../../backend/images/AvatarParDefaut.jpg" alt="Avatar"><br>
                         <div v-if="responseAvatar !== null">
                             <img crossorigin="anonymous" v-if="responseAvatar !== ''" :src="responseAvatar"
                                 alt="Avatar">
@@ -46,13 +49,13 @@
                 <label for="password">Nouveau mot de passe</label><br>
                 <input type="password" v-model="password" id="password" name="password"
                     placeholder="Nouveau mot de passe">
-                <InputSubmit v-on:click="updatePassword()" content="Valider" /><br>
-                <InputSubmit v-on:click="deleteProfil()" content="Supprimer mon compte" />
+                <InputSubmit @click="updatePassword()" content="Valider" /><br>
+                <InputSubmit @click="deleteProfil()" content="Supprimer mon compte" />
                 <p>Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est <span>DEFINITIVE et
                         IRREVERSIBLE</span></p>
             </div>
             <div class="changeView">
-                <InputSubmit v-on:click="switchToNews()" content="Retourner au fil d'actualité" />
+                <InputSubmit @click="switchToNews()" content="Retourner au fil d'actualité" />
             </div>
         </div>
     </div>
@@ -65,6 +68,7 @@ import TextInput from '@/components/TextInput.vue'
 import SelectButton from '@/components/SelectButton.vue'
 import axios from 'axios'
 import FormData from 'form-data'
+import ModeratorModal from '@/components/ModeratorModal.vue'
 
 export default {
     name: 'profil-view',
@@ -74,17 +78,19 @@ export default {
         this.displayAvatar();
     },
     components: {
-        InputSubmit,
-        TextInput,
-        SelectButton,
-    },
+    InputSubmit,
+    TextInput,
+    SelectButton,
+    ModeratorModal
+},
     data() {
         return {
             password: '',
             mode: 'firstTime',
             responseAvatar: '',
             firstName: '',
-            service: ''
+            service: '',
+            showModal: false
         }
     },
     methods: {

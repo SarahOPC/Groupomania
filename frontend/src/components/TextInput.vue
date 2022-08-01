@@ -6,11 +6,11 @@
                 <input type="text" v-model="firstName" id="firstName" name="firstName" placeholder="Prénom"><br>
                 <label for="lastName">Nom</label><br>
                 <input type="text" v-model="lastName" id="lastName" name="lastName" placeholder="Nom"><br>
-                <InputSubmit v-on:click="updateFirstName(); updateLastName(); displayNames();" content="Valider" />
+                <InputSubmit @click="updateFirstName(); updateLastName(); displayNames();" content="Valider" />
             </div>
         </div>
         <h2 v-if="mode == 'notFirstTime'">{{ names }}</h2>
-        <InputSubmit v-on:click="changeMode()" content="Mettre à jour mes informations" />
+        <InputSubmit @click="changeMode()" content="Mettre à jour mes informations" />
     </div>
 
 </template>

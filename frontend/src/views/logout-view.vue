@@ -1,12 +1,12 @@
 <template>
     <div class="byebye">
         <h2>Êtes vous sur de vouloir vous déconnecter</h2>
-        <InputSubmit v-on:click="clearSessionStorage()" content="Oui" />
-        <InputSubmit v-on:click="returnToNews()" content="Non" />
+        <InputSubmit @click="clearSessionStorage()" content="Oui" />
+        <InputSubmit @click="returnToNews()" content="Non" />
 
         <div v-if="hidden == false">
             <h1>A bientôt</h1>
-            <h3>Retourner à la page de connexion <span v-on:click="redirect()">ici</span></h3>
+            <h3>Retourner à la page de connexion <span @click="redirect()">ici</span></h3>
         </div>
     </div>
 </template>

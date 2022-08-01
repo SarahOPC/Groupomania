@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="logo">
-            <img alt="Logo Groupomania Rouge" src="../../../Icones/icon-left-font.webp">
+            <img alt="Logo Groupomania Rouge" src="../../../Icones/iconTransparent.png">
         </div>
     </div>
 </template>
@@ -11,5 +11,7 @@
 <style scoped>
 .logo img {
     width: 5%;
+    display: flex;
+    justify-content: flex-start;
 }
 </style>

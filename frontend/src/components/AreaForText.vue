@@ -4,7 +4,7 @@
             placeholder="Envie de partager quelque chose...?"></textarea><br>
         <label for="imagePost">Ajouter une image (.jpg ou .png)</label><br>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
-        <font-awesome-icon data-bs-toggle="tooltip" title="Publier" v-on:click="createPosts()"
+        <font-awesome-icon data-bs-toggle="tooltip" title="Publier" @click="createPosts()"
             icon="fa-solid fa-paper-plane" size="lg" :style="{ color: '#FFD7D7' }" />
     </div>
 

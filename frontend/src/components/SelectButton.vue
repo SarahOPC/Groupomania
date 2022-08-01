@@ -11,10 +11,10 @@
                 <option value="Feculent">Feculent</option>
                 <option value="Laitage">Laitage</option>
             </select><br>
-            <InputSubmit v-on:click="updateService(); displayService();" content="Valider" />
+            <InputSubmit @click="updateService(); displayService();" content="Valider" />
         </div>
         <h2 v-if="mode == 'notFirstTime'">{{ services }}</h2>
-        <InputSubmit v-on:click="changeMode()" content="Mettre à jour mon service" />
+        <InputSubmit @click="changeMode()" content="Mettre à jour mon service" />
 
     </div>
 

@@ -25,8 +25,8 @@
     </div>
     <div class="switch" v-else @click="switchToLogin()">Déjà inscrit, cliquez ici</div>
 
-    <button type="button" class="btn" v-if="mode == 'login'" v-on:click="findUser()">Connexion</button>
-    <button type="button" class="btn" v-else v-on:click="createUser()">Créer un compte</button>
+    <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
+    <button type="button" class="btn" v-else @click="createUser()">Créer un compte</button>
   </div>
   <div class="helpPsw" v-if="mode !== 'login'">
     <p>Mot de passe demandé :</p>
@@ -138,4 +138,5 @@ h1 {
 input {
   border-radius: 0.5em;
 }
+
 </style>

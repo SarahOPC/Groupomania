@@ -1,9 +1,5 @@
 <template>
   <Logo />
-  <font-awesome-icon data-bs-toggle="tooltip" title="Passer au mode pomme" 
-  v-on:click="switchToAppleMode()" icon="fa-solid fa-apple-whole" size="2x" 
-  :style="{ color: '#FD2D01', margin: '0.5em' , cursor: 'pointer' }" />
-
   <router-view></router-view>
 </template>
 
@@ -21,21 +17,20 @@ export default {
     Logo
   },
   methods: {
-    switchToAppleMode() {
+    /* switchToAppleMode() {
       let element = document.body;
       element.classList.toggle("appleMode");
-    }
+    },
+    switchToMarsMode() {
+      let element = document.body;
+      element.classList.toggle("#app");
+    } */
   }
 }
 
 </script>
 
 <style>
-
-
-.appleMode {
-  background-image: url(../../../imagesBackground/darkApples.jpg);
-}
 
 #app {
   font-family: Lato, Helvetica, Arial, sans-serif;

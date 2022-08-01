@@ -11,11 +11,16 @@ module.exports = async (req, res, next) => {
         const userId = decodedToken.userId;
         // on attribut le userId à l'objet requête
         req.auth = { userId: userId };
-        paramsId = parseInt(req.params.id);
-        // si j'ai un userId dans la requête, je le compare avec celui récupéré du token
-        if (req.params.id && paramsId !== userId) { // si j'ai un userId dans la requête et qu'il est différent de celui du token
-            throw "403: unauthorized request";
-        } else if (paramsId == userId) {
+        
+        if(!req.params.id) {
+            throw "403: Missing user";
+        } else {
+            paramsId = parseInt(req.params.id);
+            // si j'ai un userId dans la requête, je le compare avec celui récupéré du token
+            if (paramsId !== userId) { // si j'ai un userId dans la requête et qu'il est différent de celui du token
+                throw "403: unauthorized request";
+            }
+
             next(); // sinon, on peut executer les autres middlewares en jeu
         }
 

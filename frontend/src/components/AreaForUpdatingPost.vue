@@ -4,7 +4,7 @@
             @input="$emit('update:modelValue', $event.target.value)"></textarea><br>
         <label for="imagePost">Changer l'image (.jpg ou .png)</label>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
-        <InputSubmit v-on:click="updateOnePost(postId)" content="Publier mon post modifié" /><br>
+        <InputSubmit @click="updateOnePost(postId)" content="Publier mon post modifié" /><br>
         <font-awesome-icon icon="fa-solid fa-paper-plane" size="lg" :style="{ color: '#FFD7D7' }" />
 
     </div>

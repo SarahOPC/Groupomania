@@ -5,9 +5,9 @@
         :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
     </router-link>
 
-    <font-awesome-icon data-bs-toggle="tooltip" title="Rôle du médiateur" icon="fa-solid fa-user-secret" size="lg"
-      :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
-    <!--data-toggle="modal" data-target="#mediatorModal" -->
+    <font-awesome-icon @click="showModal = true" @close-modal="showModal = false" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret" size="lg"
+      :style="{ color: '#FFD7D7', 'margin-right': '1.5em', cursor: 'pointer' }" />
+      <ModeratorModal v-show="showModal" @close-modal="showModal = false" />
 
     <router-link to="/logout">
       <font-awesome-icon data-bs-toggle="tooltip" title="Me déconnecter" icon="fa-solid fa-right-from-bracket" size="lg"
@@ -30,12 +30,19 @@
 // @ is an alias to /src
 import AreaForText from '@/components/AreaForText.vue'
 import PostComponent from '@/components/PostComponent.vue'
+import ModeratorModal from '@/components/ModeratorModal.vue'
 
 export default {
   name: 'main-news-feed-view',
   components: {
     AreaForText,
-    PostComponent
+    PostComponent,
+    ModeratorModal
+  },
+  data() {
+    return {
+      showModal: false,
+    }
   }
 }
 
