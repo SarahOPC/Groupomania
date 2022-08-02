@@ -28,9 +28,8 @@ exports.createComment = (req, res, next) => {
 };
 
 exports.deleteComment = (req, res, next) => {
-    let comment_Id = req.params.commentId;
-    let commentId = parseInt(comment_Id);
-    let userId = req.params.id;
+    let commentId = parseInt(req.params.commentId);
+    let userId = parseInt(req.params.id);
 
     dbfile.db.connect(async function (err) {
         if (err) {
@@ -38,24 +37,32 @@ exports.deleteComment = (req, res, next) => {
         };
         console.log("Connecté à la base de données deleteComment");
 
-        let params = [
-            commentId
+        let parameter = [
+            userId
         ];
 
-        if(userId !== req.auth.userId && userId !== process.env.ROLE_ADMIN) {
-            console.log("Vous n'êtes pas autorisé à effectuer cette action");
-            return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
-        }
-
-        dbfile.db.query(sqlRequests.sqlDeleteComment, params, function (err, result) {
-            if (err) {
-                return res.status(401).json({ message: "Impossible de supprimer ce commentaire :( " + err });
-            };
-            res.status(200).json({ message: "Commentaire supprimé" })
-        })
-    });
+        dbfile.db.query(sqlRequests.sqlGetRole, parameter, function (err, results) {
+            let determinedRole = results[0].role;
+            
+            let params = [
+                commentId
+            ];
+            
+            if(userId !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
+                console.log("Vous n'êtes pas autorisé à effectuer cette action");
+                return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
+            }
+            
+            dbfile.db.query(sqlRequests.sqlDeleteComment, params, function (err, result) {
+                if (err) {
+                    return res.status(401).json({ message: "Impossible de supprimer ce commentaire :( " + err });
+                };
+                res.status(200).json({ message: "Commentaire supprimé" })
+            })
+        });
+    })
 };
-
+    
 exports.getAllComments = (req, res, next) => {
     let post_Id = req.params.postId;
     let postId = parseInt(post_Id);

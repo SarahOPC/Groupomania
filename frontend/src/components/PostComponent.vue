@@ -1,4 +1,8 @@
 <template>
+    <form>
+      <AreaForText @reloadPostsPage="getAllPosts()"/>
+    </form>
+
     <div class="container" v-for="post in posts" :key="post.id">
         <img crossorigin="anonymous" v-if="avatar !== ''" :src="avatar" alt="Avatar" class="rounded-3"
             style="width: 2em; margin-right: 1em; box-shadow: none;" />
@@ -82,12 +86,14 @@
 
 <script>
 import AreaForUpdatingPost from '@/components/AreaForUpdatingPost.vue'
+import AreaForText from '@/components/AreaForText.vue'
 import axios from 'axios'
 
 export default {
     name: 'postComponent',
     components: {
-        AreaForUpdatingPost
+        AreaForUpdatingPost,
+        AreaForText
     },
     beforeMount() {
         this.getAllPosts();

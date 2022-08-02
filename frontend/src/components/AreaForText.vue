@@ -4,8 +4,10 @@
             placeholder="Envie de partager quelque chose...?"></textarea><br>
         <label for="imagePost">Ajouter une image (.jpg ou .png)</label><br>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
-        <font-awesome-icon data-bs-toggle="tooltip" title="Publier" @click="createPosts()"
+        <div @click="$emit('reloadPostsPage')">
+            <font-awesome-icon data-bs-toggle="tooltip" title="Publier" @click="createPosts()"
             icon="fa-solid fa-paper-plane" size="lg" :style="{ color: '#FFD7D7', 'margin-right': '0.5em', cursor: 'pointer' }" />
+        </div>
     </div>
 
 </template>
@@ -20,7 +22,6 @@ export default {
             file: ""
         }
     },
-    emits: ['reloadPostsPage'],
     methods: {
         getUserValidToken() {
             let validToken = sessionStorage.getItem('userToken');
@@ -47,7 +48,6 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log(response);
-                        return self.$emit('reloadPostsPage');
                     }
                 })
                 .catch(function (error) {

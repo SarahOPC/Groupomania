@@ -34,7 +34,7 @@ exports.createPost = (req, res, next) => {
 
 exports.updatePost = (req, res, next) => {
     const postBodyText = req.body.text;
-    const postUserId = req.params.id;
+    const postUserId = parseInt(req.params.id);
     const postBodyImage = req.uniqueFileName;
     const postId = req.params.postId;
 
@@ -48,20 +48,28 @@ exports.updatePost = (req, res, next) => {
         };
         console.log("Connecté à la base de données updatePost");
 
-        let params = [
-            postBodyText, postImage, postUserId, postId
+        let parameter = [
+            postUserId
         ];
 
-        if(postUserId !== req.auth.userId && postUserId !== process.env.ROLE_ADMIN) {
-            console.log("Vous n'êtes pas autorisé à effectuer cette action");
-            return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
-        }
-
-        dbfile.db.query(sqlRequests.sqlUpdatePost, params, function (err, result) {
-            if (err) {
-                return res.status(401).json({ message: "Impossible de mettre à jour ce post " + err });
-            };
-            res.status(200).json({ message: "Post mis à jour" })
+        dbfile.db.query(sqlRequests.sqlGetRole, parameter, function (err, results) {
+            let determinedRole = results[0].role;
+            
+            let params = [
+                postBodyText, postImage, postUserId, postId
+            ];
+            
+            if(postUserId !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
+                console.log("Vous n'êtes pas autorisé à effectuer cette action");
+                return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
+            }
+            
+            dbfile.db.query(sqlRequests.sqlUpdatePost, params, function (err, result) {
+                if (err) {
+                    return res.status(401).json({ message: "Impossible de mettre à jour ce post " + err });
+                };
+                res.status(200).json({ message: "Post mis à jour" })
+            })
         })
     })
 };
@@ -76,41 +84,49 @@ exports.deletePost = (req, res, next) => {
         };
         console.log("Connecté à la base de données deletePost");
 
-        let params = [
-            postId
+        let parameter = [
+            userId
         ];
 
-        if(userId !== req.auth.userId && userId !== process.env.ROLE_ADMIN) {
-            console.log("Vous n'êtes pas autorisé à effectuer cette action");
-            return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
-        }
-
-        dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, function (err, result) {
-            if (err) {
-                return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err });
+        dbfile.db.query(sqlRequests.sqlGetRole, parameter, function (err, results) {
+            let determinedRole = results[0].role;
+            
+            let params = [
+                postId
+            ];
+            
+            if(userId !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
+                console.log("Vous n'êtes pas autorisé à effectuer cette action");
+                return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
             }
             
-            if (result[0] && result[0] !== null && result[0].image !== null) {
-                let imageToDelete = result[0].image;
-                const filename = imageToDelete.split('/images/')[1];
-                fs.unlink(`images/${filename}`, () => {
+            dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, function (err, result) {
+                if (err) {
+                    return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err });
+                }
+                
+                if (result[0] && result[0] !== null && result[0].image !== null) {
+                    let imageToDelete = result[0].image;
+                    const filename = imageToDelete.split('/images/')[1];
+                    fs.unlink(`images/${filename}`, () => {
+                        dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
+                            if (err) {
+                                return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
+                            };
+                            res.status(200).json({ message: "Post supprimé" })
+                        })
+                    })
+                } else {
                     dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
                         if (err) {
                             return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
                         };
                         res.status(200).json({ message: "Post supprimé" })
                     })
-                })
-            } else {
-                dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
-                    if (err) {
-                        return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
-                    };
-                    res.status(200).json({ message: "Post supprimé" })
-                })
-            }
-        })
-    });
+                }
+            })
+        });
+    })
 };
 
 exports.getAllPosts = (req, res, next) => {

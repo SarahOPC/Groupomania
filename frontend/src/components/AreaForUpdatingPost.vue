@@ -76,5 +76,7 @@ textarea {
     border-color: #FD2D01;
     border-style: dotted;
     margin-bottom: 1.5em;
+    margin-top: 1em;
+    width: -webkit-fill-available;
 }
 </style>

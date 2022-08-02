@@ -4,7 +4,7 @@
         <p>Le rôle du modérateur sur ce site est de permettre et de faciliter les échanges courtois entre collègues.</p>
         <p>Ce site a pour seul but de vous donner la possibilité de discuter de tout entre vous, que cela concerne le travail ou pas.</p>
         <p>Le modérateur se réserve le droit de modifier ou supprimer selon son propre avis tout post ou commentaire considéré comme ne respectant pas l'esprit de notre entreprise</p>
-        <p>Merci de votre compréhension et de votre collaboration pour garder cet espace de détente sain</p>
+        <p>Merci de votre compréhension et de votre collaboration pour garder cet espace de détente sain et agréable</p>
       <InputSubmit @click="$emit('close-modal')" content="Fermer" />
     </div>
   </div>

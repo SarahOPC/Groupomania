@@ -9,7 +9,8 @@ const sqlRequests = {
     sqlLikesDislikes : "SELECT value FROM likesdislikes WHERE postId = ? AND userId = ?",
     sqlCreatingLike: "INSERT INTO likesdislikes (`postId`, `userId`, `value`) VALUES (?, ?, ?)",
     sqlDeletingLike: "DELETE FROM likesdislikes WHERE postId = ? AND userId = ?",
-    sqlGetRating: "SELECT value FROM likesdislikes WHERE postId = ? AND userId = ?"
+    sqlGetRating: "SELECT value FROM likesdislikes WHERE postId = ? AND userId = ?",
+    sqlGetRole: "SELECT role FROM users WHERE id = ?"
 };
 
 module.exports = sqlRequests;
