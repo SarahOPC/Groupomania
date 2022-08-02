@@ -17,7 +17,7 @@
   <router-view></router-view>
   <div class="container">
     <form>
-      <AreaForText />
+      <AreaForText @reloadPostsPage="getAllPosts()"/>
     </form>
 
     <div class="previousPost">
@@ -31,6 +31,7 @@
 import AreaForText from '@/components/AreaForText.vue'
 import PostComponent from '@/components/PostComponent.vue'
 import ModeratorModal from '@/components/ModeratorModal.vue'
+import axios from 'axios'
 
 export default {
   name: 'main-news-feed-view',
@@ -43,6 +44,33 @@ export default {
     return {
       showModal: false,
     }
+  },
+  methods: {
+    getUserValidToken() {
+            let validToken = sessionStorage.getItem('userToken');
+            let userValidToken = validToken.replace(/['"]+/g, '');
+            return userValidToken;
+        },
+        getUserIdFromLocalStorage() {
+            let id = sessionStorage.getItem('userId');
+            return id;
+        },
+        getAllPosts() {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromLocalStorage();
+            let self = this;
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id;
+            axios({ method: 'get', url: urlDesti, headers: { 'Authorization': 'Bearer ' + userValidToken } })
+                .then(function (response) {
+                    if (response.status === 200) {
+                        self.displayPostUpdate = false;
+                        return self.posts = response.data.result.slice().reverse();
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        }
   }
 }
 

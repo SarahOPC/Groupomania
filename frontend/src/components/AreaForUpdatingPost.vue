@@ -5,8 +5,6 @@
         <label for="imagePost">Changer l'image (.jpg ou .png)</label>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
         <InputSubmit @click="updateOnePost(postId)" content="Publier mon post modifié" /><br>
-        <font-awesome-icon icon="fa-solid fa-paper-plane" size="lg" :style="{ color: '#FFD7D7' }" />
-
     </div>
 
 </template>
@@ -51,10 +49,8 @@ export default {
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
             const headersToPass = { 'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data' };
             let formData = new FormData();
-            formData.append("image", this.file);
-            formData.append("text", this.modelValue);
-            console.log(this.file);
-            console.log(this.modelValue);
+            formData.append("image", self.file);
+            formData.append("text", self.modelValue);
 
             axios({ method: 'put', url: urlDesti, data: formData, headers: headersToPass })
                 .then(function (response) {

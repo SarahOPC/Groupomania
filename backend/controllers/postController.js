@@ -1,6 +1,7 @@
 const dbfile = require('../config/db');
 const sqlRequests = require('../models/postModel');
 const fs = require("fs");
+require('dotenv').config();
 
 exports.createPost = (req, res, next) => {
     const postBodyText = req.body.text;
@@ -51,6 +52,11 @@ exports.updatePost = (req, res, next) => {
             postBodyText, postImage, postUserId, postId
         ];
 
+        if(postUserId !== req.auth.userId && postUserId !== process.env.ROLE_ADMIN) {
+            console.log("Vous n'êtes pas autorisé à effectuer cette action");
+            return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
+        }
+
         dbfile.db.query(sqlRequests.sqlUpdatePost, params, function (err, result) {
             if (err) {
                 return res.status(401).json({ message: "Impossible de mettre à jour ce post " + err });
@@ -61,7 +67,8 @@ exports.updatePost = (req, res, next) => {
 };
 
 exports.deletePost = (req, res, next) => {
-    let postId = req.params.postId;
+    let postId = parseInt(req.params.postId);
+    let userId = parseInt(req.params.id);
 
     dbfile.db.connect(async function (err) {
         if (err) {
@@ -73,12 +80,18 @@ exports.deletePost = (req, res, next) => {
             postId
         ];
 
-        dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, async function (err, result) {
+        if(userId !== req.auth.userId && userId !== process.env.ROLE_ADMIN) {
+            console.log("Vous n'êtes pas autorisé à effectuer cette action");
+            return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
+        }
+
+        dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, function (err, result) {
             if (err) {
                 return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err });
             }
-            if (result[0].image !== null && result[0].image !== 'undefined') {
-                let imageToDelete = await result[0].image;
+            
+            if (result[0] && result[0] !== null && result[0].image !== null) {
+                let imageToDelete = result[0].image;
                 const filename = imageToDelete.split('/images/')[1];
                 fs.unlink(`images/${filename}`, () => {
                     dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {

@@ -2,63 +2,80 @@
     <div class="container" v-for="post in posts" :key="post.id">
         <img crossorigin="anonymous" v-if="avatar !== ''" :src="avatar" alt="Avatar" class="rounded-3"
             style="width: 2em; margin-right: 1em; box-shadow: none;" />
-        {{ post.text }}
+        {{ post.userId }} - {{ post.text }}
         <div v-if="(typeof post.image) == 'string'">
             <img crossorigin="anonymous" :src="post.image" alt="image du post">
         </div>
-        <div>
 
-            <font-awesome-icon data-bs-toggle="tooltip" title="Modifier" v-bind:postIds="post.id"
-                @click="getOnePost(post.id)" icon="fa-solid fa-pencil" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-
-            <div>
-                <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer" v-bind:postIds="post.id" 
-                    @click.stop="deleteOnePost(post.id)" icon="fa-solid fa-trash-can" size="lg"
-                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-
-                <font-awesome-icon v-if="liked == 0" data-bs-toggle="tooltip" title="J'aime" v-bind:postIds="post.id" 
-                    @click.stop="likingOnePost(post.id)" icon="fa-regular fa-face-smile" size="lg"
-                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-
-                <font-awesome-icon v-if="liked == 1" data-bs-toggle="tooltip" title="J'aime" v-bind:postIds="post.id" 
-                    @click.stop="unlikingOnePost(post.id)" icon="fa-solid fa-face-smile" size="lg"
-                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-
-                <font-awesome-icon v-if="disliked == 0" data-bs-toggle="tooltip" title="Je n'aime pas" v-bind:postIds="post.id" 
-                    @click.stop="dislikingOnePost(post.id)" icon="fa-regular fa-face-frown" size="lg"
-                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-
-                <font-awesome-icon v-if="disliked == 1" data-bs-toggle="tooltip" title="Je n'aime pas" v-bind:postIds="post.id" 
-                    @click.stop="undislikingOnePost(post.id)" icon="fa-solid fa-face-frown" size="lg"
-                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" /><br>
-            </div>
-
-            <div v-if="displayPostUpdate">
-                <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()" />
-            </div>
+        <div @click="getOnePost(post.id)">
+            <font-awesome-icon data-bs-toggle="tooltip" title="Modifier"
+            icon="fa-solid fa-pencil" size="lg"
+            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
         </div>
-                
-        <font-awesome-icon data-bs-toggle="tooltip" title="Voir tous les commentaires" v-bind:postIds="post.id"
-            @click="getAllComments(post.id)" icon="fa-solid fa-comments" size="lg"
-            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" /><br>
+
+        <div @click="deleteOnePost(post.id)">
+            <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer"
+            icon="fa-solid fa-trash-can" size="lg"
+            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+        </div>
+
+        <div @click="likingOnePost(post.id)" v-if="liked == 0">
+            <font-awesome-icon data-bs-toggle="tooltip" title="J'aime"
+            icon="fa-regular fa-face-smile" size="lg"
+            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+        </div>
+        
+        <div @click="unlikingOnePost(post.id)" v-if="liked == 1">
+            <font-awesome-icon data-bs-toggle="tooltip" title="J'aime"
+            icon="fa-solid fa-face-smile" size="lg"
+            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+        </div>
+        
+        <div @click="dislikingOnePost(post.id)" v-if="disliked == 0">
+            <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas"
+            icon="fa-regular fa-face-frown" size="lg"
+            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+        </div>
+        
+        <div @click="undislikingOnePost(post.id)" v-if="disliked == 1">
+            <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas"
+            icon="fa-solid fa-face-frown" size="lg"
+            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+        </div>
+
+        <div v-if="displayPostUpdate">
+            <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()" />
+        </div>
+
+        <div @click="getAllComments(post.id)">
+            <font-awesome-icon data-bs-toggle="tooltip" title="Voir tous les commentaires"
+            icon="fa-solid fa-comments" size="lg"
+            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+        </div>
+
         <div v-if="displayCommentsArea == post.id">
             <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
-                <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
-                    v-bind:commentIds="comment.id" @click="deleteOneComment(post.id, comment.id)"
+                <div @click="deleteOneComment(post.id, comment.id)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
                     icon="fa-solid fa-circle-minus" size="lg"
-                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" /><br>
+                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                </div>
             </div>
         </div>
 
-        <font-awesome-icon data-bs-toggle="tooltip" title="Ajouter un commentaire"
-            @click="getOnePostForComments(post.id)" icon="fa-solid fa-circle-plus" size="lg"
-            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" /><br>
+        <div @click="getOnePostForComments(post.id)">
+            <font-awesome-icon data-bs-toggle="tooltip" title="Ajouter un commentaire"
+            icon="fa-solid fa-circle-plus" size="lg"
+            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+        </div>
+
         <div v-if="displayNewCommentArea">
             <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
-            <font-awesome-icon data-bs-toggle="tooltip" title="Publier mon commentaire"
-                @click="addOneComment(post.id)" icon="fa-solid fa-check-circle" size="lg"
+            <div @click="addOneComment(post.id)">
+                <font-awesome-icon data-bs-toggle="tooltip" title="Publier mon commentaire"
+                icon="fa-solid fa-check-circle" size="lg"
                 :style="{ color: '#4E5166', 'margin-left': '0.5em', cursor: 'pointer' }" />
+            </div>
         </div>
     </div>
 </template>
@@ -70,7 +87,7 @@ import axios from 'axios'
 export default {
     name: 'postComponent',
     components: {
-       AreaForUpdatingPost
+        AreaForUpdatingPost
     },
     beforeMount() {
         this.getAllPosts();
