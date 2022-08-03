@@ -48,16 +48,20 @@ exports.deleteComment = (req, res, next) => {
                 commentId
             ];
             
-            if(userId !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
-                console.log("Vous n'êtes pas autorisé à effectuer cette action");
-                return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
-            }
-            
-            dbfile.db.query(sqlRequests.sqlDeleteComment, params, function (err, result) {
-                if (err) {
-                    return res.status(401).json({ message: "Impossible de supprimer ce commentaire :( " + err });
-                };
-                res.status(200).json({ message: "Commentaire supprimé" })
+            dbfile.db.query(sqlRequests.sqlGetUserIdFromTablePosts, params, async function(err, resultat) {
+                let userIdFromComment = resultat[0].userId;
+                
+                if(userIdFromComment !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
+                    console.log("Vous n'êtes pas autorisé à effectuer cette action");
+                    return res.status(401).json({message: "Requête non autorisée"}); // Pas le bon user et pas l'admin
+                }
+                
+                dbfile.db.query(sqlRequests.sqlDeleteComment, params, function (err, result) {
+                    if (err) {
+                        return res.status(401).json({ message: "Impossible de supprimer ce commentaire :( " + err });
+                    };
+                    res.status(200).json({ message: "Commentaire supprimé" })
+                })
             })
         });
     })

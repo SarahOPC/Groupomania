@@ -38,39 +38,47 @@ exports.updatePost = (req, res, next) => {
     const postBodyImage = req.uniqueFileName;
     const postId = req.params.postId;
 
-    let postImage = postBodyImage == '' || postBodyImage == undefined || postBodyImage == null
-        ? null
-        : `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+    let parameter = [
+        postUserId
+    ];
 
-    dbfile.db.connect(async function (err) {
-        if (err) {
-            console.log("Impossible de se connecter à la base de données");
-        };
-        console.log("Connecté à la base de données updatePost");
-
-        let parameter = [
-            postUserId
+    dbfile.db.query(sqlRequests.sqlGetRole, parameter, async function (err, results) {
+        let determinedRole = results[0].role;
+        
+        let params = [
+            postId
         ];
+        
+        dbfile.db.query(sqlRequests.sqlGetUserIdFromTablePosts, params, async function(err, resultat) {
+            let userIdFromPosts = resultat[0].userId;
 
-        dbfile.db.query(sqlRequests.sqlGetRole, parameter, function (err, results) {
-            let determinedRole = results[0].role;
-            
-            let params = [
-                postBodyText, postImage, postUserId, postId
-            ];
-            
-            if(postUserId !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
+            if(userIdFromPosts !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
                 console.log("Vous n'êtes pas autorisé à effectuer cette action");
-                return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
+                return res.status(401).json({message: "Requête non autorisée"}); // Pas le bon user et pas l'admin
+            } else {
+                let postImage = postBodyImage == '' || postBodyImage == undefined || postBodyImage == null
+                ? null
+                : `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+                
+                dbfile.db.connect(async function (err) {
+                    if (err) {
+                        console.log("Impossible de se connecter à la base de données");
+                    };
+                    console.log("Connecté à la base de données updatePost");        
+                    
+                    let params = [
+                        postBodyText, postImage, postUserId, postId
+                    ];
+                    
+                    dbfile.db.query(sqlRequests.sqlUpdatePost, params, function (err, result) {
+                        if (err) {
+                            return res.status(401).json({ message: "Impossible de mettre à jour ce post " + err });
+                        };
+                        res.status(200).json({ message: "Post mis à jour" })
+                    })
+                })
             }
-            
-            dbfile.db.query(sqlRequests.sqlUpdatePost, params, function (err, result) {
-                if (err) {
-                    return res.status(401).json({ message: "Impossible de mettre à jour ce post " + err });
-                };
-                res.status(200).json({ message: "Post mis à jour" })
-            })
-        })
+        })            
     })
 };
 
@@ -144,7 +152,7 @@ exports.getAllPosts = (req, res, next) => {
             if (err) {
                 return res.status(401).json({ message: "Impossible d'afficher tous les posts" });
             };
-            res.status(200).json({ result })
+            res.status(200).json({ result });
         })
     })
 };

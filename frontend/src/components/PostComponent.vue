@@ -4,20 +4,20 @@
     </form>
 
     <div class="container" v-for="post in posts" :key="post.id">
-        <img crossorigin="anonymous" v-if="avatar !== ''" :src="avatar" alt="Avatar" class="rounded-3"
+        <img crossorigin="anonymous" :src="post.avatar" alt="Avatar" class="rounded-3"
             style="width: 2em; margin-right: 1em; box-shadow: none;" />
-        {{ post.userId }} - {{ post.text }}
+        {{ post.text }}
         <div v-if="(typeof post.image) == 'string'">
             <img crossorigin="anonymous" :src="post.image" alt="image du post">
         </div>
 
-        <div @click="getOnePost(post.id)">
+        <div @click="getOnePost(post.id)" v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
             <font-awesome-icon data-bs-toggle="tooltip" title="Modifier"
             icon="fa-solid fa-pencil" size="lg"
             :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
         </div>
 
-        <div @click="deleteOnePost(post.id)">
+        <div @click="deleteOnePost(post.id)"  v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
             <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer"
             icon="fa-solid fa-trash-can" size="lg"
             :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
@@ -59,7 +59,7 @@
 
         <div v-if="displayCommentsArea == post.id">
             <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
-                <div @click="deleteOneComment(post.id, comment.id)">
+                <div @click="deleteOneComment(post.id, comment.id)" v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
                     <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
                     icon="fa-solid fa-circle-minus" size="lg"
                     :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
@@ -97,7 +97,6 @@ export default {
     },
     beforeMount() {
         this.getAllPosts();
-        this.getAvatar();
     },
     props: {
         postIds: Number,
@@ -113,7 +112,6 @@ export default {
             commentId: this.commentIds,
             displayNewCommentArea: false,
             displayCommentsArea: '',
-            avatar: '',
             liked: 0,
             disliked: 0
         }
@@ -123,24 +121,6 @@ export default {
             const error = new Error("Unexpected Server Response: " + status + " ! Message: " + message);
             error.code = 500;
             throw error;
-        },
-        getAvatar() {
-            let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
-            let self = this;
-            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
-
-            axios({ method: 'get', url: urlDesti, headers: { 'Authorization': 'Bearer ' + userValidToken } })
-                .then(function (response) {
-                    if (response.status === 200) {
-                        return self.avatar = response.data.result[0].avatar;
-                    } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
-                    }
-                })
-                .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
-                })
         },
         getUserValidToken() {
             let validToken = sessionStorage.getItem('userToken');
