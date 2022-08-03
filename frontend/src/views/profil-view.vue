@@ -94,6 +94,11 @@ export default {
         }
     },
     methods: {
+        throwUnexpectedServerError(status, message) {
+            const error = new Error("Unexpected Server Response: " + status + " ! Message: " + message);
+            error.code = 500;
+            throw error;
+        },
         getUserValidToken() {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -113,10 +118,12 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         return self.firstName = response.data.result[0].prenom;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         getService() {
@@ -129,10 +136,12 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         return self.service = response.data.result[0].service;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         updatePassword() {
@@ -149,10 +158,12 @@ export default {
                     if (response.status === 200) {
                         alert("Votre mot de passe est maintenant modifié");
                         console.log(response);
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         changeAvatarInDatabase(e) {
@@ -170,10 +181,12 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                         self.displayAvatar();
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         displayAvatar() {
@@ -189,10 +202,12 @@ export default {
                     if (response.status === 200) {
                         sessionStorage.setItem('avatar', response.data.result[0].avatar);
                         return self.responseAvatar = response.data.result[0].avatar;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         deleteProfil() {
@@ -208,10 +223,12 @@ export default {
                         alert("Votre compte vient d'être supprimer");
                         console.log(response);
                         sessionStorage.clear();
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         switchToNews() {

@@ -33,6 +33,11 @@ export default {
         InputSubmit
     },
     methods: {
+        throwUnexpectedServerError(status, message) {
+            const error = new Error("Unexpected Server Response: " + status + " ! Message: " + message);
+            error.code = 500;
+            throw error;
+        },
         getUserValidToken() {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -57,11 +62,14 @@ export default {
                 }, headers: { 'Authorization': 'Bearer ' + userValidToken },
             })
                 .then(function (response) {
+                    if (response.status === 200) {
                     alert("Votre prénom vient d'être mis à jour");
-                    console.log(response);
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
+                    }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         updateLastName() {
@@ -75,11 +83,15 @@ export default {
                 }, headers: { 'Authorization': 'Bearer ' + userValidToken },
             })
                 .then(function (response) {
+                    if (response.status === 200) {
                     alert("Votre nom vient d'être mis à jour");
                     console.log(response);
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
+                    }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         displayNames() {
@@ -95,10 +107,12 @@ export default {
                     if (response.status === 200) {
                         self.mode = 'notFirstTime';
                         return self.names = response.data.result[0].prenom + " " + response.data.result[0].nom;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         }
     }

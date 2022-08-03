@@ -36,6 +36,11 @@ export default {
         InputSubmit
     },
     methods: {
+        throwUnexpectedServerError(status, message) {
+            const error = new Error("Unexpected Server Response: " + status + " ! Message: " + message);
+            error.code = 500;
+            throw error;
+        },
         getUserValidToken() {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -56,11 +61,15 @@ export default {
                 }, headers: { 'Authorization': 'Bearer ' + userValidToken },
             })
                 .then(function (response) {
+                    if (response.status === 200) {
                     alert("Votre service vient d'être mis à jour");
                     console.log(response);
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
+                    }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         changeMode() {
@@ -80,10 +89,12 @@ export default {
                     if (response.status === 200) {
                         self.mode = 'notFirstTime';
                         return self.services = response.data.result[0].service;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         }
     }

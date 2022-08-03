@@ -30,6 +30,11 @@ export default {
     },
     emits: ['reloadPostsPage', 'update:modelValue'],
     methods: {
+        throwUnexpectedServerError(status, message) {
+            const error = new Error("Unexpected Server Response: " + status + " ! Message: " + message);
+            error.code = 500;
+            throw error;
+        },
         getUserValidToken() {
             let validToken = sessionStorage.getItem('userToken');
             let userValidToken = validToken.replace(/['"]+/g, '');
@@ -57,10 +62,12 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                         return self.$emit('reloadPostsPage');
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         changeInputContent(content) {

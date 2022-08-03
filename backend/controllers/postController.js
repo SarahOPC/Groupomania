@@ -88,42 +88,46 @@ exports.deletePost = (req, res, next) => {
             userId
         ];
 
-        dbfile.db.query(sqlRequests.sqlGetRole, parameter, function (err, results) {
+        dbfile.db.query(sqlRequests.sqlGetRole, parameter, async function (err, results) {
             let determinedRole = results[0].role;
             
             let params = [
                 postId
             ];
-            
-            if(userId !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
-                console.log("Vous n'êtes pas autorisé à effectuer cette action");
-                return res.status(400).json({error: new Error("Requête non autorisée")}); // Pas le bon user ou pas l'admin
-            }
-            
-            dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, function (err, result) {
-                if (err) {
-                    return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err });
+
+            dbfile.db.query(sqlRequests.sqlGetUserIdFromTablePosts, params, async function(err, resultat) {
+                let userIdFromPosts = resultat[0].userId;
+                
+                if(userIdFromPosts !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
+                    console.log("Vous n'êtes pas autorisé à effectuer cette action");
+                    return res.status(401).json({message: "Requête non autorisée"}); // Pas le bon user et pas l'admin
                 }
                 
-                if (result[0] && result[0] !== null && result[0].image !== null) {
-                    let imageToDelete = result[0].image;
-                    const filename = imageToDelete.split('/images/')[1];
-                    fs.unlink(`images/${filename}`, () => {
+                dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, function (err, result) {
+                    if (err) {
+                        return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err });
+                    }
+                    
+                    if (result[0] && result[0] !== null && result[0].image !== null) {
+                        let imageToDelete = result[0].image;
+                        const filename = imageToDelete.split('/images/')[1];
+                        fs.unlink(`images/${filename}`, () => {
+                            dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
+                                if (err) {
+                                    return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
+                                };
+                                res.status(200).json({ message: "Post supprimé" })
+                            })
+                        })
+                    } else {
                         dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
                             if (err) {
                                 return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
                             };
                             res.status(200).json({ message: "Post supprimé" })
                         })
-                    })
-                } else {
-                    dbfile.db.query(sqlRequests.sqlDeletePost, params, function (err, result) {
-                        if (err) {
-                            return res.status(401).json({ message: "Impossible de supprimer ce post " + err });
-                        };
-                        res.status(200).json({ message: "Post supprimé" })
-                    })
-                }
+                    }
+                })
             })
         });
     })

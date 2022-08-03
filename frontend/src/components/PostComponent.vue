@@ -119,6 +119,11 @@ export default {
         }
     },
     methods: {
+        throwUnexpectedServerError(status, message) {
+            const error = new Error("Unexpected Server Response: " + status + " ! Message: " + message);
+            error.code = 500;
+            throw error;
+        },
         getAvatar() {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
@@ -129,10 +134,12 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         return self.avatar = response.data.result[0].avatar;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         getUserValidToken() {
@@ -154,10 +161,12 @@ export default {
                     if (response.status === 200) {
                         self.displayPostUpdate = false;
                         return self.posts = response.data.result.slice().reverse();
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         getAllComments(postId) {
@@ -171,10 +180,12 @@ export default {
                     if (response.status === 200) {
                         self.displayCommentsArea = postId;
                         return self.comments = response.data.result.slice().reverse();
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         getOnePost(postId) {
@@ -188,10 +199,12 @@ export default {
                     if (response.status === 200) {
                         self.displayPostUpdate = true;
                         return self.posts = response.data.result;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         deleteOnePost(postId) {
@@ -205,10 +218,16 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                         return self.getAllPosts();
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    if(error.response.status === 401) {
+                        alert("Vous n'êtes pas autorisé à faire cette action");
+                    } else {
+                        this.throwUnexpectedServerError(error.response.status, error.message);
+                    }
                 })
         },
         getOnePostForComments(postId) {
@@ -222,11 +241,12 @@ export default {
                     if (response.status === 200) {
                         self.displayNewCommentArea = true;
                         return self.posts = response.data.result;
-
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         addOneComment(postId) {
@@ -241,10 +261,12 @@ export default {
                         console.log(response);
                         self.getAllPosts();
                         return self.displayNewCommentArea = false;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         deleteOneComment(postId, commentId) {
@@ -258,10 +280,12 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                         return self.getAllComments(postId);
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
         likingOnePost(postId) {
@@ -276,11 +300,13 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                         return self.liked = 1;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
 
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 });
         },
         unlikingOnePost(postId) {
@@ -295,11 +321,13 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                         return self.liked = 0;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
 
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 });
         },
         dislikingOnePost(postId) {
@@ -314,10 +342,12 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                         return self.disliked = 1;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 });
         },
         undislikingOnePost(postId) {
@@ -332,10 +362,12 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                         return self.disliked = 0;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    this.throwUnexpectedServerError(error.response.status, error.message);
                 });
         }
     }

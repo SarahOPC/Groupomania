@@ -51,6 +51,11 @@ export default {
     }
   },
   methods: {
+    throwUnexpectedServerError(status, message) {
+      const error = new Error("Unexpected Server Response: " + status + " ! Message: " + message);
+      error.code = 500;
+      throw error;
+    },
     switchToSignup() {
       this.mode = 'signup'
     },
@@ -70,11 +75,11 @@ export default {
             sessionStorage.setItem('userId', JSON.stringify(response.data.userId));
             return self.$router.push({ path: '/news' })
           } else {
-            alert("Ce n'est pas ce que nous attendions");
+              this.throwUnexpectedServerError(response.status, response.statusText);
           }
         })
         .catch(function (error) {
-          alert(error + "Une erreur s'est produite, vérifiez que vous êtes bien déjà inscrit ou que vous n'avez pas fait d'erreur");
+          this.throwUnexpectedServerError(error.response.status, error.message);
         })
     },
     createUser() {
@@ -91,11 +96,11 @@ export default {
             alert("Vous êtes déjà inscrit")
             return self.$router.go({ path: '/' })
           } else {
-            alert("Ce n'est pas ce que nous attendions")
+              this.throwUnexpectedServerError(response.status, response.statusText);
           }
         })
         .catch(function (error) {
-          alert(error + "Une erreur s'est produite, vérifiez que vous n'êtes pas déjà inscrit ou que vous n'avez pas fait d'erreur");
+          this.throwUnexpectedServerError(error.response.status, error.message);
         })
     }
   }
