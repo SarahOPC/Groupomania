@@ -1,7 +1,7 @@
 <template>
-    <form>
+    <div>
       <AreaForText @reloadPostsPage="getAllPosts()"/>
-    </form>
+    </div>
 
     <div class="container" v-for="post in posts" :key="post.id">
         <img crossorigin="anonymous" :src="post.avatar" alt="Avatar" class="rounded-3"
