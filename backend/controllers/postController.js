@@ -44,32 +44,32 @@ exports.updatePost = (req, res, next) => {
 
     dbfile.db.query(sqlRequests.sqlGetRole, parameter, async function (err, results) {
         let determinedRole = results[0].role;
-        
+
         let params = [
             postId
         ];
-        
-        dbfile.db.query(sqlRequests.sqlGetUserIdFromTablePosts, params, async function(err, resultat) {
+
+        dbfile.db.query(sqlRequests.sqlGetUserIdFromTablePosts, params, async function (err, resultat) {
             let userIdFromPosts = resultat[0].userId;
 
-            if(userIdFromPosts !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
+            if (userIdFromPosts !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
                 console.log("Vous n'êtes pas autorisé à effectuer cette action");
-                return res.status(401).json({message: "Requête non autorisée"}); // Pas le bon user et pas l'admin
+                return res.status(401).json({ message: "Requête non autorisée" }); // Pas le bon user et pas l'admin
             } else {
                 let postImage = postBodyImage == '' || postBodyImage == undefined || postBodyImage == null
-                ? null
-                : `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
-                
+                    ? null
+                    : `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+
                 dbfile.db.connect(async function (err) {
                     if (err) {
                         console.log("Impossible de se connecter à la base de données");
                     };
-                    console.log("Connecté à la base de données updatePost");        
-                    
+                    console.log("Connecté à la base de données updatePost");
+
                     let params = [
                         postBodyText, postImage, postUserId, postId
                     ];
-                    
+
                     dbfile.db.query(sqlRequests.sqlUpdatePost, params, function (err, result) {
                         if (err) {
                             return res.status(401).json({ message: "Impossible de mettre à jour ce post " + err });
@@ -78,7 +78,7 @@ exports.updatePost = (req, res, next) => {
                     })
                 })
             }
-        })            
+        })
     })
 };
 
@@ -98,24 +98,24 @@ exports.deletePost = (req, res, next) => {
 
         dbfile.db.query(sqlRequests.sqlGetRole, parameter, async function (err, results) {
             let determinedRole = results[0].role;
-            
+
             let params = [
                 postId
             ];
 
-            dbfile.db.query(sqlRequests.sqlGetUserIdFromTablePosts, params, async function(err, resultat) {
+            dbfile.db.query(sqlRequests.sqlGetUserIdFromTablePosts, params, async function (err, resultat) {
                 let userIdFromPosts = resultat[0].userId;
-                
-                if(userIdFromPosts !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
+
+                if (userIdFromPosts !== req.auth.userId && determinedRole !== process.env.ROLE_ADMIN) {
                     console.log("Vous n'êtes pas autorisé à effectuer cette action");
-                    return res.status(401).json({message: "Requête non autorisée"}); // Pas le bon user et pas l'admin
+                    return res.status(401).json({ message: "Requête non autorisée" }); // Pas le bon user et pas l'admin
                 }
-                
+
                 dbfile.db.query(sqlRequests.sqlGetOneForDelete, params, function (err, result) {
                     if (err) {
                         return res.status(401).json({ message: "Impossible de trouver le post à supprimer " + err });
                     }
-                    
+
                     if (result[0] && result[0] !== null && result[0].image !== null) {
                         let imageToDelete = result[0].image;
                         const filename = imageToDelete.split('/images/')[1];
@@ -181,7 +181,7 @@ exports.getOnePost = (req, res, next) => {
 };
 
 exports.ratingPost = (req, res, next) => {
-    let likes = req.body.likesdislikes; // 1 ou -1
+    let likes = req.body.likesdislikes; // 1 ou -1 ou 0
     let userId = req.params.id;
     let postId = req.params.postId;
 
@@ -198,46 +198,23 @@ exports.ratingPost = (req, res, next) => {
         dbfile.db.query(sqlRequests.sqlGetRating, parameters, async function (err, result) {
             if (err) {
                 return res.status(401).json({ message: "Impossible d'évaluer ce post" });
-            } else if (await result[0] === null || await result[0] === undefined) {
+            } else if (likes == 1 && result[0] === null || likes == 1 && result[0] === undefined || likes == -1 && result[0] === null || likes == -1 && result[0] === undefined) {
                 dbfile.db.query(sqlRequests.sqlCreatingLike, parameters, async function (err, results) {
                     if (err) {
                         return res.status(401).json({ message: "Impossible de liker le post" });
                     };
                     res.status(200).json({ results });
                 })
+            } else if (likes == 0 && result[0].value === 1 || likes == 0 && result[0].value === -1 ) {
+                dbfile.db.query(sqlRequests.sqlDeletingLike, parameters, async function (err, results) {
+                    if (err) {
+                        return res.status(401).json({ message: "Impossible de supprimer le like du post" });
+                    };
+                    res.status(200).json({ results });
+                })
             } else {
-                switch (likes) {
-                    case 1:
-                        dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, async function (err, results) {
-                            if (err) {
-                                return res.status(401).json({ message: "Impossible de liker le post" });
-                            } else if (await results[0].value === 1) {
-                                dbfile.db.query(sqlRequests.sqlDeletingLike, parameters, async function (err, results) {
-                                    if (err) {
-                                        return res.status(401).json({ message: "Impossible de supprimer le like du post" });
-                                    };
-                                    res.status(200).json({ results });
-                                }) // passer en case 0 + un get des likes pour afficher si deja liker
-                            }
-                        })
-                        break;
-                    case -1:
-                        dbfile.db.query(sqlRequests.sqlLikesDislikes, parameters, async function (err, results) {
-                            if (err) {
-                                return res.status(401).json({ message: "Impossible de disliker le post" });
-                            } else if (await results[0].value === -1) {
-                                dbfile.db.query(sqlRequests.sqlDeletingLike, parameters, async function (err, results) {
-                                    if (err) {
-                                        return res.status(401).json({ message: "Impossible de supprimer le dislike du post" });
-                                    };
-                                    res.status(200).json({ results });
-                                })
-                            }
-                        })
-                        break;
-                }
+                return res.status(400).json({ message: "Une erreur s'est produite dans l'enregistrement de votre évaluation" });
             }
-        });
-
-    });
-}
+        })
+    })
+};

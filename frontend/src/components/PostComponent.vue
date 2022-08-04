@@ -11,74 +11,76 @@
             <img crossorigin="anonymous" :src="post.image" alt="image du post">
         </div>
 
-        <div @click="getOnePost(post.id)" v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
-            <font-awesome-icon data-bs-toggle="tooltip" title="Modifier"
-            icon="fa-solid fa-pencil" size="lg"
-            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-        </div>
+        <div class="iconsPlacement">
+            <div @click="getOnePost(post.id)" v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
+                <font-awesome-icon data-bs-toggle="tooltip" title="Modifier"
+                icon="fa-solid fa-pencil" size="lg"
+                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            </div>
 
-        <div @click="deleteOnePost(post.id)"  v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
-            <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer"
-            icon="fa-solid fa-trash-can" size="lg"
-            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-        </div>
+            <div @click="deleteOnePost(post.id)"  v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
+                <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer"
+                icon="fa-solid fa-trash-can" size="lg"
+                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            </div>
 
-        <div @click="likingOnePost(post.id)" v-if="liked == 0">
-            <font-awesome-icon data-bs-toggle="tooltip" title="J'aime"
-            icon="fa-regular fa-face-smile" size="lg"
-            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-        </div>
-        
-        <div @click="unlikingOnePost(post.id)" v-if="liked == 1">
-            <font-awesome-icon data-bs-toggle="tooltip" title="J'aime"
-            icon="fa-solid fa-face-smile" size="lg"
-            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-        </div>
-        
-        <div @click="dislikingOnePost(post.id)" v-if="disliked == 0">
-            <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas"
-            icon="fa-regular fa-face-frown" size="lg"
-            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-        </div>
-        
-        <div @click="undislikingOnePost(post.id)" v-if="disliked == 1">
-            <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas"
-            icon="fa-solid fa-face-frown" size="lg"
-            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-        </div>
+            <div @click="likingOnePost(post.id, post.liked)" v-if="post.liked === 0 || liked == 0">
+                <font-awesome-icon data-bs-toggle="tooltip" title="J'aime"
+                icon="fa-regular fa-face-smile" size="lg"
+                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            </div>
+            
+            <div @click="unlikingOnePost(post.id, post.liked)" v-if="post.liked === 1">
+                <font-awesome-icon data-bs-toggle="tooltip" title="J'aime"
+                icon="fa-solid fa-face-smile" size="lg"
+                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            </div>
+            
+            <div @click="dislikingOnePost(post.id, post.liked)" v-if="post.liked === 0 || liked == 0">
+                <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas"
+                icon="fa-regular fa-face-frown" size="lg"
+                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            </div>
+            
+            <div @click="undislikingOnePost(post.id, post.liked)" v-if="post.liked === -1">
+                <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas"
+                icon="fa-solid fa-face-frown" size="lg"
+                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            </div>
 
-        <div v-if="displayPostUpdate">
-            <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()" />
-        </div>
+            <div v-if="displayPostUpdate">
+                <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()" />
+            </div>
 
-        <div @click="getAllComments(post.id)">
-            <font-awesome-icon data-bs-toggle="tooltip" title="Voir tous les commentaires"
-            icon="fa-solid fa-comments" size="lg"
-            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-        </div>
+            <div @click="getAllComments(post.id)">
+                <font-awesome-icon data-bs-toggle="tooltip" title="Voir tous les commentaires"
+                icon="fa-solid fa-comments" size="lg"
+                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            </div>
 
-        <div v-if="displayCommentsArea == post.id">
-            <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
-                <div @click="deleteOneComment(post.id, comment.id)" v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
-                    <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
-                    icon="fa-solid fa-circle-minus" size="lg"
-                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            <div v-if="displayCommentsArea == post.id">
+                <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
+                    <div @click="deleteOneComment(post.id, comment.id)" v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
+                        <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
+                        icon="fa-solid fa-circle-minus" size="lg"
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div @click="getOnePostForComments(post.id)">
-            <font-awesome-icon data-bs-toggle="tooltip" title="Ajouter un commentaire"
-            icon="fa-solid fa-circle-plus" size="lg"
-            :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-        </div>
+            <div @click="getOnePostForComments(post.id)">
+                <font-awesome-icon data-bs-toggle="tooltip" title="Ajouter un commentaire"
+                icon="fa-solid fa-circle-plus" size="lg"
+                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            </div>
 
-        <div v-if="displayNewCommentArea">
-            <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
-            <div @click="addOneComment(post.id)">
-                <font-awesome-icon data-bs-toggle="tooltip" title="Publier mon commentaire"
-                icon="fa-solid fa-check-circle" size="lg"
-                :style="{ color: '#4E5166', 'margin-left': '0.5em', cursor: 'pointer' }" />
+            <div v-if="displayNewCommentArea">
+                <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
+                <div @click="addOneComment(post.id)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="Publier mon commentaire"
+                    icon="fa-solid fa-check-circle" size="lg"
+                    :style="{ color: '#4E5166', 'margin-left': '0.5em', cursor: 'pointer' }" />
+                </div>
             </div>
         </div>
     </div>
@@ -113,7 +115,6 @@ export default {
             displayNewCommentArea: false,
             displayCommentsArea: '',
             liked: 0,
-            disliked: 0
         }
     },
     methods: {
@@ -268,18 +269,17 @@ export default {
                     this.throwUnexpectedServerError(error.response.status, error.message);
                 })
         },
-        likingOnePost(postId) {
+        likingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
-            let self = this;
             let likesdislikes = 1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
             axios({ method: 'post', url: urlDesti, data: { likesdislikes: likesdislikes }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
-                        return self.liked = 1;
+                        console.log(response + " " + liked);
+                        return liked = 1;
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
                     }
@@ -289,18 +289,17 @@ export default {
                     this.throwUnexpectedServerError(error.response.status, error.message);
                 });
         },
-        unlikingOnePost(postId) {
+        unlikingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
-            let self = this;
             let likesdislikes = 0;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
             axios({ method: 'post', url: urlDesti, data: { likesdislikes: likesdislikes }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
-                        return self.liked = 0;
+                        console.log(response + " " + liked);
+                        return liked = 0;
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
                     }
@@ -310,18 +309,17 @@ export default {
                     this.throwUnexpectedServerError(error.response.status, error.message);
                 });
         },
-        dislikingOnePost(postId) {
+        dislikingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
-            let self = this;
             let likesdislikes = -1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
             axios({ method: 'post', url: urlDesti, data: { likesdislikes: likesdislikes }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
-                        return self.disliked = 1;
+                        console.log(response + " " + liked);
+                        return liked = -1;
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
                     }
@@ -330,18 +328,17 @@ export default {
                     this.throwUnexpectedServerError(error.response.status, error.message);
                 });
         },
-        undislikingOnePost(postId) {
+        undislikingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
-            let self = this;
             let likesdislikes = 0;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
             axios({ method: 'post', url: urlDesti, data: { likesdislikes: likesdislikes }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
-                        return self.disliked = 0;
+                        console.log(response + " " + liked);
+                        return liked = 0;
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
                     }
@@ -376,4 +373,9 @@ img {
     margin-top: 1em;
     margin-bottom: 1.5em;
 }
+
+.iconsPlacement {
+    display: inline-flex;
+}
+
 </style>

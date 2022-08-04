@@ -10,7 +10,7 @@
 </script>
 <style scoped>
 .logo img {
-    width: 5%;
+    width: 6%;
     display: flex;
     justify-content: flex-start;
 }

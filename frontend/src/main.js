@@ -27,8 +27,8 @@ import { faCircleMinus } from '@fortawesome/free-solid-svg-icons'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { faComments } from '@fortawesome/free-solid-svg-icons'
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-//import { faAppleWhole } from '@fortawesome/free-solid-svg-icons'
-//import { faUserAstronaut } from '@fortawesome/free-solid-svg-icons'
+import { faAppleWhole } from '@fortawesome/free-solid-svg-icons'
+import { faUserAstronaut } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
@@ -36,7 +36,7 @@ library.add(faArrowRightToBracket, faDoorOpen, faAddressCard,
     faRightFromBracket, faUserSecret, faMessage, faPaperPlane,
     faAt, faKey, faPencil, faTrashCan, fasFaceSmile, farFaceSmile,
     fasFaceFrown, farFaceFrown, faCircleMinus, faCirclePlus, faComments,
-    faCheckCircle, /*faAppleWhole, faUserAstronaut,*/ faCheck)
+    faCheckCircle, faAppleWhole, faUserAstronaut, faCheck)
 
 createApp(App)
 .use(router)
