@@ -24,25 +24,25 @@
                 :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
             </div>
 
-            <div @click="likingOnePost(post.id, post.liked)" v-if="post.liked === 0 || liked == 0">
+            <div v-if="post.liked === 0 || post.liked == null" @click="likingOnePost(post.id, post.liked)">
                 <font-awesome-icon data-bs-toggle="tooltip" title="J'aime"
                 icon="fa-regular fa-face-smile" size="lg"
                 :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
             </div>
             
-            <div @click="unlikingOnePost(post.id, post.liked)" v-if="post.liked === 1">
+            <div v-if="post.liked === 1" @click="unlikingOnePost(post.id, post.liked)">
                 <font-awesome-icon data-bs-toggle="tooltip" title="J'aime"
                 icon="fa-solid fa-face-smile" size="lg"
                 :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
             </div>
             
-            <div @click="dislikingOnePost(post.id, post.liked)" v-if="post.liked === 0 || liked == 0">
+            <div v-if="post.liked === 0 || post.liked == null" @click="dislikingOnePost(post.id, post.liked)">
                 <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas"
                 icon="fa-regular fa-face-frown" size="lg"
                 :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
             </div>
             
-            <div @click="undislikingOnePost(post.id, post.liked)" v-if="post.liked === -1">
+            <div v-if="post.liked === -1" @click="undislikingOnePost(post.id, post.liked)">
                 <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas"
                 icon="fa-solid fa-face-frown" size="lg"
                 :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
@@ -113,8 +113,7 @@ export default {
             comments: '',
             commentId: this.commentIds,
             displayNewCommentArea: false,
-            displayCommentsArea: '',
-            liked: 0,
+            displayCommentsArea: ''
         }
     },
     methods: {
@@ -272,6 +271,7 @@ export default {
         likingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
+            let self = this;
             let likesdislikes = 1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
@@ -279,7 +279,8 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log(response + " " + liked);
-                        return liked = 1;
+                        self.getAllPosts();
+                        return self.liked = 1;
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
                     }
@@ -292,6 +293,7 @@ export default {
         unlikingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
+            let self = this;
             let likesdislikes = 0;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
@@ -299,7 +301,8 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log(response + " " + liked);
-                        return liked = 0;
+                        self.getAllPosts();
+                        return self.liked = 0;
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
                     }
@@ -312,6 +315,7 @@ export default {
         dislikingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
+            let self = this;
             let likesdislikes = -1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
@@ -319,7 +323,8 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log(response + " " + liked);
-                        return liked = -1;
+                        self.getAllPosts();
+                        return self.liked = -1;
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
                     }
@@ -331,6 +336,7 @@ export default {
         undislikingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromLocalStorage();
+            let self = this;
             let likesdislikes = 0;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
 
@@ -338,7 +344,8 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log(response + " " + liked);
-                        return liked = 0;
+                        self.getAllPosts();
+                        return self.liked = 0;
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
                     }

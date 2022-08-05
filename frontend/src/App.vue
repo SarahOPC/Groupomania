@@ -1,5 +1,5 @@
 <template>
-  <div class="switch">
+  <div class="changeModeBg">
     <Logo />
     <div>
       <font-awesome-icon data-bs-toggle="tooltip" title="Mode Mars"
@@ -68,7 +68,7 @@ nav a.router-link-exact-active {
   color: #FD2D01;
 }
 
-.switch {
+.changeModeBg {
   display: flex;
   justify-content: end;
   align-items: center;

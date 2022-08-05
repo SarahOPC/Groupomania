@@ -142,13 +142,19 @@ exports.deletePost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
+    let userIdFromAuth = req.auth.userId;
+
     dbfile.db.connect(async function (err) {
         if (err) {
             console.log("Impossible de se connecter à la base de données");
         };
         console.log("Connecté à la base de données getAllPosts");
 
-        dbfile.db.query(sqlRequests.sqlGetAllPosts, function (err, result) {
+        let params = [
+            userIdFromAuth
+        ]
+
+        dbfile.db.query(sqlRequests.sqlGetAllPosts, params, function (err, result) {
             if (err) {
                 return res.status(401).json({ message: "Impossible d'afficher tous les posts" });
             };

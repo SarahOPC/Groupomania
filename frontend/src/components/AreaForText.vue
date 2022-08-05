@@ -4,9 +4,10 @@
             placeholder="Envie de partager quelque chose...?"></textarea><br>
         <label for="imagePost">Ajouter une image (.jpg ou .png)</label><br>
         <input @change="retrieveImage" type="file" id="fileName" name="fileName"><br>
-        <div @click="$emit('reloadPostsPage')">
-            <font-awesome-icon data-bs-toggle="tooltip" title="Publier" @click="createPosts()"
-            icon="fa-solid fa-paper-plane" size="lg" :style="{ color: '#FFD7D7', 'margin-right': '0.5em', cursor: 'pointer' }" />
+        <div @click="createPosts(); $emit('reloadPostsPage');">
+            <font-awesome-icon data-bs-toggle="tooltip" title="Publier"
+            icon="fa-solid fa-paper-plane" size="lg" 
+            :style="{ color: '#FFD7D7', 'margin-right': '0.5em', cursor: 'pointer' }" />
         </div>
     </div>
 
@@ -53,6 +54,7 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log(response);
+                        window.location.reload();
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
                     }

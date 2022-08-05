@@ -12,28 +12,35 @@
 
   <div class="container">
     <label for="email">Email</label><br>
-    <font-awesome-icon data-bs-toggle="tooltip" title="Email" icon="fa-solid fa-at" size="lg"
-      :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
-    <input type="email" v-model="email" id="email" name="email" placeholder="janedoe@groupomania.com"><br>
+    <div @change="checkValidityOfEmail()">
+      <font-awesome-icon data-bs-toggle="tooltip" title="Email" icon="fa-solid fa-at" size="lg"
+        :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
+      <input type="email" v-model="email" id="email" name="email" placeholder="janedoe@groupomania.com"><br>
+    </div>
 
-    <label for="password">Mot de Passe</label><br>
-    <font-awesome-icon data-bs-toggle="tooltip" title="Mot de passe" icon="fa-solid fa-key" size="lg"
-      :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
-    <input type="password" v-model="password" id="password" name="password" placeholder="Mot de Passe">
+    <div @change="checkValidityOfPassword()">
+      <label for="password">Mot de Passe</label><br>
+      <font-awesome-icon data-bs-toggle="tooltip" title="Mot de passe" icon="fa-solid fa-key" size="lg"
+        :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
+      <input type="password" v-model="password" id="password" name="password" placeholder="Mot de Passe">
+    </div>
 
     <div class="switch" v-if="mode == 'login'" @click="switchToSignup()">Vous n'êtes pas encore inscrit, cliquez ici
     </div>
     <div class="switch" v-else @click="switchToLogin()">Déjà inscrit, cliquez ici</div>
 
-    <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
-    <button type="button" class="btn" v-else @click="createUser()">Créer un compte</button>
+    <div v-if="regexMailValidated == 1 && regexPasswordValidated == 1">
+      <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
+      <button type="button" class="btn" v-else @click="createUser()">Créer un compte</button>
+    </div>
   </div>
   <div class="helpPsw" v-if="mode !== 'login'">
     <p>Mot de passe demandé :</p>
+    <p>Minimum de 6 caractères</p>
     <p>Une MAJUSCULE - ABC</p>
     <p>Une minuscule - abc</p>
     <p>Un chiffre - 123</p>
-    <p>Un caractère spécial hors &lt;, >, / ou $</p>
+    <p>Pas d'espace</p>
   </div>
 
 </template>
@@ -47,7 +54,11 @@ export default {
     return {
       email: "",
       password: "",
-      mode: 'login'
+      mode: 'login',
+      regexEmail: /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm,
+      regexPassword: /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/,
+      regexMailValidated: 0,
+      regexPasswordValidated: 0
     }
   },
   methods: {
@@ -61,6 +72,16 @@ export default {
     },
     switchToLogin() {
       this.mode = 'login'
+    },
+    checkValidityOfEmail() {
+      if(!this.regexEmail) {
+        this.regexMailValidated = 0;
+      } this.regexMailValidated = 1;
+    },
+    checkValidityOfPassword() {
+      if(!this.regexPassword) {
+        this.regexPasswordValidated = 0;
+      } this.regexPasswordValidated = 1;
     },
     findUser() {
       let self = this;
