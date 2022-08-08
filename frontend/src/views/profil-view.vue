@@ -104,13 +104,13 @@ export default {
             let userValidToken = validToken.replace(/['"]+/g, '');
             return userValidToken;
         },
-        getUserIdFromLocalStorage() {
+        getUserIdFromSessionStorage() {
             let id = sessionStorage.getItem('userId');
             return id;
         },
         getFirstName: function () {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
 
@@ -128,7 +128,7 @@ export default {
         },
         getService() {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
 
@@ -146,7 +146,7 @@ export default {
         },
         updatePassword() {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/password";
 
             axios({
@@ -168,7 +168,7 @@ export default {
         },
         changeAvatarInDatabase(e) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/avatar";
             const headersToPass = { 'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data' };
@@ -191,7 +191,7 @@ export default {
         },
         displayAvatar() {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
 
@@ -212,7 +212,7 @@ export default {
         },
         deleteProfil() {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
 
             axios({

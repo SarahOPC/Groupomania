@@ -46,13 +46,13 @@ export default {
             let userValidToken = validToken.replace(/['"]+/g, '');
             return userValidToken;
         },
-        getUserIdFromLocalStorage() {
+        getUserIdFromSessionStorage() {
             let id = sessionStorage.getItem('userId');
             return id;
         },
         updateService() {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/service";
 
             axios({
@@ -78,7 +78,7 @@ export default {
         },
         displayService() {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
 

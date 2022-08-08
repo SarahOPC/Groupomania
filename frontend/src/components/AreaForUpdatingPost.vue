@@ -40,7 +40,7 @@ export default {
             let userValidToken = validToken.replace(/['"]+/g, '');
             return userValidToken;
         },
-        getUserIdFromLocalStorage() {
+        getUserIdFromSessionStorage() {
             let id = sessionStorage.getItem('userId');
             return id;
         },
@@ -49,7 +49,7 @@ export default {
         },
         updateOnePost(postId) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
             const headersToPass = { 'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data' };

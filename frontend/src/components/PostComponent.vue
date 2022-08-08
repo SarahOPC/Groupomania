@@ -12,13 +12,13 @@
         </div>
 
         <div class="iconsPlacement">
-            <div @click="getOnePost(post.id)" v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
+            <div @click="getOnePost(post.id)" v-if="post.userId == getUserIdFromSessionStorage() || post.role == 'Admin'">
                 <font-awesome-icon data-bs-toggle="tooltip" title="Modifier"
                 icon="fa-solid fa-pencil" size="lg"
                 :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
             </div>
 
-            <div @click="deleteOnePost(post.id)"  v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
+            <div @click="deleteOnePost(post.id)"  v-if="post.userId == getUserIdFromSessionStorage() || post.role == 'Admin'">
                 <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer"
                 icon="fa-solid fa-trash-can" size="lg"
                 :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
@@ -60,7 +60,7 @@
 
             <div v-if="displayCommentsArea == post.id">
                 <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
-                    <div @click="deleteOneComment(post.id, comment.id)" v-if="post.userId == getUserIdFromLocalStorage() || post.role == 'Admin'">
+                    <div @click="deleteOneComment(post.id, comment.id)" v-if="post.userId == getUserIdFromSessionStorage() || post.role == 'Admin'">
                         <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
                         icon="fa-solid fa-circle-minus" size="lg"
                         :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
@@ -127,13 +127,13 @@ export default {
             let userValidToken = validToken.replace(/['"]+/g, '');
             return userValidToken;
         },
-        getUserIdFromLocalStorage() {
+        getUserIdFromSessionStorage() {
             let id = sessionStorage.getItem('userId');
             return id;
         },
         getAllPosts() {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id;
             axios({ method: 'get', url: urlDesti, headers: { 'Authorization': 'Bearer ' + userValidToken } })
@@ -151,7 +151,7 @@ export default {
         },
         getAllComments(postId) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/comment";
 
@@ -170,7 +170,7 @@ export default {
         },
         getOnePost(postId) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
 
@@ -189,7 +189,7 @@ export default {
         },
         deleteOnePost(postId) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
 
@@ -212,7 +212,7 @@ export default {
         },
         getOnePostForComments(postId) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
 
@@ -231,7 +231,7 @@ export default {
         },
         addOneComment(postId) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/comment";
 
@@ -251,7 +251,7 @@ export default {
         },
         deleteOneComment(postId, commentId) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/" + commentId + "/comment";
 
@@ -270,7 +270,7 @@ export default {
         },
         likingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let likesdislikes = 1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
@@ -292,7 +292,7 @@ export default {
         },
         unlikingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let likesdislikes = 0;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
@@ -314,7 +314,7 @@ export default {
         },
         dislikingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let likesdislikes = -1;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
@@ -335,7 +335,7 @@ export default {
         },
         undislikingOnePost(postId, liked) {
             let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromLocalStorage();
+            let id = this.getUserIdFromSessionStorage();
             let self = this;
             let likesdislikes = 0;
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId + "/like";
