@@ -1,16 +1,6 @@
 <template>
-  <div class="changeModeBg">
+  <div>
     <Logo />
-    <div>
-      <font-awesome-icon data-bs-toggle="tooltip" title="Mode Mars"
-        icon="fa-solid fa-user-astronaut" size="2x"
-        :style="{ color: '#FFD7D7', 'margin-right': '0.5em', cursor: 'pointer' }" />
-    </div>
-    <div>
-      <font-awesome-icon data-bs-toggle="tooltip" title="Mode Pommes"
-        icon="fa-solid fa-apple-whole" size="2x"
-        :style="{ color: '#FFD7D7', 'margin-right': '0.5em', cursor: 'pointer' }" />
-    </div>
   </div>
   <router-view></router-view>
 </template>
@@ -35,7 +25,6 @@ export default {
 <style>
 :root {
   --mars-background-image: url(../../../imagesBackground/bgMars4k.jpg);
-  --apple-background-image: url(../../../imagesBackground/darkApples.jpg);
 }
 
 #app {
@@ -44,7 +33,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #4E5166;
-  background-image: var(--mars-background-image, var(--apple-background-image));
+  background-image: var(--mars-background-image);
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -52,7 +41,7 @@ export default {
 }
 
 html {
-  background-image: var(--mars-background-image, var(--apple-background-image));
+  background-image: var(--mars-background-image);
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -66,13 +55,6 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #FD2D01;
-}
-
-.changeModeBg {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  margin: 2em;
 }
 
 </style>

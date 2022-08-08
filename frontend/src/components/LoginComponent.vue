@@ -12,24 +12,29 @@
 
   <div class="container">
     <label for="email">Email</label><br>
-    <div @change="checkValidityOfEmail()">
+    <div>
       <font-awesome-icon data-bs-toggle="tooltip" title="Email" icon="fa-solid fa-at" size="lg"
         :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
-      <input type="email" v-model="email" id="email" name="email" placeholder="janedoe@groupomania.com"><br>
+      <input type="email" v-model="email" id="email" name="email" pattern="/^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm" 
+      required="required" placeholder="janedoe@groupomania.com">
+      <button type="button" class="btn-ok" @click="checkValidityOfEmail()">OK</button><br>
+      
     </div>
 
-    <div @change="checkValidityOfPassword()">
+    <div>
       <label for="password">Mot de Passe</label><br>
       <font-awesome-icon data-bs-toggle="tooltip" title="Mot de passe" icon="fa-solid fa-key" size="lg"
         :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
-      <input type="password" v-model="password" id="password" name="password" placeholder="Mot de Passe">
+      <input type="password" v-model="password" id="password" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
+      required="required" placeholder="Mot de Passe">
+      <button type="button" class="btn-ok" @click="checkValidityOfPassword()">OK</button><br>
     </div>
 
     <div class="switch" v-if="mode == 'login'" @click="switchToSignup()">Vous n'êtes pas encore inscrit, cliquez ici
     </div>
     <div class="switch" v-else @click="switchToLogin()">Déjà inscrit, cliquez ici</div>
 
-    <div v-if="regexMailValidated == 1 && regexPasswordValidated == 1">
+    <div v-if="this.regexMailValidated === 1 && this.regexPasswordValidated === 1">
       <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
       <button type="button" class="btn" v-else @click="createUser()">Créer un compte</button>
     </div>
@@ -55,7 +60,7 @@ export default {
       email: "",
       password: "",
       mode: 'login',
-      regexEmail: /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm,
+      regexEmail: /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm,
       regexPassword: /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/,
       regexMailValidated: 0,
       regexPasswordValidated: 0
@@ -74,14 +79,26 @@ export default {
       this.mode = 'login'
     },
     checkValidityOfEmail() {
-      if(!this.regexEmail) {
-        this.regexMailValidated = 0;
-      } this.regexMailValidated = 1;
+      let self = this;
+      if(this.email.match(self.regexEmail) !== null) {
+        this.regexMailValidated = 1;
+        console.log("mail" + this.regexMailValidated);
+        return true;
+      } this.regexMailValidated = 0;
+        console.log("mail" + this.regexMailValidated);
+        alert("La forme du mail rentré n'est pas correcte");
+        return false;
     },
     checkValidityOfPassword() {
-      if(!this.regexPassword) {
-        this.regexPasswordValidated = 0;
+      let self = this;
+      if(this.password.match(self.regexPassword) !== null) {
+        this.regexPasswordValidated = 1;
+        console.log("pswd" + this.regexPasswordValidated);
+        return true;
       } this.regexPasswordValidated = 1;
+      console.log("pswd" + this.regexPasswordValidated);
+        alert("Le mot de passe ne correspond pas aux exigences minimales");
+        return false;
     },
     findUser() {
       let self = this;
@@ -145,6 +162,14 @@ export default {
   --bs-btn-hover-color: #4E5166;
   --bs-btn-hover-bg: #FFD7D7;
   --bs-btn-hover-border-color: #FD2D01;
+}
+
+.btn-ok {
+  background-color: #4E5166;
+  border-radius: 0.5em;
+  color: #FFD7D7;
+  font-size: 0.9em;
+  margin-left: 0.7em;
 }
 
 h1 {
