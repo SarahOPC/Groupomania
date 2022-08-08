@@ -17,7 +17,7 @@
         :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
       <input type="email" v-model="email" id="email" name="email" pattern="/^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm" 
       required="required" placeholder="janedoe@groupomania.com">
-      <button type="button" class="btn-ok" @click="checkValidityOfEmail()">OK</button><br>
+      <button type="button" class="btn-ok" v-if="mode !== 'login'" @click="checkValidityOfEmail()">OK</button><br>
       
     </div>
 
@@ -27,7 +27,7 @@
         :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
       <input type="password" v-model="password" id="password" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
       required="required" placeholder="Mot de Passe">
-      <button type="button" class="btn-ok" @click="checkValidityOfPassword()">OK</button><br>
+      <button type="button" class="btn-ok" v-if="mode !== 'login'" @click="checkValidityOfPassword()">OK</button><br>
     </div>
 
     <div class="switch" v-if="mode == 'login'" @click="switchToSignup()">Vous n'êtes pas encore inscrit, cliquez ici
