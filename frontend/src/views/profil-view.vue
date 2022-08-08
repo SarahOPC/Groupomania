@@ -108,7 +108,7 @@ export default {
             let id = sessionStorage.getItem('userId');
             return id;
         },
-        getFirstName: function () {
+        getFirstName() {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromSessionStorage();
             let self = this;

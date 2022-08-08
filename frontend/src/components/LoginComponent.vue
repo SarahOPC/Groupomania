@@ -113,6 +113,7 @@ export default {
           if (response.status === 200) {
             sessionStorage.setItem('userToken', JSON.stringify(response.data.access_token));
             sessionStorage.setItem('userId', JSON.stringify(response.data.userId));
+            sessionStorage.setItem('userRole', response.data.userRole);
             return self.$router.push({ path: '/news' })
           } else {
               this.throwUnexpectedServerError(response.status, response.statusText);

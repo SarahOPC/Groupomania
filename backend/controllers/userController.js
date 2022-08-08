@@ -54,6 +54,7 @@ exports.login = (req, res, next) => {
                             } else {
                                 res.status(200).json({
                                     userId: result[0].id,
+                                    userRole: result[0].role,
                                     access_token: jwt.sign(
                                         { userId: result[0].id },
                                         `${process.env.ACCESS_TOKEN_SECRET}`,

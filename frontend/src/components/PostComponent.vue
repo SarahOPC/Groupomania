@@ -1,6 +1,8 @@
 <template>
+
+
     <div>
-      <AreaForText @reloadPostsPage="getAllPosts()"/>
+        <AreaForText @reloadPostsPage="getAllPosts()"/>
     </div>
 
     <div class="container" v-for="post in posts" :key="post.id">
@@ -9,16 +11,16 @@
         {{ post.text }}
         <div v-if="(typeof post.image) == 'string'">
             <img crossorigin="anonymous" :src="post.image" alt="image du post">
-        </div>
+        </div><br>
 
         <div class="iconsPlacement">
-            <div @click="getOnePost(post.id)" v-if="post.userId == getUserIdFromSessionStorage() || post.role == 'Admin'">
+            <div @click="getOnePost(post.id)" v-if="isPostEditable(post.userId)">
                 <font-awesome-icon data-bs-toggle="tooltip" title="Modifier"
                 icon="fa-solid fa-pencil" size="lg"
                 :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
             </div>
 
-            <div @click="deleteOnePost(post.id)"  v-if="post.userId == getUserIdFromSessionStorage() || post.role == 'Admin'">
+            <div @click="deleteOnePost(post.id)"  v-if="isPostEditable(post.userId)">
                 <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer"
                 icon="fa-solid fa-trash-can" size="lg"
                 :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
@@ -60,7 +62,7 @@
 
             <div v-if="displayCommentsArea == post.id">
                 <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
-                    <div @click="deleteOneComment(post.id, comment.id)" v-if="post.userId == getUserIdFromSessionStorage() || post.role == 'Admin'">
+                    <div @click="deleteOneComment(post.id, comment.id)" v-if="isPostEditable(post.userId)">
                         <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
                         icon="fa-solid fa-circle-minus" size="lg"
                         :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
@@ -117,6 +119,11 @@ export default {
         }
     },
     methods: {
+        isPostEditable(userId) {
+            let userIdFromStorage = this.getUserIdFromSessionStorage();
+            let userRoleFromStorage = sessionStorage.getItem("userRole");
+            return userId.toString() === userIdFromStorage || userRoleFromStorage === 'Admin';
+        },
         throwUnexpectedServerError(status, message) {
             const error = new Error("Unexpected Server Response: " + status + " ! Message: " + message);
             error.code = 500;
@@ -128,8 +135,25 @@ export default {
             return userValidToken;
         },
         getUserIdFromSessionStorage() {
-            let id = sessionStorage.getItem('userId');
-            return id;
+            return sessionStorage.getItem('userId');
+        },
+        async getUserRole() {
+            let userValidToken = this.getUserValidToken();
+            let id = this.getUserIdFromSessionStorage();
+            let self = this;
+            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil";
+
+            axios({ method: 'get', url: urlDesti, headers: { 'Authorization': 'Bearer ' + userValidToken } })
+                .then(function (response) {
+                    if (response.status === 200) {
+                        self.role = response.data.result[0].role;
+                    } else {
+                        this.throwUnexpectedServerError(response.status, response.statusText);
+                    }
+                })
+                .catch(function (error) {
+                    this.throwUnexpectedServerError(error.response.status, error.message);
+                })
         },
         getAllPosts() {
             let userValidToken = this.getUserValidToken();
