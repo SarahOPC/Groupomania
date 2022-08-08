@@ -34,9 +34,11 @@
     </div>
     <div class="switch" v-else @click="switchToLogin()">Déjà inscrit, cliquez ici</div>
 
-    <div v-if="this.regexMailValidated === 1 && this.regexPasswordValidated === 1">
+    <div>
       <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
-      <button type="button" class="btn" v-else @click="createUser()">Créer un compte</button>
+    </div>
+    <div v-if="this.regexMailValidated === 1 && this.regexPasswordValidated === 1" >
+      <button type="button" class="btn" v-if="mode !== 'login'" @click="createUser()">Créer un compte</button>
     </div>
   </div>
   <div class="helpPsw" v-if="mode !== 'login'">
