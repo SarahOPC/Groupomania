@@ -3,11 +3,6 @@
         <h2>Êtes vous sur de vouloir vous déconnecter</h2>
         <InputSubmit @click="clearSessionStorage()" content="Oui" />
         <InputSubmit @click="returnToNews()" content="Non" />
-
-        <div v-if="hidden == false">
-            <h1>A bientôt</h1>
-            <h3>Retourner à la page de connexion <span @click="redirect()">ici</span></h3>
-        </div>
     </div>
 </template>
 
@@ -19,18 +14,10 @@ export default {
     components: {
         InputSubmit
     },
-    data() {
-        return {
-            hidden: true
-        };
-    },
     methods: {
-        redirect() {
-            return this.$router.push("/");
-        },
         clearSessionStorage() {
             sessionStorage.clear();
-            this.hidden = false;
+            return this.$router.push("/");        
         },
         returnToNews() {
             return this.$router.push("/news");
@@ -46,7 +33,4 @@ export default {
     font-weight: bold;
 }
 
-span {
-    cursor: pointer;
-}
 </style>

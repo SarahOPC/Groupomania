@@ -30,9 +30,9 @@
       <button type="button" class="btn-ok" v-if="mode !== 'login'" @click="checkValidityOfPassword()">OK</button><br>
     </div>
 
-    <div class="switch" v-if="mode == 'login'" @click="switchToSignup()">Vous n'êtes pas encore inscrit, cliquez ici
+    <div class="switch" v-if="mode == 'login'" @click="switchToSignup()">Vous n'êtes pas encore inscrit, cliquez <span>ici</span>
     </div>
-    <div class="switch" v-else @click="switchToLogin()">Déjà inscrit, cliquez ici</div>
+    <div class="switch" v-else @click="switchToLogin()">Déjà inscrit, cliquez <span>ici</span></div>
 
     <div>
       <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
@@ -84,10 +84,9 @@ export default {
       let self = this;
       if(this.email.match(self.regexEmail) !== null) {
         this.regexMailValidated = 1;
-        console.log("mail" + this.regexMailValidated);
+        alert("Merci c'est parfait");
         return true;
       } this.regexMailValidated = 0;
-        console.log("mail" + this.regexMailValidated);
         alert("La forme du mail rentré n'est pas correcte");
         return false;
     },
@@ -95,10 +94,9 @@ export default {
       let self = this;
       if(this.password.match(self.regexPassword) !== null) {
         this.regexPasswordValidated = 1;
-        console.log("pswd" + this.regexPasswordValidated);
+        alert("Merci c'est parfait");
         return true;
       } this.regexPasswordValidated = 1;
-      console.log("pswd" + this.regexPasswordValidated);
         alert("Le mot de passe ne correspond pas aux exigences minimales");
         return false;
     },
@@ -191,6 +189,11 @@ h1 {
 
 input {
   border-radius: 0.5em;
+}
+
+span {
+  cursor: pointer;
+  font-weight: bold;
 }
 
 </style>
