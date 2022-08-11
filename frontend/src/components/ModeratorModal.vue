@@ -46,4 +46,12 @@ p {
   margin: 1em;
 }
 
+@media (max-width: 600px) {
+    .moderatorModal {
+      width: 19em;
+      margin-right: 1em;
+    }
+}
+
+
 </style>

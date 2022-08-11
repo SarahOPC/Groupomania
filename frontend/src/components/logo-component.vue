@@ -14,4 +14,11 @@
     display: flex;
     justify-content: flex-start;
 }
+
+@media (max-width: 600px) {
+    .logo img {
+        width: 10%;
+    }
+}
+
 </style>

@@ -74,7 +74,7 @@ textarea {
     border-style: dotted;
     margin-bottom: 1.5em;
     box-shadow: 0.4em 0.4em 0.4em #FD2D01;
-    width: auto;
+    width: 20em;
 }
 
 #fileName,
@@ -84,4 +84,17 @@ label {
     margin-bottom: 0.5em;
     color: #FFD7D7;
 }
+
+@media (max-width: 600px) {
+    textarea {
+        width: 18em;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1150px) and (orientation: landscape) {
+    textarea {
+        width: 25em;
+    }
+}
+
 </style>

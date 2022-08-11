@@ -59,4 +59,13 @@ nav a.router-link-exact-active {
 .previousPost {
   margin: 1.5em;
 }
+
+@media only screen and (min-width: 768px) and (max-width: 1150px) and (orientation: landscape) {
+    nav {
+      font-size: x-large;
+    }
+}
+
+
+
 </style>

@@ -39,7 +39,7 @@
                                 alt="Avatar">
                         </div>
                     </div>
-                    <div>
+                    <div class="avatarFile">
                         <label for="fileName">Choisir une nouvelle photo de profil</label><br>
                         <input @change="changeAvatarInDatabase" type="file" id="fileName" name="fileName">
                     </div>
@@ -288,4 +288,17 @@ span {
     font-weight: bold;
     text-decoration: underline;
 }
+
+@media (max-width: 600px) {
+    .avatarFile input {
+        font-size: xx-small;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1150px) and (orientation: landscape) {
+    nav {
+      font-size: x-large;
+    }
+}
+
 </style>

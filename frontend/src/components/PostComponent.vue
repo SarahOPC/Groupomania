@@ -393,7 +393,7 @@ export default {
     color: #4E5166;
     font-weight: bold;
     box-shadow: 0.4em 0.4em 0.4em #FD2D01;
-    width: 50%;
+    width: 70%;
     background-color: #FFFFFF;
 }
 
@@ -407,6 +407,12 @@ img {
 
 .iconsPlacement {
     display: inline-flex;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 93%;
+    }
 }
 
 </style>
