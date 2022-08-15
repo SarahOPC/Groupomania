@@ -2,17 +2,18 @@
   <nav>
     <router-link to="/profil">
       <font-awesome-icon data-bs-toggle="tooltip" title="Mon profil" icon="fa-solid fa-address-card" size="lg"
-        :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
+        :style="{ color: '#FFD7D7', 'margin': '1em' }" />
     </router-link>
 
     <font-awesome-icon @click="showModal = true" @close-modal="showModal = false" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret" size="lg"
-      :style="{ color: '#FFD7D7', 'margin-right': '1.5em', cursor: 'pointer' }" />
+      :style="{ color: '#FFD7D7', 'margin': '1em', cursor: 'pointer' }" />
       <ModeratorModal v-show="showModal" @close-modal="showModal = false" />
 
     <router-link to="/logout">
       <font-awesome-icon data-bs-toggle="tooltip" title="Me déconnecter" icon="fa-solid fa-right-from-bracket" size="lg"
-        :style="{ color: '#FFD7D7', 'margin-right': '1.5em' }" />
+        :style="{ color: '#FFD7D7', 'margin': '1em' }" />
     </router-link>
+  <h1>Fil d'actualité</h1>
   </nav>
   <router-view></router-view>
   <div class="container">
@@ -43,17 +44,16 @@ export default {
 </script>
 
 <style scoped>
+
+h1 {
+  color:#FFD7D7;
+  margin-top: 1em;
+  font-weight: bold;
+
+}
+
 .container {
   margin-top: 3em;
-}
-
-nav a {
-  font-weight: bold;
-  color: #FFD7D7;
-}
-
-nav a.router-link-exact-active {
-  color: #FD2D01;
 }
 
 .previousPost {

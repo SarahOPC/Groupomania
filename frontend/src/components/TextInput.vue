@@ -63,7 +63,7 @@ export default {
             })
                 .then(function (response) {
                     if (response.status === 200) {
-                    alert("Votre prénom vient d'être mis à jour");
+                        console.log(response);
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
                     }
@@ -84,7 +84,6 @@ export default {
             })
                 .then(function (response) {
                     if (response.status === 200) {
-                    alert("Votre nom vient d'être mis à jour");
                     console.log(response);
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);

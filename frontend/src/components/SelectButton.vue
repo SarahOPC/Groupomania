@@ -62,7 +62,6 @@ export default {
             })
                 .then(function (response) {
                     if (response.status === 200) {
-                    alert("Votre service vient d'être mis à jour");
                     console.log(response);
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);

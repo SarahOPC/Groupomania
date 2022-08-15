@@ -84,7 +84,6 @@ export default {
       let self = this;
       if(this.email.match(self.regexEmail) !== null) {
         this.regexMailValidated = 1;
-        alert("Merci c'est parfait");
         return true;
       } this.regexMailValidated = 0;
         alert("La forme du mail rentré n'est pas correcte");
@@ -94,7 +93,6 @@ export default {
       let self = this;
       if(this.password.match(self.regexPassword) !== null) {
         this.regexPasswordValidated = 1;
-        alert("Merci c'est parfait");
         return true;
       } this.regexPasswordValidated = 1;
         alert("Le mot de passe ne correspond pas aux exigences minimales");

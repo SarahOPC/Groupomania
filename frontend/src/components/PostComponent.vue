@@ -61,8 +61,11 @@
             </div>
 
             <div v-if="displayCommentsArea == post.id">
-                <div v-for="comment in comments" :key="comment.id">{{ comment.userId }} - {{ comment.text }}
-                    <div @click="deleteOneComment(post.id, comment.id)" v-if="isPostEditable(post.userId)">
+                <div v-for="comment in comments" :key="comment.id">
+                <img crossorigin="anonymous" :src="post.avatar" alt="Avatar" class="rounded-3"
+                    style="width: 2em; margin-right: 1em; box-shadow: none;" />
+                    {{ comment.text }}
+                    <div v-if="isPostEditable(comment.userId)" @click="deleteOneComment(post.id, comment.id)">
                         <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
                         icon="fa-solid fa-circle-minus" size="lg"
                         :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
@@ -262,8 +265,8 @@ export default {
             axios({ method: 'post', url: urlDesti, data: { text: this.text }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
                         self.getAllPosts();
+                        self.getAllComments(postId);
                         return self.displayNewCommentArea = false;
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);
@@ -282,7 +285,6 @@ export default {
             axios({ method: 'delete', url: urlDesti, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
                         return self.getAllComments(postId);
                     } else {
                         this.throwUnexpectedServerError(response.status, response.statusText);

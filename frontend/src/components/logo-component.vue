@@ -13,6 +13,7 @@
     width: 5%;
     display: flex;
     justify-content: flex-start;
+    margin-top: 3em;
 }
 
 @media (max-width: 600px) {
