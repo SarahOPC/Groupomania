@@ -1,12 +1,12 @@
 <template>
   <div v-if="mode == 'login'">
     <h1>Se connecter</h1>
-    <font-awesome-icon data-bs-toggle="tooltip" title="Page de connexion" icon="fa-solid fa-arrow-right-to-bracket"
+    <font-awesome-icon data-bs-toggle="tooltip" title="Se connecter" icon="fa-solid fa-arrow-right-to-bracket"
       size="lg" :style="{ color: '#FFD7D7' }" />
   </div>
   <div v-else>
     <h1>S'inscrire</h1>
-    <font-awesome-icon data-bs-toggle="tooltip" title="Page d'inscription" icon="fa-solid fa-door-open" size="lg"
+    <font-awesome-icon data-bs-toggle="tooltip" title="S'inscrire" icon="fa-solid fa-door-open" size="lg"
       :style="{ color: '#FFD7D7' }" />
   </div>
 

@@ -5,9 +5,12 @@
         :style="{ color: '#FFD7D7', 'margin': '1em' }" />
     </router-link>
 
-    <font-awesome-icon @click="showModal = true" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret" size="lg"
+    <font-awesome-icon @click="showModalModerator = true" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret" size="lg"
       :style="{ color: '#FFD7D7', 'margin': '1em', cursor: 'pointer' }" />
-      <MultipleModal v-show="showModal" @close-modal="showModal = false" />
+      <MultipleModal v-if="showModalModerator" @close-modal-moderator="showModalModerator = false" isQuestion="false" content="Le rôle du modérateur sur ce site est de permettre et de faciliter les échanges courtois entre collègues.
+        Ce site a pour seul but de vous donner la possibilité de discuter de tout entre vous, que cela concerne le travail ou pas.
+        Le modérateur se réserve le droit de modifier ou supprimer selon son propre avis tout post ou commentaire considéré comme ne respectant pas l'esprit de notre entreprise
+        Merci de votre compréhension et de votre collaboration pour garder cet espace de détente sain et agréable" />
 
     <router-link to="/logout">
       <font-awesome-icon data-bs-toggle="tooltip" title="Me déconnecter" icon="fa-solid fa-right-from-bracket" size="lg"
@@ -36,7 +39,7 @@ export default {
   },
   data() {
     return {
-      showModal: false,
+      showModalModerator: false,
     }
   }
 }

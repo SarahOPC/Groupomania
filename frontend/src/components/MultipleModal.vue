@@ -1,11 +1,11 @@
 <template>
-<div class="modal-overlay">
-    <div class="modal">
-        <div>{{ content }}</div>
-
-        <div>Êtes-vous certain de vouloir supprimer votre compte. Attention, cette action est DEFINITIVE et IRREVERSIBLE</div>
-      <InputSubmit @click="$emit('close-modal')" content="Fermer" />
-    </div>
+  <div class="modal-overlay">
+      <div class="modalContent">
+          {{ content }}<br>
+        <InputSubmit v-if="isQuestion === 'false'" @click="$emit('close-modal-moderator')" content="Fermer" />
+        <InputSubmit v-if="isQuestion === 'true'" @click="$emit('deleteProfil')" content="Oui, je supprime définitivement mon compte" /><br>
+        <InputSubmit v-if="isQuestion === 'true'" @click="$emit('close-modal-delete')" content="Non, je ne veux pas supprimer mon compte" />
+      </div>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
   components: {
     InputSubmit
   },
-  props: ["content"]
+  props: ["content", "isQuestion"]
 }
 </script>
 
@@ -32,7 +32,7 @@ export default {
   background-color: #00000099;
 }
 
-.modal {
+.modalContent {
   text-align: center;
   background-color: #FFD7D7;
   height: fit-content;

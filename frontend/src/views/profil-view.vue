@@ -6,9 +6,9 @@
                     :style="{ color: '#FFD7D7', 'margin': '1em' }" />
             </router-link>
 
-                <font-awesome-icon @click="showModal = true" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret"
+                <font-awesome-icon @click="showModalModerator = true" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret"
                     size="lg" :style="{ color: '#FFD7D7', 'margin': '1em', cursor: 'pointer' }" />
-                    <MultipleModal v-show="showModal" @close-modal="showModal = false" content="Le rôle du modérateur sur ce site est de permettre et de faciliter les échanges courtois entre collègues.
+                    <MultipleModal v-if="showModalModerator" @close-modal-moderator="showModalModerator = false" isQuestion="false" content="Le rôle du modérateur sur ce site est de permettre et de faciliter les échanges courtois entre collègues.
                     Ce site a pour seul but de vous donner la possibilité de discuter de tout entre vous, que cela concerne le travail ou pas.
                     Le modérateur se réserve le droit de modifier ou supprimer selon son propre avis tout post ou commentaire considéré comme ne respectant pas l'esprit de notre entreprise
                     Merci de votre compréhension et de votre collaboration pour garder cet espace de détente sain et agréable" />
@@ -55,10 +55,12 @@
                 <input type="password" v-model="password" id="secondPassword" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
                     placeholder="Confirmation du nouveau mot de passe">
                 <InputSubmit @click="updatePassword(firstPassword, secondPassword)" content="Valider" /><br>
-
-                <InputSubmit @click="deleteProfil()" content="Supprimer mon compte" />
-                <p>Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est <span>DEFINITIVE et
-                        IRREVERSIBLE</span></p>
+            </div>
+            <div class="deleteProfil">
+                <InputSubmit @click="showModalDelete = true" content="Supprimer mon compte" />
+                <p>Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est <span>DEFINITIVE et IRREVERSIBLE</span></p>
+                <MultipleModal v-if="showModalDelete" @close-modal-delete="showModalDelete = false" @deleteProfil="deleteProfil(); showModalDelete = false" 
+                isQuestion="true" content="Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est DEFINITIVE et IRREVERSIBLE" />
             </div>
             <div class="changeView">
                 <InputSubmit @click="switchToNews()" content="Retourner au fil d'actualité" />
@@ -96,8 +98,9 @@ export default {
             responseAvatar: '',
             firstName: '',
             service: '',
-            showModal: false,
-            regexPassword: /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/
+            showModalModerator: false,
+            regexPassword: /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/,
+            showModalDelete: false
         }
     },
     methods: {
@@ -114,6 +117,10 @@ export default {
         getUserIdFromSessionStorage() {
             let id = sessionStorage.getItem('userId');
             return id;
+        },
+        clearSessionStorage() {
+            sessionStorage.clear();
+            return this.$router.push("/");        
         },
         getFirstName() {
             let userValidToken = this.getUserValidToken();
@@ -246,7 +253,7 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         alert("Votre compte vient d'être supprimer");
-                        sessionStorage.clear();
+                        this.clearSessionStorage();
                     } else {
                         alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
@@ -287,7 +294,8 @@ h2 {
 .info.col-5,
 .avatar.col-5,
 .changePassword,
-.changeView {
+.changeView,
+.deleteProfil {
     margin: 1em;
     padding: 1em;
     background-color: #FFFFFF;
