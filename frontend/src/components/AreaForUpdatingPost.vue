@@ -60,7 +60,6 @@ export default {
             axios({ method: 'put', url: urlDesti, data: formData, headers: headersToPass })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
                         return self.$emit('reloadPostsPage');
                     } else {
                         alert(self.throwUnexpectedServerError(response.status, response.statusText));

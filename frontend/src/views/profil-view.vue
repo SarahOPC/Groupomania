@@ -6,9 +6,12 @@
                     :style="{ color: '#FFD7D7', 'margin': '1em' }" />
             </router-link>
 
-                <font-awesome-icon @click="showModal = true" @close-modal="showModal = false" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret"
+                <font-awesome-icon @click="showModal = true" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret"
                     size="lg" :style="{ color: '#FFD7D7', 'margin': '1em', cursor: 'pointer' }" />
-                    <ModeratorModal v-show="showModal" @close-modal="showModal = false" />
+                    <MultipleModal v-show="showModal" @close-modal="showModal = false" content="Le rôle du modérateur sur ce site est de permettre et de faciliter les échanges courtois entre collègues.
+                    Ce site a pour seul but de vous donner la possibilité de discuter de tout entre vous, que cela concerne le travail ou pas.
+                    Le modérateur se réserve le droit de modifier ou supprimer selon son propre avis tout post ou commentaire considéré comme ne respectant pas l'esprit de notre entreprise
+                    Merci de votre compréhension et de votre collaboration pour garder cet espace de détente sain et agréable" />
 
             <router-link to="/logout">
                 <font-awesome-icon data-bs-toggle="tooltip" title="Me déconnecter" icon="fa-solid fa-right-from-bracket"
@@ -47,9 +50,12 @@
             </div>
             <div class="changePassword">
                 <label for="password">Nouveau mot de passe</label><br>
-                <input type="password" v-model="password" id="password" name="password"
+                <input type="password" id="firstPassword" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
                     placeholder="Nouveau mot de passe">
-                <InputSubmit @click="updatePassword()" content="Valider" /><br>
+                <input type="password" v-model="password" id="secondPassword" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
+                    placeholder="Confirmation du nouveau mot de passe">
+                <InputSubmit @click="updatePassword(firstPassword, secondPassword)" content="Valider" /><br>
+
                 <InputSubmit @click="deleteProfil()" content="Supprimer mon compte" />
                 <p>Êtes-vous sûr de vouloir supprimer votre compte ? Attention, cette action est <span>DEFINITIVE et
                         IRREVERSIBLE</span></p>
@@ -68,7 +74,7 @@ import TextInput from '@/components/TextInput.vue'
 import SelectButton from '@/components/SelectButton.vue'
 import axios from 'axios'
 import FormData from 'form-data'
-import ModeratorModal from '@/components/ModeratorModal.vue'
+import MultipleModal from '@/components/MultipleModal.vue'
 
 export default {
     name: 'profil-view',
@@ -81,7 +87,7 @@ export default {
     InputSubmit,
     TextInput,
     SelectButton,
-    ModeratorModal
+    MultipleModal
 },
     data() {
         return {
@@ -90,7 +96,8 @@ export default {
             responseAvatar: '',
             firstName: '',
             service: '',
-            showModal: false
+            showModal: false,
+            regexPassword: /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/
         }
     },
     methods: {
@@ -144,11 +151,31 @@ export default {
                     alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
-        updatePassword() {
+        checkValidityOfPassword() {
+        let self = this;
+        if(this.password.match(self.regexPassword) !== null) {
+            return true;
+        } alert("Le mot de passe ne correspond pas aux exigences minimales");
+            return false;
+        },
+        updatePassword(firstPassword, secondPassword) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromSessionStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/password";
+            let self = this;
+            console.log(firstPassword);
+            console.log(secondPassword);
 
+
+            if(self.firstPassword !== self.secondPassword) {
+                alert("Les mots de passe ne correspondent pas")
+                return window.location.reload();
+            }
+            
+            if(this.checkValidityOfPassword == false)  {
+                alert("Les mots de passe ne correspondent pas aux exigences minimales");
+                return window.location.reload();
+            }
             axios({
                 method: 'put', url: urlDesti, data: {
                     password: this.password
@@ -157,7 +184,6 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         alert("Votre mot de passe est maintenant modifié");
-                        console.log(response);
                     } else {
                         alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
@@ -179,7 +205,6 @@ export default {
             axios({ method: 'put', url: urlDesti, data: formData, headers: headersToPass })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
                         self.displayAvatar();
                     } else {
                         alert(this.throwUnexpectedServerError(response.status, response.statusText));
@@ -221,7 +246,6 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         alert("Votre compte vient d'être supprimer");
-                        console.log(response);
                         sessionStorage.clear();
                     } else {
                         alert(this.throwUnexpectedServerError(response.status, response.statusText));
@@ -290,6 +314,11 @@ span {
     color: #FD2D01;
     font-weight: bold;
     text-decoration: underline;
+}
+
+input {
+  border-radius: 0.5em;
+  margin: 0.5em;
 }
 
 @media (max-width: 600px) {

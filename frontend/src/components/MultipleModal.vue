@@ -1,10 +1,9 @@
 <template>
 <div class="modal-overlay">
-    <div class="moderatorModal">
-        <p>Le rôle du modérateur sur ce site est de permettre et de faciliter les échanges courtois entre collègues.</p>
-        <p>Ce site a pour seul but de vous donner la possibilité de discuter de tout entre vous, que cela concerne le travail ou pas.</p>
-        <p>Le modérateur se réserve le droit de modifier ou supprimer selon son propre avis tout post ou commentaire considéré comme ne respectant pas l'esprit de notre entreprise</p>
-        <p>Merci de votre compréhension et de votre collaboration pour garder cet espace de détente sain et agréable</p>
+    <div class="modal">
+        <div>{{ content }}</div>
+
+        <div>Êtes-vous certain de vouloir supprimer votre compte. Attention, cette action est DEFINITIVE et IRREVERSIBLE</div>
       <InputSubmit @click="$emit('close-modal')" content="Fermer" />
     </div>
   </div>
@@ -16,7 +15,8 @@ import InputSubmit from "@/components/InputSubmit.vue";
 export default {
   components: {
     InputSubmit
-  }
+  },
+  props: ["content"]
 }
 </script>
 
@@ -32,7 +32,7 @@ export default {
   background-color: #00000099;
 }
 
-.moderatorModal {
+.modal {
   text-align: center;
   background-color: #FFD7D7;
   height: fit-content;
@@ -42,12 +42,8 @@ export default {
   border-radius: 1em;
 }
 
-p {
-  margin: 1em;
-}
-
 @media (max-width: 600px) {
-    .moderatorModal {
+    .modal {
       width: 19em;
       margin-right: 1em;
     }

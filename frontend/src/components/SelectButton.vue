@@ -1,7 +1,6 @@
 <template>
     <div>
         <div v-if="mode == 'firstTime'">
-
             <select v-model="selectedService" name="service" id="service">
                 <option value="Fruit">Fruit</option>
                 <option value="Legume">Legume</option>
@@ -11,7 +10,7 @@
                 <option value="Feculent">Feculent</option>
                 <option value="Laitage">Laitage</option>
             </select><br>
-            <InputSubmit @click="updateService(); displayService();" content="Valider" />
+            <InputSubmit @click="updateService()" content="Valider" />
         </div>
         <h2 v-if="mode == 'notFirstTime'">{{ services }}</h2>
         <InputSubmit @click="changeMode()" content="Mettre à jour mon service" />
@@ -35,6 +34,9 @@ export default {
     components: {
         InputSubmit
     },
+    beforeMount() {
+        this.displayService();
+    },
     methods: {
         throwUnexpectedServerError(status, message) {
             const error = new Error("Unexpected Server Response: " + status + " ! Message: " + message);
@@ -56,9 +58,7 @@ export default {
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/service";
 
             axios({
-                method: 'put', url: urlDesti, data: {
-                    service: this.selectedService
-                }, headers: { 'Authorization': 'Bearer ' + userValidToken },
+                method: 'put', url: urlDesti, data: {service: this.selectedService}, headers: { 'Authorization': 'Bearer ' + userValidToken },
             })
                 .then(function (response) {
                     if (response.status === 200) {

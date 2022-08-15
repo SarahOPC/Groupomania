@@ -223,7 +223,6 @@ export default {
             axios({ method: 'delete', url: urlDesti, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
                         return self.getAllPosts();
                     } else {
                         alert(this.throwUnexpectedServerError(response.status, response.statusText));

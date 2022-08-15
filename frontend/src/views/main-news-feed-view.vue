@@ -5,9 +5,9 @@
         :style="{ color: '#FFD7D7', 'margin': '1em' }" />
     </router-link>
 
-    <font-awesome-icon @click="showModal = true" @close-modal="showModal = false" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret" size="lg"
+    <font-awesome-icon @click="showModal = true" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret" size="lg"
       :style="{ color: '#FFD7D7', 'margin': '1em', cursor: 'pointer' }" />
-      <ModeratorModal v-show="showModal" @close-modal="showModal = false" />
+      <MultipleModal v-show="showModal" @close-modal="showModal = false" />
 
     <router-link to="/logout">
       <font-awesome-icon data-bs-toggle="tooltip" title="Me déconnecter" icon="fa-solid fa-right-from-bracket" size="lg"
@@ -26,13 +26,13 @@
 <script>
 // @ is an alias to /src
 import PostComponent from '@/components/PostComponent.vue'
-import ModeratorModal from '@/components/ModeratorModal.vue'
+import MultipleModal from '@/components/MultipleModal.vue'
 
 export default {
   name: 'main-news-feed-view',
   components: {
     PostComponent,
-    ModeratorModal
+    MultipleModal
   },
   data() {
     return {
