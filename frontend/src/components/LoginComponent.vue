@@ -17,8 +17,6 @@
         :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
       <input type="email" v-model="email" id="email" name="email" pattern="/^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm" 
       required="required" placeholder="janedoe@groupomania.com">
-      <button type="button" class="btn-ok" v-if="mode !== 'login'" @click="checkValidityOfEmail()">OK</button><br>
-      
     </div>
 
     <div>
@@ -27,20 +25,15 @@
         :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
       <input type="password" v-model="password" id="password" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
       required="required" placeholder="Mot de Passe">
-      <button type="button" class="btn-ok" v-if="mode !== 'login'" @click="checkValidityOfPassword()">OK</button><br>
     </div>
 
-    <div class="switch" v-if="mode == 'login'" @click="switchToSignup()">Vous n'êtes pas encore inscrit, cliquez <span>ici</span>
-    </div>
-    <div class="switch" v-else @click="switchToLogin()">Déjà inscrit, cliquez <span>ici</span></div>
+    <button type="button" class="btn" v-if="mode == 'login'" @click="switchToSignup()">Page d'inscription</button>
+    <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
 
-    <div>
-      <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
-    </div>
-    <div v-if="this.regexMailValidated === 1 && this.regexPasswordValidated === 1" >
-      <button type="button" class="btn" v-if="mode !== 'login'" @click="createUser()">Créer un compte</button>
-    </div>
+    <button type="button" class="btn" v-if="mode !== 'login'" @click="switchToLogin()">Page de connexion</button>
+    <button type="button" class="btn" v-if="mode !== 'login'" @click="checkValidityOfEmail(); checkValidityOfPassword();">Créer un compte</button>
   </div>
+
   <div class="helpPsw" v-if="mode !== 'login'">
     <p>Mot de passe demandé :</p>
     <p>Minimum de 6 caractères</p>
@@ -63,9 +56,7 @@ export default {
       password: "",
       mode: 'login',
       regexEmail: /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm,
-      regexPassword: /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/,
-      regexMailValidated: 0,
-      regexPasswordValidated: 0
+      regexPassword: /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/
     }
   },
   methods: {
@@ -83,19 +74,15 @@ export default {
     checkValidityOfEmail() {
       let self = this;
       if(this.email.match(self.regexEmail) !== null) {
-        this.regexMailValidated = 1;
         return true;
-      } this.regexMailValidated = 0;
-        alert("La forme du mail rentré n'est pas correcte");
+      } alert("La forme du mail rentré n'est pas correcte");
         return false;
     },
     checkValidityOfPassword() {
       let self = this;
       if(this.password.match(self.regexPassword) !== null) {
-        this.regexPasswordValidated = 1;
         return true;
-      } this.regexPasswordValidated = 1;
-        alert("Le mot de passe ne correspond pas aux exigences minimales");
+      } alert("Le mot de passe ne correspond pas aux exigences minimales");
         return false;
     },
     findUser() {
@@ -112,33 +99,37 @@ export default {
             sessionStorage.setItem('userRole', response.data.userRole);
             return self.$router.push({ path: '/news' })
           } else {
-              this.throwUnexpectedServerError(response.status, response.statusText);
+              alert(this.throwUnexpectedServerError(response.status, response.statusText));
           }
         })
         .catch(function (error) {
-          this.throwUnexpectedServerError(error.response.status, error.message);
+          alert(this.throwUnexpectedServerError(error.response.status, error.message));
         })
     },
     createUser() {
       let self = this;
-      axios.post(process.env.VUE_APP_BACKEND_URL + "/signup",
-        {
-          email: this.email,
-          password: this.password
-        })
-        .then(function (response) {
-          if (response.status === 201) {
-            return self.$router.go({ path: '/' })
-          } else if (response.status === 401) {
-            alert("Vous êtes déjà inscrit")
-            return self.$router.go({ path: '/' })
-          } else {
-              this.throwUnexpectedServerError(response.status, response.statusText);
-          }
-        })
-        .catch(function (error) {
-          this.throwUnexpectedServerError(error.response.status, error.message);
-        })
+      if(self.checkValidityOfEmail() !== true && self.checkValidityOfPassword !== true) {
+        alert("Il y a des erreurs dans votre email et/ou votre mot de passe");
+      } else {
+        axios.post(process.env.VUE_APP_BACKEND_URL + "/signup",
+          {
+            email: this.email,
+            password: this.password
+          })
+          .then(function (response) {
+            if (response.status === 201) {
+              return self.$router.go({ path: '/' })
+            } else if (response.status === 401) {
+              alert("Vous êtes déjà inscrit")
+              return self.$router.go({ path: '/' })
+            } else {
+                alert(this.throwUnexpectedServerError(response.status, response.statusText));
+            }
+          })
+          .catch(function (error) {
+            alert(this.throwUnexpectedServerError(error.response.status, error.message));
+          })
+      }
     }
   }
 }
@@ -155,6 +146,7 @@ export default {
   --bs-btn-bg: #4E5166;
   --bs-btn-border-radius: 0.5em;
   --bs-btn-color: #FFD7D7;
+  margin: 0.5em;
 }
 
 .btn:hover {
@@ -163,20 +155,8 @@ export default {
   --bs-btn-hover-border-color: #FD2D01;
 }
 
-.btn-ok {
-  background-color: #4E5166;
-  border-radius: 0.5em;
-  color: #FFD7D7;
-  font-size: 0.9em;
-  margin-left: 0.7em;
-}
-
 h1 {
   color: #FFD7D7;
-}
-
-.switch {
-  margin-bottom: 1em;
 }
 
 .helpPsw p {
@@ -187,11 +167,7 @@ h1 {
 
 input {
   border-radius: 0.5em;
-}
-
-span {
-  cursor: pointer;
-  font-weight: bold;
+  margin-bottom: 1.5em;
 }
 
 </style>

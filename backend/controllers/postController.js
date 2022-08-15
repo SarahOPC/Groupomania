@@ -7,6 +7,7 @@ exports.createPost = (req, res, next) => {
     const postBodyText = req.body.text;
     const postUserId = req.params.id;
     const postBodyImage = req.uniqueFileName;
+    const extension = postBodyImage.split('.')[1];
 
     // variable = condition ? si oui : sinon
     let postImage = postBodyImage == '' || postBodyImage == undefined || postBodyImage == null
@@ -22,6 +23,10 @@ exports.createPost = (req, res, next) => {
         let params = [
             postBodyText, postImage, postUserId
         ];
+
+        if(extension != "jpg" && extension != "png" && extension != "jpeg") {
+            return res.status(400).json({ message: "Mauvais format d'image. Sont seulement acceptés les jpg, jpeg et png"})
+        }
 
         dbfile.db.query(sqlRequests.sqlCreatePost, params, function (err, result) {
             if (err) {

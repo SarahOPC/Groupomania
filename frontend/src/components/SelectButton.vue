@@ -64,11 +64,11 @@ export default {
                     if (response.status === 200) {
                     console.log(response);
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         changeMode() {
@@ -89,11 +89,11 @@ export default {
                         self.mode = 'notFirstTime';
                         return self.services = response.data.result[0].service;
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         }
     }

@@ -63,11 +63,11 @@ export default {
                         console.log(response);
                         return self.$emit('reloadPostsPage');
                     } else {
-                        self.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(self.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    self.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(self.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         changeInputContent(content) {

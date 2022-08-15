@@ -42,25 +42,25 @@ export default {
             return this.file = e.target.files[0];
         },
         createPosts() {
-            let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromSessionStorage();
+            let self = this;
+            let userValidToken = self.getUserValidToken();
+            let id = self.getUserIdFromSessionStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id;
             const headersToPass = { 'Authorization': 'Bearer ' + userValidToken, 'Content-Type': 'multipart/form-data' };
             let formData = new FormData();
-            formData.append("image", this.file);
-            formData.append("text", this.text);
+            formData.append("image", self.file);
+            formData.append("text", self.text);
 
             axios({ method: 'post', url: urlDesti, data: formData, headers: headersToPass })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
                         window.location.reload();
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(self.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(self.throwUnexpectedServerError(error.response.status, error.message));
                 })
         }
     }

@@ -65,11 +65,11 @@ export default {
                     if (response.status === 200) {
                         console.log(response);
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         updateLastName() {
@@ -86,11 +86,11 @@ export default {
                     if (response.status === 200) {
                     console.log(response);
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         displayNames() {
@@ -107,11 +107,11 @@ export default {
                         self.mode = 'notFirstTime';
                         return self.names = response.data.result[0].prenom + " " + response.data.result[0].nom;
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         }
     }

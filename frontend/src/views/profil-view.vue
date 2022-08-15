@@ -119,11 +119,11 @@ export default {
                     if (response.status === 200) {
                         return self.firstName = response.data.result[0].prenom;
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         getService() {
@@ -137,11 +137,11 @@ export default {
                     if (response.status === 200) {
                         return self.service = response.data.result[0].service;
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         updatePassword() {
@@ -159,11 +159,11 @@ export default {
                         alert("Votre mot de passe est maintenant modifié");
                         console.log(response);
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         changeAvatarInDatabase(e) {
@@ -182,11 +182,11 @@ export default {
                         console.log(response);
                         self.displayAvatar();
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         displayAvatar() {
@@ -203,11 +203,11 @@ export default {
                         sessionStorage.setItem('avatar', response.data.result[0].avatar);
                         return self.responseAvatar = response.data.result[0].avatar;
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         deleteProfil() {
@@ -224,11 +224,11 @@ export default {
                         console.log(response);
                         sessionStorage.clear();
                     } else {
-                        this.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    this.throwUnexpectedServerError(error.response.status, error.message);
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         switchToNews() {
