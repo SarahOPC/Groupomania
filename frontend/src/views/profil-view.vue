@@ -50,11 +50,11 @@
             </div>
             <div class="changePassword">
                 <label for="password">Nouveau mot de passe</label><br>
-                <input type="password" id="firstPassword" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
+                <input type="password" v-model="password" id="password" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
                     placeholder="Nouveau mot de passe">
-                <input type="password" v-model="password" id="secondPassword" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
+                <input type="password" v-model="passwordVerification" id="passwordVerification" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
                     placeholder="Confirmation du nouveau mot de passe">
-                <InputSubmit @click="updatePassword(firstPassword, secondPassword)" content="Valider" /><br>
+                <InputSubmit @click="updatePassword()" content="Valider" /><br>
             </div>
             <div class="deleteProfil">
                 <InputSubmit @click="showModalDelete = true" content="Supprimer mon compte" />
@@ -94,6 +94,7 @@ export default {
     data() {
         return {
             password: '',
+            passwordVerification: "",
             mode: 'firstTime',
             responseAvatar: '',
             firstName: '',
@@ -159,30 +160,24 @@ export default {
                 })
         },
         checkValidityOfPassword() {
-        let self = this;
-        if(this.password.match(self.regexPassword) !== null) {
-            return true;
-        } alert("Le mot de passe ne correspond pas aux exigences minimales");
-            return false;
+            if(this.password === this.passwordVerification) {
+                let self = this;
+                if(this.password.match(self.regexPassword) !== null) {
+                return true;
+                } alert("Le mot de passe ne correspond pas aux exigences minimales");
+                return false;
+            } else {
+                alert("Les deux mots de passe ne correspondent pas");
+            }
         },
-        updatePassword(firstPassword, secondPassword) {
+        updatePassword() {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromSessionStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/password";
             let self = this;
-            console.log(firstPassword);
-            console.log(secondPassword);
-
-
-            if(self.firstPassword !== self.secondPassword) {
-                alert("Les mots de passe ne correspondent pas")
-                return window.location.reload();
-            }
-            
-            if(this.checkValidityOfPassword == false)  {
-                alert("Les mots de passe ne correspondent pas aux exigences minimales");
-                return window.location.reload();
-            }
+            if(self.checkValidityOfEmail() !== true && self.checkValidityOfPassword !== true) {
+                alert("Il y a des erreurs dans votre email et/ou votre mot de passe");
+            } else {
             axios({
                 method: 'put', url: urlDesti, data: {
                     password: this.password
@@ -198,6 +193,7 @@ export default {
                 .catch(function (error) {
                     alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
+            }
         },
         changeAvatarInDatabase(e) {
             let userValidToken = this.getUserValidToken();

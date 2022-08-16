@@ -27,6 +27,13 @@
       required="required" placeholder="Mot de Passe">
     </div>
 
+    <div v-if="mode !== 'login'">
+      <font-awesome-icon data-bs-toggle="tooltip" title="Mot de passe" icon="fa-solid fa-key" size="lg"
+        :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
+      <input type="password" v-model="passwordVerification" id="passwordVerification" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
+      required="required" placeholder="Vérification du mot de Passe">
+    </div>
+
     <button type="button" class="btn" v-if="mode == 'login'" @click="switchToSignup()">Page d'inscription</button>
     <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
 
@@ -54,6 +61,7 @@ export default {
     return {
       email: "",
       password: "",
+      passwordVerification: "",
       mode: 'login',
       regexEmail: /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm,
       regexPassword: /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/
@@ -79,11 +87,19 @@ export default {
         return false;
     },
     checkValidityOfPassword() {
-      let self = this;
-      if(this.password.match(self.regexPassword) !== null) {
-        return true;
-      } alert("Le mot de passe ne correspond pas aux exigences minimales");
-        return false;
+      console.log(this.password);
+      console.log(this.passwordVerification);
+      console.log(this.password === this.passwordVerification);
+
+      if(this.password === this.passwordVerification) {
+        let self = this;
+        if(this.password.match(self.regexPassword) !== null) {
+          return true;
+        } alert("Le mot de passe ne correspond pas aux exigences minimales");
+          return false;
+      } else {
+        alert("Les deux mots de passe ne correspondent pas");
+      }
     },
     findUser() {
       let self = this;
