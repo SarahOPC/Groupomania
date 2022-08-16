@@ -1,21 +1,47 @@
 <template>
   <nav>
-    <router-link to="/profil">
-      <font-awesome-icon data-bs-toggle="tooltip" title="Mon profil" icon="fa-solid fa-address-card" size="lg"
-        :style="{ color: '#FFD7D7', 'margin': '1em' }" />
-    </router-link>
+    <div class="icons">
+      <div @mouseover="hover = true" @mouseout="hover = false">
+        <router-link to="/profil">
+          <div v-if="!hover">
+            <font-awesome-icon data-bs-toggle="tooltip" title="Mon profil" icon="fa-solid fa-address-card" size="lg"
+              :style="{ color: '#FFD7D7', 'margin': '1em' }" />
+          </div>
+          <div v-if="hover">
+          <font-awesome-icon data-bs-toggle="tooltip" title="Mon profil" icon="fa-solid fa-address-card" size="lg"
+            :style="{ color: '#FD2D01', 'margin': '1em' }" />
+          </div>
+        </router-link>
+      </div>
 
-    <font-awesome-icon @click="showModalModerator = true" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret" size="lg"
-      :style="{ color: '#FFD7D7', 'margin': '1em', cursor: 'pointer' }" />
-      <MultipleModal v-if="showModalModerator" @close-modal-moderator="showModalModerator = false" isQuestion="false" content="Le rôle du modérateur sur ce site est de permettre et de faciliter les échanges courtois entre collègues.
-        Ce site a pour seul but de vous donner la possibilité de discuter de tout entre vous, que cela concerne le travail ou pas.
-        Le modérateur se réserve le droit de modifier ou supprimer selon son propre avis tout post ou commentaire considéré comme ne respectant pas l'esprit de notre entreprise
-        Merci de votre compréhension et de votre collaboration pour garder cet espace de détente sain et agréable" />
+      <div @mouseover="hover = true" @mouseout="hover = false">
+        <div v-if="!hover">
+          <font-awesome-icon @click="showModalModerator = true" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret" size="lg"
+            :style="{ color: '#FFD7D7', 'margin': '1em', cursor: 'pointer' }" />
+        </div>
+        <div v-if="hover">
+          <font-awesome-icon @click="showModalModerator = true" data-bs-toggle="tooltip" title="Rôle du modérateur" icon="fa-solid fa-user-secret" size="lg"
+            :style="{ color: '#FD2D01', 'margin': '1em', cursor: 'pointer' }" />
+        </div>
+          <MultipleModal v-if="showModalModerator" @close-modal-moderator="showModalModerator = false" isQuestion="false" content="Le rôle du modérateur sur ce site est de permettre et de faciliter les échanges courtois entre collègues.
+            Ce site a pour seul but de vous donner la possibilité de discuter de tout entre vous, que cela concerne le travail ou pas.
+            Le modérateur se réserve le droit de modifier ou supprimer selon son propre avis tout post ou commentaire considéré comme ne respectant pas l'esprit de notre entreprise
+            Merci de votre compréhension et de votre collaboration pour garder cet espace de détente sain et agréable" />
+      </div>
 
-    <router-link to="/logout">
-      <font-awesome-icon data-bs-toggle="tooltip" title="Me déconnecter" icon="fa-solid fa-right-from-bracket" size="lg"
-        :style="{ color: '#FFD7D7', 'margin': '1em' }" />
-    </router-link>
+      <div @mouseover="hover = true" @mouseout="hover = false">
+        <router-link to="/logout">
+          <div v-if="!hover">
+            <font-awesome-icon data-bs-toggle="tooltip" title="Me déconnecter" icon="fa-solid fa-right-from-bracket" size="lg"
+              :style="{ color: '#FFD7D7', 'margin': '1em' }" />
+          </div>
+          <div v-if="hover">
+          <font-awesome-icon data-bs-toggle="tooltip" title="Me déconnecter" icon="fa-solid fa-right-from-bracket" size="lg"
+            :style="{ color: '#FD2D01', 'margin': '1em' }" />
+          </div>
+        </router-link>
+      </div>
+    </div>
   <h1>Fil d'actualité</h1>
   </nav>
   <router-view></router-view>
@@ -40,6 +66,7 @@ export default {
   data() {
     return {
       showModalModerator: false,
+      hover: false
     }
   }
 }
@@ -61,6 +88,11 @@ h1 {
 
 .previousPost {
   margin: 1.5em;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1150px) and (orientation: landscape) {

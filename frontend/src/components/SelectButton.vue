@@ -9,6 +9,7 @@
                 <option value="Sucre">Sucre</option>
                 <option value="Feculent">Feculent</option>
                 <option value="Laitage">Laitage</option>
+                <!--<option value="services" selected>{{ services }}</option>-->
             </select><br>
             <InputSubmit @click="updateService()" content="Valider" />
         </div>

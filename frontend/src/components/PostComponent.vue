@@ -2,7 +2,7 @@
 
 
     <div>
-        <AreaForText @reloadPostsPage="getAllPosts()"/>
+        <AreaForText @reloadPostsPage="getAllPosts()" />
     </div>
 
     <div class="container" v-for="post in posts" :key="post.id">
@@ -14,77 +14,77 @@
         </div><br>
 
         <div class="iconsPlacement">
-            <div @click="getOnePost(post.id)" v-if="isPostEditable(post.userId)">
-                <font-awesome-icon data-bs-toggle="tooltip" title="Modifier"
-                icon="fa-solid fa-pencil" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-            </div>
-
-            <div @click="deleteOnePost(post.id)"  v-if="isPostEditable(post.userId)">
-                <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer"
-                icon="fa-solid fa-trash-can" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-            </div>
-
-            <div v-if="post.liked === 0 || post.liked == null" @click="likingOnePost(post.id, post.liked)">
-                <font-awesome-icon data-bs-toggle="tooltip" title="J'aime"
-                icon="fa-regular fa-face-smile" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-            </div>
-            
-            <div v-if="post.liked === 1" @click="unlikingOnePost(post.id, post.liked)">
-                <font-awesome-icon data-bs-toggle="tooltip" title="J'aime"
-                icon="fa-solid fa-face-smile" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-            </div>
-            
-            <div v-if="post.liked === 0 || post.liked == null" @click="dislikingOnePost(post.id, post.liked)">
-                <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas"
-                icon="fa-regular fa-face-frown" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-            </div>
-            
-            <div v-if="post.liked === -1" @click="undislikingOnePost(post.id, post.liked)">
-                <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas"
-                icon="fa-solid fa-face-frown" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-            </div>
-
-            <div v-if="displayPostUpdate">
-                <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id" @reloadPostsPage="getAllPosts()" />
-            </div>
-
-            <div @click="getAllComments(post.id)">
-                <font-awesome-icon data-bs-toggle="tooltip" title="Voir tous les commentaires"
-                icon="fa-solid fa-comments" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-            </div>
-
-            <div v-if="displayCommentsArea == post.id">
-                <div v-for="comment in comments" :key="comment.id">
-                <img crossorigin="anonymous" :src="post.avatar" alt="Avatar" class="rounded-3"
-                    style="width: 2em; margin-right: 1em; box-shadow: none;" />
-                    {{ comment.text }}
-                    <div v-if="isPostEditable(comment.userId)" @click="deleteOneComment(post.id, comment.id)">
-                        <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
-                        icon="fa-solid fa-circle-minus" size="lg"
+            <div class="firstPartNoComment">
+                <div @click="getOnePost(post.id)" v-if="isPostEditable(post.userId)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="Modifier" icon="fa-solid fa-pencil" size="lg"
                         :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                </div>
+
+                <div @click="deleteOnePost(post.id)" v-if="isPostEditable(post.userId)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer" icon="fa-solid fa-trash-can" size="lg"
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                </div>
+
+                <div v-if="post.liked === 0 || post.liked == null" @click="likingOnePost(post.id, post.liked)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="J'aime" icon="fa-regular fa-face-smile" size="lg"
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                </div>
+
+                <div v-if="post.liked === 1" @click="unlikingOnePost(post.id, post.liked)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="J'aime" icon="fa-solid fa-face-smile" size="lg"
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                </div>
+
+                <div v-if="post.liked === 0 || post.liked == null" @click="dislikingOnePost(post.id, post.liked)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas" icon="fa-regular fa-face-frown"
+                        size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                </div>
+
+                <div v-if="post.liked === -1" @click="undislikingOnePost(post.id, post.liked)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas" icon="fa-solid fa-face-frown"
+                        size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                </div>
+
+                <div v-if="displayPostUpdate">
+                    <AreaForUpdatingPost v-model="post.text" v-model:postId="post.id"
+                        @reloadPostsPage="getAllPosts()" />
+                </div>
+
+                <div @click="getAllComments(post.id)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="Voir tous les commentaires"
+                        icon="fa-solid fa-comments" size="lg"
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                </div>
+            </div>
+            <div class="secondPart">
+                <div class="commentPlacement" v-if="displayCommentsArea == post.id">
+                    <div v-for="comment in comments" :key="comment.id">
+                        <div class="avatarCommentPlacement">
+                            <img crossorigin="anonymous" :src="post.avatar" alt="Avatar" class="rounded-3"
+                                style="width: 2em; margin-right: 1em; box-shadow: none;" />
+                        </div>
+                        <div class="textCommentPlacement">{{ comment.text }}</div>
+                        <div v-if="isPostEditable(comment.userId)" @click="deleteOneComment(post.id, comment.id)">
+                            <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
+                                icon="fa-solid fa-circle-minus" size="lg"
+                                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                        </div>
                     </div>
+                </div>
+
+                <div @click="getOnePostForComments(post.id)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="Ajouter un commentaire"
+                        icon="fa-solid fa-circle-plus" size="lg"
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
                 </div>
             </div>
 
-            <div @click="getOnePostForComments(post.id)">
-                <font-awesome-icon data-bs-toggle="tooltip" title="Ajouter un commentaire"
-                icon="fa-solid fa-circle-plus" size="lg"
-                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
-            </div>
-
-            <div v-if="displayNewCommentArea">
+            <div class="comment" v-if="displayNewCommentArea">
                 <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
                 <div @click="addOneComment(post.id)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="Publier mon commentaire"
-                    icon="fa-solid fa-check-circle" size="lg"
-                    :style="{ color: '#4E5166', 'margin-left': '0.5em', cursor: 'pointer' }" />
+                        icon="fa-solid fa-check-circle" size="lg"
+                        :style="{ color: '#4E5166', 'margin-left': '0.5em', cursor: 'pointer' }" />
                 </div>
             </div>
         </div>
@@ -229,7 +229,7 @@ export default {
                     }
                 })
                 .catch(function (error) {
-                    if(error.response.status === 401) {
+                    if (error.response.status === 401) {
                         alert("Vous n'êtes pas autorisé à faire cette action");
                     } else {
                         alert(this.throwUnexpectedServerError(error.response.status, error.message));
@@ -303,7 +303,7 @@ export default {
             axios({ method: 'post', url: urlDesti, data: { likesdislikes: likesdislikes }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response + " " + liked);
+                        console.log(liked);
                         self.getAllPosts();
                         return self.liked = 1;
                     } else {
@@ -325,7 +325,7 @@ export default {
             axios({ method: 'post', url: urlDesti, data: { likesdislikes: likesdislikes }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response + " " + liked);
+                        console.log(liked);
                         self.getAllPosts();
                         return self.liked = 0;
                     } else {
@@ -347,7 +347,7 @@ export default {
             axios({ method: 'post', url: urlDesti, data: { likesdislikes: likesdislikes }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response + " " + liked);
+                        console.log(liked);
                         self.getAllPosts();
                         return self.liked = -1;
                     } else {
@@ -368,7 +368,7 @@ export default {
             axios({ method: 'post', url: urlDesti, data: { likesdislikes: likesdislikes }, headers: { 'Authorization': 'Bearer ' + userValidToken } })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response + " " + liked);
+                        console.log(liked);
                         self.getAllPosts();
                         return self.liked = 0;
                     } else {
@@ -407,7 +407,34 @@ img {
 }
 
 .iconsPlacement {
+    display: inline-block;
+}
+
+.firstPartNoComment {
+    display: flex;
+    justify-content: center;
+}
+
+.comment {
     display: inline-flex;
+    margin-top: 1em;
+}
+
+.secondPart {
+    display: flex;
+    justify-content: center;
+}
+
+.commentPlacement {
+    display: flex;
+}
+
+.avatarCommentPlacement {
+    display: flex;
+}
+
+.textCommentPlacement {
+    display: flex;
 }
 
 @media (max-width: 600px) {
@@ -415,5 +442,4 @@ img {
         width: 93%;
     }
 }
-
 </style>
