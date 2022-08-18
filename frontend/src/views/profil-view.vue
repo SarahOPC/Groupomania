@@ -161,8 +161,7 @@ export default {
         },
         checkValidityOfPassword() {
             if(this.password === this.passwordVerification) {
-                let self = this;
-                if(this.password.match(self.regexPassword) !== null) {
+                if(this.password.match(this.regexPassword) !== null) {
                 return true;
                 } alert("Le mot de passe ne correspond pas aux exigences minimales");
                 return false;

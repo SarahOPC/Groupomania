@@ -57,8 +57,8 @@
                 </div>
             </div>
             <div class="secondPart">
-                <div class="commentPlacement" v-if="displayCommentsArea == post.id">
-                    <div v-for="comment in comments" :key="comment.id">
+                <div v-if="displayCommentsArea == post.id">
+                    <div class="commentPlacement" v-for="comment in comments" :key="comment.id">
                         <div class="avatarCommentPlacement">
                             <img crossorigin="anonymous" :src="post.avatar" alt="Avatar" class="rounded-3"
                                 style="width: 2em; margin-right: 1em; box-shadow: none;" />
@@ -425,8 +425,14 @@ img {
     justify-content: center;
 }
 
+.secondPart div {
+    display: flex;
+    align-items: center;
+}
+
 .commentPlacement {
     display: flex;
+    align-items: center;
 }
 
 .avatarCommentPlacement {
@@ -435,6 +441,7 @@ img {
 
 .textCommentPlacement {
     display: flex;
+    margin-right: 1em;
 }
 
 @media (max-width: 600px) {

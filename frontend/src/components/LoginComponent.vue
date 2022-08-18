@@ -34,10 +34,10 @@
       required="required" placeholder="Vérification du mot de Passe">
     </div>
 
-    <button type="button" class="btn" v-if="mode == 'login'" @click="switchToSignup()">Page d'inscription</button>
+    <button type="button" class="btn" v-if="mode == 'login'" @click="switchToSignup()">S'inscrire</button>
     <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
 
-    <button type="button" class="btn" v-if="mode !== 'login'" @click="switchToLogin()">Page de connexion</button>
+    <button type="button" class="btn" v-if="mode !== 'login'" @click="switchToLogin()">Se connecter</button>
     <button type="button" class="btn" v-if="mode !== 'login'" @click="checkValidityOfEmail(); checkValidityOfPassword();">Créer un compte</button>
   </div>
 
@@ -80,20 +80,14 @@ export default {
       this.mode = 'login'
     },
     checkValidityOfEmail() {
-      let self = this;
-      if(this.email.match(self.regexEmail) !== null) {
+      if(this.email.match(this.regexEmail) !== null) {
         return true;
       } alert("La forme du mail rentré n'est pas correcte");
         return false;
     },
     checkValidityOfPassword() {
-      console.log(this.password);
-      console.log(this.passwordVerification);
-      console.log(this.password === this.passwordVerification);
-
       if(this.password === this.passwordVerification) {
-        let self = this;
-        if(this.password.match(self.regexPassword) !== null) {
+        if(this.password.match(this.regexPassword) !== null) {
           return true;
         } alert("Le mot de passe ne correspond pas aux exigences minimales");
           return false;
