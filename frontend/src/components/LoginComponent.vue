@@ -109,11 +109,11 @@ export default {
             sessionStorage.setItem('userRole', response.data.userRole);
             return self.$router.push({ path: '/news' })
           } else {
-              alert(this.throwUnexpectedServerError(response.status, response.statusText));
+              alert(self.throwUnexpectedServerError(response.status, response.statusText));
           }
         })
         .catch(function (error) {
-          alert(this.throwUnexpectedServerError(error.response.status, error.message));
+          alert(self.throwUnexpectedServerError(error.response.status, error.message));
         })
     },
     createUser() {
@@ -133,11 +133,11 @@ export default {
               alert("Vous êtes déjà inscrit")
               return self.$router.go({ path: '/' })
             } else {
-                alert(this.throwUnexpectedServerError(response.status, response.statusText));
+                alert(self.throwUnexpectedServerError(response.status, response.statusText));
             }
           })
           .catch(function (error) {
-            alert(this.throwUnexpectedServerError(error.response.status, error.message));
+            alert(self.throwUnexpectedServerError(error.response.status, error.message));
           })
       }
     }

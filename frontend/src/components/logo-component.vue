@@ -8,6 +8,7 @@
 
 <script>
 </script>
+
 <style scoped>
 .logo img {
     width: 5%;

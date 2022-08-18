@@ -62,11 +62,11 @@ export default {
                     if (response.status === 200) {
                         return self.$emit('reloadPostsPage');
                     } else {
-                        alert(self.throwUnexpectedServerError(response.status, response.statusText));
+                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
                 })
                 .catch(function (error) {
-                    alert(self.throwUnexpectedServerError(error.response.status, error.message));
+                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
                 })
         },
         changeInputContent(content) {

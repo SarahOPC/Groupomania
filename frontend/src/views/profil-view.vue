@@ -167,6 +167,7 @@ export default {
                 return false;
             } else {
                 alert("Les deux mots de passe ne correspondent pas");
+                return false;
             }
         },
         updatePassword() {
@@ -174,12 +175,12 @@ export default {
             let id = this.getUserIdFromSessionStorage();
             let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/profil/password";
             let self = this;
-            if(self.checkValidityOfEmail() !== true && self.checkValidityOfPassword !== true) {
-                alert("Il y a des erreurs dans votre email et/ou votre mot de passe");
+            if(this.checkValidityOfPassword() !== true) {
+                alert("Il y a des erreurs dans votre mot de passe");
             } else {
             axios({
                 method: 'put', url: urlDesti, data: {
-                    password: this.password
+                    password: self.password
                 }, headers: { 'Authorization': 'Bearer ' + userValidToken }
             })
                 .then(function (response) {
