@@ -1,8 +1,8 @@
 <template>
   <div v-if="mode == 'login'">
     <h1>Se connecter</h1>
-    <font-awesome-icon data-bs-toggle="tooltip" title="Se connecter" icon="fa-solid fa-arrow-right-to-bracket"
-      size="lg" :style="{ color: '#FFD7D7' }" />
+    <font-awesome-icon data-bs-toggle="tooltip" title="Se connecter" icon="fa-solid fa-arrow-right-to-bracket" size="lg"
+      :style="{ color: '#FFD7D7' }" />
   </div>
   <div v-else>
     <h1>S'inscrire</h1>
@@ -15,30 +15,32 @@
     <div>
       <font-awesome-icon data-bs-toggle="tooltip" title="Email" icon="fa-solid fa-at" size="lg"
         :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
-      <input type="email" v-model="email" id="email" name="email" pattern="/^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm" 
-      required="required" placeholder="janedoe@groupomania.com">
+      <input type="email" v-model="email" id="email" name="email"
+        pattern="/^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm" required="required"
+        placeholder="janedoe@groupomania.com">
     </div>
 
     <div>
       <label for="password">Mot de Passe</label><br>
       <font-awesome-icon data-bs-toggle="tooltip" title="Mot de passe" icon="fa-solid fa-key" size="lg"
         :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
-      <input type="password" v-model="password" id="password" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
-      required="required" placeholder="Mot de Passe">
+      <input type="password" v-model="password" id="password" name="password"
+        pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" required="required" placeholder="Mot de Passe">
     </div>
 
     <div v-if="mode !== 'login'">
       <font-awesome-icon data-bs-toggle="tooltip" title="Mot de passe" icon="fa-solid fa-key" size="lg"
         :style="{ color: '#FFD7D7', 'margin-right': '0.5em' }" />
-      <input type="password" v-model="passwordVerification" id="passwordVerification" name="password" pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" 
-      required="required" placeholder="Vérification du mot de Passe">
+      <input type="password" v-model="passwordVerification" id="passwordVerification" name="password"
+        pattern="/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/" required="required"
+        placeholder="Vérification du mot de Passe">
     </div>
 
     <button type="button" class="btn" v-if="mode == 'login'" @click="switchToSignup()">S'inscrire</button>
-    <button type="button" class="btn" v-if="mode == 'login'" @click="findUser()">Connexion</button>
+    <button type="button" class="btn" v-if="mode == 'login'" @click="isUserRegistered()">Connexion</button>
 
     <button type="button" class="btn" v-if="mode !== 'login'" @click="switchToLogin()">Se connecter</button>
-    <button type="button" class="btn" v-if="mode !== 'login'" @click="checkValidityOfEmail(); checkValidityOfPassword();">Créer un compte</button>
+    <button type="button" class="btn" v-if="mode !== 'login'" @click="isUserRegistered()">Créer un compte</button>
   </div>
 
   <div class="helpPsw" v-if="mode !== 'login'">
@@ -80,22 +82,41 @@ export default {
       this.mode = 'login'
     },
     checkValidityOfEmail() {
-      if(this.email.match(this.regexEmail) !== null) {
+      if (this.email.match(this.regexEmail) !== null) {
         return true;
       } alert("La forme du mail rentré n'est pas correcte");
-        return false;
+      return false;
     },
     checkValidityOfPassword() {
-      if(this.password === this.passwordVerification) {
-        if(this.password.match(this.regexPassword) !== null) {
+      if (this.password === this.passwordVerification) {
+        if (this.password.match(this.regexPassword) !== null) {
           return true;
         } alert("Le mot de passe ne correspond pas aux exigences minimales");
-          return false;
+        return false;
       } else {
         alert("Les deux mots de passe ne correspondent pas");
       }
     },
-    findUser() {
+    async isUserRegistered() {
+      let email = this.email;
+      let self = this;
+      await axios.get(process.env.VUE_APP_BACKEND_URL + "/findUser/" + email)
+        .then(function (response) {
+          if (response.status === 201) {
+            self.logUser();
+          } else if (response.status === 200) {
+            self.createUser();
+          } else if (response.status === 401) {
+            self.throwUnexpectedServerError(response.status, response.statusText);
+            alert("Unexpected response: " + response.status + " / Message: " + response.statusText);
+          }
+        })
+        .catch(function (error) {
+          self.throwUnexpectedServerError(error.response.status, error.message);
+          alert("Unexpected error status: " + error.response.status + " / Error.message: " + error.message);
+        })
+    },
+    logUser() {
       let self = this;
       axios.post(process.env.VUE_APP_BACKEND_URL + "/login",
         {
@@ -107,37 +128,47 @@ export default {
             sessionStorage.setItem('userToken', JSON.stringify(response.data.access_token));
             sessionStorage.setItem('userId', JSON.stringify(response.data.userId));
             sessionStorage.setItem('userRole', response.data.userRole);
-            return self.$router.push({ path: '/news' })
+            return self.$router.push({ path: '/news' });
+          } else if (response.status === 401) {
+            alert("Il y a une erreur dans votre email ou dans votre mot de passe, merci de retenter");
+            return self.switchToLogin();
           } else {
-              alert(self.throwUnexpectedServerError(response.status, response.statusText));
+            self.throwUnexpectedServerError(response.status, response.statusText);
+            alert("Unexpected response: " + response.status + " / Message: " + response.statusText);
           }
         })
         .catch(function (error) {
-          alert(self.throwUnexpectedServerError(error.response.status, error.message));
+          self.throwUnexpectedServerError(error.response.status, error.message);
+          alert("Unexpected error status: " + error.response.status + " / Error.message: " + error.message);
         })
     },
-    createUser() {
-      let self = this;
-      if(self.checkValidityOfEmail() !== true && self.checkValidityOfPassword !== true) {
+    async createUser() {
+      if(await self.passwordVerification == null || await self.passwordVerification == undefined) {
+        this.switchToSignup();
+      }
+      if (this.checkValidityOfEmail() !== true || this.checkValidityOfPassword() !== true) {
         alert("Il y a des erreurs dans votre email et/ou votre mot de passe");
       } else {
-        axios.post(process.env.VUE_APP_BACKEND_URL + "/signup",
+        let self = this;
+        await axios.post(process.env.VUE_APP_BACKEND_URL + "/signup",
           {
-            email: this.email,
-            password: this.password
+            email: self.email,
+            password: self.password
           })
           .then(function (response) {
             if (response.status === 201) {
-              return self.$router.go({ path: '/' })
+              return this.switchToLogin();
             } else if (response.status === 401) {
               alert("Vous êtes déjà inscrit")
-              return self.$router.go({ path: '/' })
+              return this.switchToLogin();
             } else {
-                alert(self.throwUnexpectedServerError(response.status, response.statusText));
+              this.throwUnexpectedServerError(response.status, response.statusText);
+              alert("Unexpected response: " + response.status + " / Message: " + response.statusText);
             }
           })
           .catch(function (error) {
-            alert(self.throwUnexpectedServerError(error.response.status, error.message));
+            this.throwUnexpectedServerError(error.response.status, error.message);
+            alert("Unexpected error status: " + error.response.status + " / Error.message: " + error.message);
           })
       }
     }
@@ -179,5 +210,4 @@ input {
   border-radius: 0.5em;
   margin-bottom: 1.5em;
 }
-
 </style>

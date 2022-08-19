@@ -45,7 +45,11 @@ exports.login = (req, res, next) => {
 
             dbfile.db.query(sqlRequests.sqlFindUserMail, params, async function (err, result) {
                 if (err) {
-                    return res.status(401).json({ error: "Utilisateur non existant" });
+                    return res.status(401).json({ message: "Une erreur s'est produite" });
+                } else if(result[0] == null) {
+                    return res.status(200).json({
+                        userId: -1
+                    });
                 } else {
                     await bcrypt.compare(requestUserPassword, result[0].password)
                         .then(valid => {
@@ -65,6 +69,35 @@ exports.login = (req, res, next) => {
                             }
                         })
                 }
+            })
+        }
+    })
+};
+
+exports.isUserRegistered = (req, res, next) => {
+    let email = req.params.email;
+    let params = [ email ];
+
+    dbfile.db.connect(function (err) {
+        if (err) {
+            console.log("Impossible de se connecter à la base de données");
+        } else {
+            console.log("Connecté à la base de données login");
+        
+            dbfile.db.query(sqlRequests.sqlFindUserMail, params, async function(err, result) {
+                if (err) {
+                    return res.status(401).json({ message: "Une erreur s'est produite" });
+                } else {
+                    if(await result[0] == null) {
+                    return res.status(200).json({
+                        userId: -1
+                    })
+                    } else {
+                        return res.status(201).json({
+                            userId: result[0].id
+                        })
+                    }
+                }  
             })
         }
     })

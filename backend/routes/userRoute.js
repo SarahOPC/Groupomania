@@ -6,6 +6,7 @@ const fileUploader = require("../middleware/fileUploader");
 
 router.post('/signup', userControllers.signup);
 router.post('/login', userControllers.login);
+router.get('/findUser/:email', userControllers.isUserRegistered);
 
 router.get('/:id/profil', auth, userControllers.getProfil);
 router.put('/:id/profil/firstName', auth, userControllers.updateProfilFirstName);

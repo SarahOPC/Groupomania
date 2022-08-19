@@ -24,8 +24,8 @@ exports.createPost = (req, res, next) => {
             postBodyText, postImage, postUserId
         ];
 
-        if(extension != "jpg" && extension != "png" && extension != "jpeg") {
-            return res.status(400).json({ message: "Mauvais format d'image. Sont seulement acceptés les jpg, jpeg et png"})
+        if(extension !== "jpg" && extension !== "png" && extension !== "jpeg") {
+            return res.status(400).json({ message: "Mauvais format d'image. Sont seulement acceptés les .jpg, .jpeg et .png"});
         }
 
         dbfile.db.query(sqlRequests.sqlCreatePost, params, function (err, result) {

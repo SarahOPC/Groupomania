@@ -56,11 +56,17 @@ export default {
                     if (response.status === 200) {
                         window.location.reload();
                     } else {
-                        alert(self.throwUnexpectedServerError(response.status, response.statusText));
+                        self.throwUnexpectedServerError(response.status, response.statusText);
+                        alert(response.status + " / " + response.statusText);
                     }
                 })
                 .catch(function (error) {
-                    alert(self.throwUnexpectedServerError(error.response.status, error.message));
+                    if(error.response.status === 400) {
+                        alert("Ce n'est pas un format que nous acceptons. Nous acceptons les .jpeg, .jpg et .png");
+                    } else {
+                        self.throwUnexpectedServerError(error.response.status, error.message);
+                        alert(error.response.staus + " / " + error.message);
+                    }
                 })
         }
     }

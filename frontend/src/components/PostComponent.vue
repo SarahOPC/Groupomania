@@ -58,16 +58,18 @@
             </div>
             <div class="secondPart">
                 <div v-if="displayCommentsArea == post.id">
-                    <div class="commentPlacement" v-for="comment in comments" :key="comment.id">
-                        <div class="avatarCommentPlacement">
-                            <img crossorigin="anonymous" :src="post.avatar" alt="Avatar" class="rounded-3"
-                                style="width: 2em; margin-right: 1em; box-shadow: none;" />
-                        </div>
-                        <div class="textCommentPlacement">{{ comment.text }}</div>
-                        <div v-if="isPostEditable(comment.userId)" @click="deleteOneComment(post.id, comment.id)">
-                            <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
-                                icon="fa-solid fa-circle-minus" size="lg"
-                                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                    <div>
+                        <div class="commentPlacement" v-for="comment in comments" :key="comment.id">
+                            <div class="avatarCommentPlacement">
+                                <img crossorigin="anonymous" :src="post.avatar" alt="Avatar" class="rounded-3"
+                                    style="width: 2em; margin-right: 1em; box-shadow: none;" />
+                            </div>
+                            <div class="textCommentPlacement">{{ comment.text }}</div>
+                            <div v-if="isPostEditable(comment.userId)" @click="deleteOneComment(post.id, comment.id)">
+                                <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
+                                    icon="fa-solid fa-circle-minus" size="lg"
+                                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -428,6 +430,12 @@ img {
 .secondPart div {
     display: flex;
     align-items: center;
+    flex-direction: column;
+}
+
+.secondPart div div {
+    display: flex;
+    flex-direction: row;
 }
 
 .commentPlacement {
