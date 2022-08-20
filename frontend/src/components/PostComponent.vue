@@ -56,42 +56,31 @@
                         @reloadPostsPage="getAllPosts()" />
                 </div>
 
-                <div @click="getAllComments(post.id)">
-                    <font-awesome-icon data-bs-toggle="tooltip" title="Voir tous les commentaires"
+                <div class="allComments" @click="getAllComments(post.id)">
+                    <font-awesome-icon data-bs-toggle="tooltip" title="Zone commentaires"
                         icon="fa-solid fa-comments" size="lg"
                         :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
                         onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                 </div>
             </div>
-            <div class="secondPart">
-                <div v-if="displayCommentsArea == post.id">
-                    <div>
-                        <div class="commentPlacement" v-for="comment in comments" :key="comment.id">
-                            <div class="avatarCommentPlacement">
-                                <img crossorigin="anonymous" :src="post.avatar" alt="Avatar" class="rounded-3"
-                                    style="width: 2em; margin-right: 1em; box-shadow: none;" />
-                            </div>
-                            <div class="textCommentPlacement">{{ comment.text }}</div>
-                            <div v-if="isPostEditable(comment.userId)" @click="deleteOneComment(post.id, comment.id)">
-                                <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
-                                    icon="fa-solid fa-circle-minus" size="lg"
-                                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
-                                    onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
-                            </div>
+                <div class="secondPart" v-if="displayCommentsArea == post.id">
+                    <div class="comment" v-for="comment in comments" :key="comment.id">
+                        <div class="avatarCommentPlacement">
+                            <img crossorigin="anonymous" :src="post.avatar" alt="Avatar" class="rounded-3"
+                                style="width: 2em; margin-right: 1em; box-shadow: none;" />
+                        </div>
+                        <div class="textCommentPlacement">{{ comment.text }}</div>
+                        <div v-if="isPostEditable(comment.userId)" @click="deleteOneComment(post.id, comment.id)">
+                            <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
+                                icon="fa-solid fa-circle-minus" size="lg"
+                                :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
+                                onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                         </div>
                     </div>
                 </div>
 
-                <div @click="getOnePostForComments(post.id)">
-                    <font-awesome-icon data-bs-toggle="tooltip" title="Ajouter un commentaire"
-                        icon="fa-solid fa-circle-plus" size="lg"
-                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
-                        onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
-                </div>
-            </div>
-
-            <div class="comment" v-if="displayNewCommentArea">
-                <input v-model="text" type="text" id="comments" name="comments" placeholder="Mon commentaire">
+            <div class="comment" v-if="displayNewCommentArea == post.id">
+                <input v-model="text" type="text" name="comments" placeholder="Ajouter un commentaire">
                 <div @click="addOneComment(post.id)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="Publier mon commentaire"
                         icon="fa-solid fa-check-circle" size="lg"
@@ -129,7 +118,7 @@ export default {
             text: '',
             comments: '',
             commentId: this.commentIds,
-            displayNewCommentArea: false,
+            displayNewCommentArea: '',
             displayCommentsArea: ''
         }
     },
@@ -198,6 +187,7 @@ export default {
                 .then(function (response) {
                     if (response.status === 200) {
                         self.displayCommentsArea = postId;
+                        self.displayNewCommentArea = postId;
                         return self.comments = response.data.result.slice().reverse();
                     } else {
                         alert(this.throwUnexpectedServerError(response.status, response.statusText));
@@ -248,25 +238,6 @@ export default {
                     }
                 })
         },
-        getOnePostForComments(postId) {
-            let userValidToken = this.getUserValidToken();
-            let id = this.getUserIdFromSessionStorage();
-            let self = this;
-            let urlDesti = process.env.VUE_APP_BACKEND_URL + "/" + id + "/" + postId;
-
-            axios({ method: 'get', url: urlDesti, headers: { 'Authorization': 'Bearer ' + userValidToken } })
-                .then(function (response) {
-                    if (response.status === 200) {
-                        self.displayNewCommentArea = true;
-                        return self.posts = response.data.result;
-                    } else {
-                        alert(this.throwUnexpectedServerError(response.status, response.statusText));
-                    }
-                })
-                .catch(function (error) {
-                    alert(this.throwUnexpectedServerError(error.response.status, error.message));
-                })
-        },
         addOneComment(postId) {
             let userValidToken = this.getUserValidToken();
             let id = this.getUserIdFromSessionStorage();
@@ -278,7 +249,6 @@ export default {
                     if (response.status === 200) {
                         self.getAllPosts();
                         self.getAllComments(postId);
-                        return self.displayNewCommentArea = false;
                     } else {
                         alert(this.throwUnexpectedServerError(response.status, response.statusText));
                     }
@@ -396,6 +366,7 @@ export default {
 </script>
 
 <style scoped>
+
 .container {
     padding: 1em;
     margin-top: 1em;
@@ -430,35 +401,15 @@ img {
 .comment {
     display: inline-flex;
     margin-top: 1em;
-}
-
-.secondPart {
-    display: flex;
     justify-content: center;
 }
 
 .secondPart div {
     display: flex;
     align-items: center;
-    flex-direction: column;
-}
-
-.secondPart div div {
-    display: flex;
-    flex-direction: row;
-}
-
-.commentPlacement {
-    display: flex;
-    align-items: center;
-}
-
-.avatarCommentPlacement {
-    display: flex;
 }
 
 .textCommentPlacement {
-    display: flex;
     margin-right: 1em;
 }
 
