@@ -7,7 +7,8 @@
         <div @click="createPosts(); $emit('reloadPostsPage');">
             <font-awesome-icon data-bs-toggle="tooltip" title="Publier"
             icon="fa-solid fa-paper-plane" size="lg" 
-            :style="{ color: '#FFD7D7', 'margin-right': '0.5em', cursor: 'pointer' }" />
+            :style="{ color: '#FFD7D7', 'margin-right': '0.5em', cursor: 'pointer' }"
+            onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#FFD7D7';" />
         </div>
     </div>
 

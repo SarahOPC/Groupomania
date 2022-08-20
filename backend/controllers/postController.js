@@ -7,12 +7,25 @@ exports.createPost = (req, res, next) => {
     const postBodyText = req.body.text;
     const postUserId = req.params.id;
     const postBodyImage = req.uniqueFileName;
-    const extension = postBodyImage.split('.')[1];
+    let postImage = null;
 
-    // variable = condition ? si oui : sinon
-    let postImage = postBodyImage == '' || postBodyImage == undefined || postBodyImage == null
-        ? null
-        : `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+    if (postBodyImage != '' && postBodyImage != undefined && postBodyImage != null) {
+        let monTableau = req.file.filename.split('.');
+
+        if(monTableau.length < 1) {
+            return res.status(400).json({ message: "Mauvais format d'image. Sont seulement acceptés les .jpg, .jpeg et .png"});
+        }
+
+        let lastIndex = monTableau.length-1;
+        let extension = monTableau[lastIndex];
+
+        if(extension !== "jpg" && extension !== "png" && extension !== "jpeg") {
+            return res.status(400).json({ message: "Mauvais format d'image. Sont seulement acceptés les .jpg, .jpeg et .png"});
+        }
+
+        postImage = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+    }
+
 
     dbfile.db.connect(async function (err) {
         if (err) {
@@ -23,10 +36,6 @@ exports.createPost = (req, res, next) => {
         let params = [
             postBodyText, postImage, postUserId
         ];
-
-        if(extension !== "jpg" && extension !== "png" && extension !== "jpeg") {
-            return res.status(400).json({ message: "Mauvais format d'image. Sont seulement acceptés les .jpg, .jpeg et .png"});
-        }
 
         dbfile.db.query(sqlRequests.sqlCreatePost, params, function (err, result) {
             if (err) {

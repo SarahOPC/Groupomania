@@ -17,32 +17,38 @@
             <div class="firstPartNoComment">
                 <div @click="getOnePost(post.id)" v-if="isPostEditable(post.userId)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="Modifier" icon="fa-solid fa-pencil" size="lg"
-                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
+                        onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                 </div>
 
                 <div @click="deleteOnePost(post.id)" v-if="isPostEditable(post.userId)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer" icon="fa-solid fa-trash-can" size="lg"
-                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
+                        onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                 </div>
 
                 <div v-if="post.liked === 0 || post.liked == null" @click="likingOnePost(post.id, post.liked)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="J'aime" icon="fa-regular fa-face-smile" size="lg"
-                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
+                        onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                 </div>
 
                 <div v-if="post.liked === 1" @click="unlikingOnePost(post.id, post.liked)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="J'aime" icon="fa-solid fa-face-smile" size="lg"
-                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
+                        onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                 </div>
 
                 <div v-if="post.liked === 0 || post.liked == null" @click="dislikingOnePost(post.id, post.liked)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas" icon="fa-regular fa-face-frown"
-                        size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                        size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
+                        onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                 </div>
 
                 <div v-if="post.liked === -1" @click="undislikingOnePost(post.id, post.liked)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="Je n'aime pas" icon="fa-solid fa-face-frown"
-                        size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                        size="lg" :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
+                        onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                 </div>
 
                 <div v-if="displayPostUpdate">
@@ -53,7 +59,8 @@
                 <div @click="getAllComments(post.id)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="Voir tous les commentaires"
                         icon="fa-solid fa-comments" size="lg"
-                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
+                        onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                 </div>
             </div>
             <div class="secondPart">
@@ -68,7 +75,8 @@
                             <div v-if="isPostEditable(comment.userId)" @click="deleteOneComment(post.id, comment.id)">
                                 <font-awesome-icon data-bs-toggle="tooltip" title="Supprimer mon commentaire"
                                     icon="fa-solid fa-circle-minus" size="lg"
-                                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                                    :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
+                                    onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                             </div>
                         </div>
                     </div>
@@ -77,7 +85,8 @@
                 <div @click="getOnePostForComments(post.id)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="Ajouter un commentaire"
                         icon="fa-solid fa-circle-plus" size="lg"
-                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }" />
+                        :style="{ color: '#4E5166', 'margin-right': '0.5em', cursor: 'pointer' }"
+                        onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                 </div>
             </div>
 
@@ -86,7 +95,8 @@
                 <div @click="addOneComment(post.id)">
                     <font-awesome-icon data-bs-toggle="tooltip" title="Publier mon commentaire"
                         icon="fa-solid fa-check-circle" size="lg"
-                        :style="{ color: '#4E5166', 'margin-left': '0.5em', cursor: 'pointer' }" />
+                        :style="{ color: '#4E5166', 'margin-left': '0.5em', cursor: 'pointer' }"
+                        onmouseover="this.style.color='#FD2D01';" onmouseout="this.style.color='#4E5166';" />
                 </div>
             </div>
         </div>

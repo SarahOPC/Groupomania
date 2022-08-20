@@ -53,8 +53,4 @@ nav a {
   color: #FFD7D7;
 }
 
-nav a.router-link-exact-active {
-  color: #FD2D01;
-}
-
 </style>
